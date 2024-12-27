@@ -27,7 +27,7 @@ public class NpcCameraSwitch : MonoBehaviour
                 return;
             }
         }
-        Debug.Log("Collision detected, but no matching NPC found.");
+        //Debug.Log("Collision detected, but no matching NPC found.");
     }
 
     private void OnCollisionExit(Collision collision)
@@ -37,12 +37,12 @@ public class NpcCameraSwitch : MonoBehaviour
         {
             if (collision.transform == data.npcTransform)
             {
-                Debug.Log($"Stopped colliding with NPC: {data.npcName}");
+                //Debug.Log($"Stopped colliding with NPC: {data.npcName}");
                 SwitchToPlayerCamera();
                 return;
             }
         }
-        Debug.Log("Collision exit detected, but no matching NPC found.");
+        //Debug.Log("Collision exit detected, but no matching NPC found.");
     }
 
     private void SwitchToNpcCamera(NpcData data)
@@ -51,6 +51,11 @@ public class NpcCameraSwitch : MonoBehaviour
         playerCamera.gameObject.SetActive(false);
         npcCamera.gameObject.SetActive(true);
         currentTarget = data.npcTransform;
+
+        if (data.uiObject != null)
+        {
+            data.uiObject.SetActive(true);
+        }
 
         // NPC 카메라의 위치와 방향을 NPC 데이터에 따라 설정
         npcCamera.transform.position = data.cameraPosition;
@@ -62,6 +67,14 @@ public class NpcCameraSwitch : MonoBehaviour
         // 플레이어 카메라 활성화, NPC 카메라 비활성화
         playerCamera.gameObject.SetActive(true);
         npcCamera.gameObject.SetActive(false);
+        foreach (var data in npcData)
+        {
+            if (data.uiObject != null)
+            {
+                data.uiObject.SetActive(false); // UI 비활성화
+            }
+            
+        }
         currentTarget = null;
     }
 }
@@ -73,4 +86,5 @@ public class NpcData
     public Transform npcTransform; // NPC의 Transform
     public Vector3 cameraPosition; // 카메라의 위치
     public Vector3 cameraRotation; // 카메라의 회전값 (EulerAngles)
+    public GameObject uiObject;   // NPC에 관련된 UI 오브젝트
 }
