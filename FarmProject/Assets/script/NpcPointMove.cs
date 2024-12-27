@@ -5,13 +5,15 @@ public class NpcPointMove : MonoBehaviour
     public Transform[] points; // 이동할 포인트들의 배열
     public float speed = 3f;   // 이동 속도
     public float stopTime = 1f; // 포인트에서 멈추는 시간
+    public float collisionStopTime = 2f; // 충돌 시 멈추는 시간
 
     private int currentPointIndex = 0; // 현재 이동 중인 포인트의 인덱스
     private bool isWaiting = false;    // 대기 상태인지 확인
+    private bool isColliding = false;  // 충돌 상태인지 확인
 
     void Update()
     {
-        if (points.Length == 0 || isWaiting) return;
+        if (points.Length == 0 || isWaiting || isColliding) return;
 
         // 현재 포인트까지의 거리 계산
         float distance = Vector3.Distance(transform.position, points[currentPointIndex].position);
@@ -43,5 +45,24 @@ public class NpcPointMove : MonoBehaviour
         currentPointIndex = (currentPointIndex + 1) % points.Length;
 
         isWaiting = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 플레이어와 충돌했을 때 멈춤
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            StartCoroutine(StopForCollision());
+        }
+    }
+
+    private System.Collections.IEnumerator StopForCollision()
+    {
+        isColliding = true;
+
+        // 충돌로 인해 멈추는 시간만큼 대기
+        yield return new WaitForSeconds(collisionStopTime);
+
+        isColliding = false;
     }
 }
