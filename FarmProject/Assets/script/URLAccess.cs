@@ -4,24 +4,9 @@ using UnityEngine;
 
 public class URLAccess : MonoBehaviour
 {
-    public class URLAccess : MonoBehaviour
+    // 웹 페이지 열기
+    public void OpenWebPage(string url)
     {
-        // 웹 페이지 열기
-        public void OpenWebPage(string url)
-        {
-            Application.OpenURL(url);
-        }
+        Application.OpenURL(url);
     }
-
-    //public void MainPage() // 이장
-    //{
-    //    // 귀농귀촌 사이트
-    //    Application.OpenURL("https://www.greendaero.go.kr/");
-    //}
-
-    //public void CornPage()
-    //{
-    //    // 옥수수 사이트
-    //    Application.OpenURL("https://terms.naver.com/entry.naver?docId=1993362&cid=48180&categoryId=48247");
-    //}
 }
