@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;  // List 사용
+using UnityEngine.EventSystems;  // UI 이벤트 처리
 
 public class FarmController : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class FarmController : MonoBehaviour
 
     void Update()
     {
-        // 마우스 왼쪽 클릭을 감지
-        if (Input.GetMouseButtonDown(0) && CanPlant())
+        // UI 버튼 클릭을 제외한 마우스 클릭만 처리하도록 조건 추가
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && CanPlant())
         {
             Vector3 mousePosition = GetMouseWorldPosition();  // 마우스 위치를 월드 좌표로 변환
             if (IsWithinPlantingRange(mousePosition) && IsFarEnoughFromOtherCrops(mousePosition))  // 거리 및 각도 확인
