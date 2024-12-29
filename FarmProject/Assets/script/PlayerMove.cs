@@ -67,23 +67,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    // 심기 애니메이션 시작
-    //public void StartPlantingAnimation()
-    //{
-    //    if (!isPlanting)
-    //    {
-    //        isPlanting = true;  // 심기 시작
-    //        animator.SetTrigger("isPlanting");  // 심는 애니메이션 트리거 실행
-    //    }
-    //}
-
-    //// 심기 애니메이션 종료 후 이동 재개
-    //public void EndPlantingAnimation()
-    //{
-    //    isPlanting = false;  // 심기 종료
-    //    animator.ResetTrigger("isPlanting");  // 트리거 초기화
-    //}
-
     // 코루틴으로 심는 동작 처리
     public IEnumerator PlantingAnimationCoroutine(float animationDuration)
     {
