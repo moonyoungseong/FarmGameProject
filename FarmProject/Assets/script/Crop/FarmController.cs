@@ -16,6 +16,12 @@ public class FarmController : MonoBehaviour
 
     private float lastPlantTime = 0f;    // 마지막으로 작물을 심은 시간 기록
     private List<Vector3> plantedCropPositions = new List<Vector3>();  // 심어진 작물 위치 저장
+    private PlayerMove playerMoveScript;  // PlayerMove 스크립트 참조
+
+    void Start()
+    {
+        playerMoveScript = player.GetComponent<PlayerMove>();  // PlayerMove 스크립트 참조
+    }
 
     void Update()
     {
@@ -28,6 +34,9 @@ public class FarmController : MonoBehaviour
                 cropFactory.CreateCrop(CornAttributes, mousePosition);  // 옥수수 작물을 생성
                 plantedCropPositions.Add(mousePosition);  // 생성된 작물 위치를 리스트에 추가
                 lastPlantTime = Time.time;  // 마지막 심은 시간 기록
+
+                // 코루틴 호출로 심는 애니메이션 실행
+                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f));  // 10초 동안 심기 실행
             }
         }
     }

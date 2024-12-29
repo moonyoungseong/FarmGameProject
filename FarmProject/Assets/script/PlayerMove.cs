@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private bool isGrounded = true;
+    private bool isPlanting = false;  // 심는 상태를 추적하는 변수
 
     void Start()
     {
@@ -18,6 +20,12 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        // 심기 중에는 이동 및 회전을 멈추기
+        if (isPlanting)
+        {
+            return;  // 심기 중에는 아무 것도 하지 않음
+        }
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
@@ -26,6 +34,7 @@ public class PlayerMove : MonoBehaviour
         float currentSpeed = isRunning ? runSpeed : walkSpeed;
         Vector3 moveDirection = transform.forward * vertical + transform.right * horizontal;
 
+        // 이동 처리
         if (moveDirection.magnitude > 0.1f && isGrounded)
         {
             transform.position += moveDirection.normalized * currentSpeed * Time.deltaTime;
@@ -40,6 +49,7 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isRunning", false);
         }
 
+        // 점프 처리
         if (jumpInput && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -56,5 +66,36 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isJumping", false);
         }
     }
-}
 
+    // 심기 애니메이션 시작
+    //public void StartPlantingAnimation()
+    //{
+    //    if (!isPlanting)
+    //    {
+    //        isPlanting = true;  // 심기 시작
+    //        animator.SetTrigger("isPlanting");  // 심는 애니메이션 트리거 실행
+    //    }
+    //}
+
+    //// 심기 애니메이션 종료 후 이동 재개
+    //public void EndPlantingAnimation()
+    //{
+    //    isPlanting = false;  // 심기 종료
+    //    animator.ResetTrigger("isPlanting");  // 트리거 초기화
+    //}
+
+    // 코루틴으로 심는 동작 처리
+    public IEnumerator PlantingAnimationCoroutine(float animationDuration)
+    {
+        if (!isPlanting)
+        {
+            isPlanting = true;  // 심기 시작
+            animator.SetTrigger("isPlanting");  // 심는 애니메이션 트리거 실행
+
+            yield return new WaitForSeconds(animationDuration);  // 애니메이션 지속 시간 대기
+
+            isPlanting = false;  // 심기 종료
+            animator.ResetTrigger("isPlanting");  // 트리거 초기화
+        }
+    }
+}
