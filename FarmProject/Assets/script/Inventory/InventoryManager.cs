@@ -21,6 +21,8 @@ public class InventoryManager : MonoBehaviour
     public List<Item> AllItemList, MyItemList, CurItemList; // MyItemList이 Json으로 저장
     public string curType = "Crop"; // 아이템 분류
     public GameObject[] Slot;
+    public GameObject ExplainPanel;  // 슬롯에 올렸을 때 띄울 UI
+    IEnumerator PointerCoroutine;
 
     void Start()
     {
@@ -32,6 +34,11 @@ public class InventoryManager : MonoBehaviour
             AllItemList.Add(new Item(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]));
         }
         Load();
+    }
+
+    void Update()
+    {
+        
     }
 
     public void TabClick(string tabName)
@@ -57,6 +64,32 @@ public class InventoryManager : MonoBehaviour
                 Slot[i].SetActive(false);
             }
         }
+    }
+
+    public void PointerEnter(int slotNum)
+    {
+        PointerCoroutine = PointerEnterDelay(slotNum);
+        StartCoroutine(PointerCoroutine);
+
+        ExplainPanel.GetComponentInChildren<TextMeshProUGUI>().text = CurItemList[slotNum].itemName;
+        ExplainPanel.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "보유 수 : " + CurItemList[slotNum].quantity + "개";
+        ExplainPanel.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "판매가격 : " + CurItemList[slotNum].sellPrice + "$";
+        ExplainPanel.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "설명 : " + CurItemList[slotNum].description;
+    }
+
+    IEnumerator PointerEnterDelay(int slotNum)
+    {
+        yield return new WaitForSeconds(0.5f);
+        ExplainPanel.SetActive(true);
+    }
+
+    public void PointerExit(int slotNum)
+    {
+        if (PointerCoroutine != null)
+        {
+            StopCoroutine(PointerCoroutine);
+        }
+        ExplainPanel.SetActive(false);
     }
 
     void Save()
