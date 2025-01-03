@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
+using UnityEngine.UI;
+using TMPro;
 
 [System.Serializable]
 public class Item
@@ -18,6 +20,7 @@ public class InventoryManager : MonoBehaviour
     public TextAsset ItemDatabase;
     public List<Item> AllItemList, MyItemList, CurItemList; // MyItemList이 Json으로 저장
     public string curType = "Crop"; // 아이템 분류
+    public GameObject[] Slot;
 
     void Start()
     {
@@ -35,6 +38,25 @@ public class InventoryManager : MonoBehaviour
     {
         curType = tabName;
         CurItemList = MyItemList.FindAll(x => x.itemType == tabName);
+
+        // 개수만큼 슬롯 보이기
+        for (int i=0; i<Slot.Length; i++)
+        {
+            //Slot[i].SetActive(i < CurItemList.Count);
+
+            if (i < CurItemList.Count)
+            {
+                // 슬롯에 아이템 이름과 아이콘 설정
+                Transform slotTransform = Slot[i].transform;
+                slotTransform.Find("ItemNameText").GetComponent<TextMeshProUGUI>().text = CurItemList[i].itemName;
+                slotTransform.Find("Item").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/" + CurItemList[i].itemIcon); // ItemIconImage는 슬롯 내의 Image 컴포넌트
+                Slot[i].SetActive(true);
+            }
+            else
+            {
+                Slot[i].SetActive(false);
+            }
+        }
     }
 
     void Save()
@@ -47,5 +69,7 @@ public class InventoryManager : MonoBehaviour
     {
         string jdata = File.ReadAllText(Application.dataPath + "/Resources/MyItemText.txt");
         MyItemList = JsonConvert.DeserializeObject<List<Item>>(jdata);
+
+        TabClick(curType);
     }
 }
