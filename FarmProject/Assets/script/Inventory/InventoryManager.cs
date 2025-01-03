@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine.UI;
@@ -17,12 +18,30 @@ public class Item
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance { get; private set; } // 싱글톤 인스턴스
+
     public TextAsset ItemDatabase;
-    public List<Item> AllItemList, MyItemList, CurItemList; // MyItemList이 Json으로 저장
+    public List<Item> AllItemList = new List<Item>();
+    public List<Item> MyItemList = new List<Item>();
+    public List<Item> CurItemList = new List<Item>(); // MyItemList이 Json으로 저장
     public string curType = "Crop"; // 아이템 분류
     public GameObject[] Slot;
     public GameObject ExplainPanel;  // 슬롯에 올렸을 때 띄울 UI
     IEnumerator PointerCoroutine;
+
+    public event Action OnDataLoaded; // 데이터가 로드된 후 호출될 이벤트
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -34,11 +53,6 @@ public class InventoryManager : MonoBehaviour
             AllItemList.Add(new Item(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]));
         }
         Load();
-    }
-
-    void Update()
-    {
-        
     }
 
     public void TabClick(string tabName)
@@ -104,5 +118,7 @@ public class InventoryManager : MonoBehaviour
         MyItemList = JsonConvert.DeserializeObject<List<Item>>(jdata);
 
         TabClick(curType);
+        // 데이터 로딩이 끝났을 때 이벤트 호출
+        OnDataLoaded?.Invoke();
     }
 }
