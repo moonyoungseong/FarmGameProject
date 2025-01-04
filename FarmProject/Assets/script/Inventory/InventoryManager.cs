@@ -108,10 +108,12 @@ public class InventoryManager : MonoBehaviour
         ExplainPanel.SetActive(false);
     }
 
-    void Save()
+    public void Save()
     {
-        string jdata = JsonConvert.SerializeObject(AllItemList);
+        string jdata = JsonConvert.SerializeObject(MyItemList);
         File.WriteAllText(Application.dataPath + "/Resources/MyItemText.txt", jdata);
+
+        TabClick(curType);
     }
 
     void Load()
