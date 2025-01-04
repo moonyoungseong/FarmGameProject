@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GoldManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GoldManager : MonoBehaviour
 
     public int Gold { get; private set; } = 1000;
     public Text goldText; // UI 텍스트 컴포넌트 참조
+    public GameObject insufficientGoldUI; // 부족한 골드 UI
+    public float uiDisplayTime = 2f; // UI가 보이는 시간 (초)
 
     public event Action<int> OnGoldChanged;
 
@@ -52,10 +55,13 @@ public class GoldManager : MonoBehaviour
             SaveGold();
             OnGoldChanged?.Invoke(Gold);
         }
-        else
-        {
-            Debug.LogWarning("골드가 부족합니다!");
-        }
+    }
+
+    public IEnumerator ShowInsufficientGoldUI()
+    {
+        insufficientGoldUI.SetActive(true); // 부족한 골드 UI 활성화
+        yield return new WaitForSeconds(uiDisplayTime); // 일정 시간 기다림
+        insufficientGoldUI.SetActive(false); // UI 비활성화
     }
 
     private void SaveGold()
@@ -74,5 +80,10 @@ public class GoldManager : MonoBehaviour
         {
             Gold = 1000; // 기본값
         }
+    }
+
+    public int GetGold()
+    {
+        return Gold; // 현재 골드를 반환하는 함수
     }
 }
