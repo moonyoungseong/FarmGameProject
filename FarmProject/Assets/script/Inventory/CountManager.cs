@@ -40,6 +40,12 @@ public class CountManager : MonoBehaviour
         {
             Debug.Log($"아이템 이름: {curItem.itemName}");
             curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
+
+            int parsedPrice;
+            if (int.TryParse(curItem.buyPrice, out parsedPrice))
+            {
+                GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
+            }
         }
         else
         {
@@ -67,6 +73,13 @@ public class CountManager : MonoBehaviour
 
             if (curNumber <= 0) myItems.Remove(curItem); // 아이템 제거
             else curItem.quantity = curNumber.ToString();
+
+            int parsedPrice;
+            if (int.TryParse(curItem.sellPrice, out parsedPrice))
+            {
+                GoldManager.Instance.AddGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
+            }
+
             Debug.Log($"아이템 {curItem.itemName}이(가) 제거되었습니다.");
         }
         else
