@@ -1181,7 +1181,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 53990798}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &53990798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13615,6 +13627,7 @@ Transform:
   - {fileID: 1362701560}
   - {fileID: 1721401384}
   - {fileID: 1110432583}
+  - {fileID: 1328291366}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19442,7 +19455,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 984109840}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC8
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &984109840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21297,7 +21322,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1110416387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC4
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1110416387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26519,13 +26556,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328291365}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -47.46303, y: 4.2241, z: -17.885502}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_Father: {fileID: 673662066}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1328291367
 MonoBehaviour:
@@ -27280,7 +27317,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1374134447}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC6
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1374134447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28668,7 +28717,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1426656421}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC7
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1426656421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31928,7 +31989,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1604885136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC9
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1604885136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35807,7 +35880,7 @@ RectTransform:
   m_Children:
   - {fileID: 1229715840}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -37002,7 +37075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1890167029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC5
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1890167029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37386,7 +37471,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1909856352}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1328291367}
+        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+        m_MethodName: StartDialogue
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: NPC1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1909856352
 MonoBehaviour:
   m_ObjectHideFlags: 0
