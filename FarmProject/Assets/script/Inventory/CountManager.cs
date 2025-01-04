@@ -39,12 +39,18 @@ public class CountManager : MonoBehaviour
         if (curItem != null)
         {
             Debug.Log($"아이템 이름: {curItem.itemName}");
-            curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
 
             int parsedPrice;
             if (int.TryParse(curItem.buyPrice, out parsedPrice))
             {
-                GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
+                int total = parsedPrice * int.Parse(ItemNumberInput.text);
+                if (GoldManager.Instance.GetGold() >= total)
+                {
+                    curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
+                    GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
+                }
+                
+                else StartCoroutine(GoldManager.Instance.ShowInsufficientGoldUI()); // 가격 부족 UI 띄우기
             }
         }
         else
