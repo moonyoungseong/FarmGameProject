@@ -78,6 +78,7 @@ public class DialogueManager : MonoBehaviour
                 break;
 
                 isDialogueActive = true;
+        }
     }
 
     void ShowNextDialogue()
