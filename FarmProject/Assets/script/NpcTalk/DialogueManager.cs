@@ -35,49 +35,56 @@ public class DialogueManager : MonoBehaviour
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC1.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC2":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC2.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC3":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC3.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC4":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC4.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC5":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC5.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC6":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC6.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC7":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC7.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC8":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC8.dialogues;
                 ShowNextDialogue();
+                isDialogueActive = true;
                 break;
             case "NPC9":
                 dialogueIndex = 0;
                 currentDialogues = npcDialogues.NPC9.dialogues;
                 ShowNextDialogue();
-                break;
-
                 isDialogueActive = true;
+                break;
         }
     }
 
