@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class DialogueManager : MonoBehaviour
     private string currentText = "";
     private Dialogue[] currentDialogues;  // 현재 진행 중인 NPC의 대화 목록
 
-    public Text dialogueText; // 대화 내용을 표시할 텍스트 UI 요소
+    public TMP_Text dialogueText; // 대화 내용을 표시할 텍스트 UI 요소
 
     void Start()
     {
