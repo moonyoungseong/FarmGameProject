@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -12,10 +13,24 @@ public class PlayerMove : MonoBehaviour
     private bool isGrounded = true;
     private bool isPlanting = false;  // 심는 상태를 추적하는 변수
 
+    private CollectQuestCommand collectQuestCommand; // 퀘스트 테스트
+
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        // 예시로 퀘스트 초기화
+        Quest collectQuest = new Quest
+        {
+            questName = "토마토 3개 수집",
+            reward = new List<Reward>  // 보상 목록
+            {
+                new Reward { itemID = 1, icon = "토마토 아이콘" }
+            }
+        };
+
+        collectQuestCommand = new CollectQuestCommand(collectQuest, "토마토", 3);
     }
 
     void Update()
@@ -55,6 +70,13 @@ public class PlayerMove : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             animator.SetBool("isJumping", true);
             isGrounded = false;
+        }
+
+        // 예시로 'T' 키를 눌러서 토마토를 수집하는 것처럼 처리
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            collectQuestCommand.CollectItem("토마토");  // 아이템을 수집
+            collectQuestCommand.Execute();              // 퀘스트 진행 체크
         }
     }
 
