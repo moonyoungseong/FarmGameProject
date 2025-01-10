@@ -7587,6 +7587,7 @@ MonoBehaviour:
       Construction: []
       Delivery: []
       Movement: []
+  questInvoker: {fileID: 432413280}
 --- !u!4 &432413279
 Transform:
   m_ObjectHideFlags: 0
