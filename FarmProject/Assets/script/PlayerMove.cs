@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -13,12 +14,40 @@ public class PlayerMove : MonoBehaviour
     private bool isGrounded = true;
     private bool isPlanting = false;  // 심는 상태를 추적하는 변수
 
+    public TextMeshProUGUI characterNameText; // 캐릭터 이름
+
+    public GameObject maleCharacter;  // 남자 캐릭터 오브젝트
+    public GameObject femaleCharacter; // 여자 캐릭터 오브젝트
+
     private CollectQuestCommand collectQuestCommand; // 퀘스트 테스트
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+
+        string characterName = PlayerPrefs.GetString("CharacterName", "Default Name");
+
+        if (characterNameText != null)
+        {
+            characterNameText.text = characterName;
+        }
+
+        // 캐릭터 이름을 PlayerPrefs에서 불러옴
+        string selectedCharacter = PlayerPrefs.GetString("SelectedCharacter", "MaleCharacter");
+
+        // 캐릭터 활성화/비활성화
+        maleCharacter.SetActive(false);  // 기본적으로 남자 캐릭터 비활성화
+        femaleCharacter.SetActive(false); // 기본적으로 여자 캐릭터 비활성화
+
+        if (selectedCharacter == "MaleCharacter")
+        {
+            maleCharacter.SetActive(true);  // 남자 캐릭터 활성화
+        }
+        else if (selectedCharacter == "FemaleCharacter")
+        {
+            femaleCharacter.SetActive(true);  // 여자 캐릭터 활성화
+        }
 
         // 예시로 퀘스트 초기화
         Quest collectQuest = new Quest
@@ -82,10 +111,17 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision != null && collision.gameObject != null)
         {
-            isGrounded = true;
-            animator.SetBool("isJumping", false);
+            if (collision.gameObject.CompareTag("Ground"))
+            {
+                isGrounded = true;
+                animator.SetBool("isJumping", false);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Collision or collision.gameObject is null");
         }
     }
 
