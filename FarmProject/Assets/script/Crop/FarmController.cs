@@ -54,6 +54,13 @@ public class FarmController : MonoBehaviour
                 return; // 작물이 선택되지 않은 경우 심기 취소
             }
 
+            // 씨앗이 없으면 심지 않도록 처리
+            if (!HasSeed(selectedCropAttributes))
+            {
+                Debug.Log("선택한 작물의 씨앗이 없습니다.");
+                return;
+            }
+
             Vector3 mousePosition = GetMouseWorldPosition();
             if (IsWithinPlantingRange(mousePosition) && IsFarEnoughFromOtherCrops(mousePosition))
             {
@@ -68,6 +75,14 @@ public class FarmController : MonoBehaviour
             }
         }
     }
+
+    // 씨앗이 있는지 확인하는 함수
+    bool HasSeed(CropAttributes cropAttributes)
+    {
+        Item seedItem = InventoryManager.Instance.MyItemList.Find(item => item.itemName == cropAttributes.SeedName);
+        return seedItem != null && int.Parse(seedItem.quantity) > 0;
+    }
+
 
     // 씨앗을 심을 때 인벤토리에서 해당 씨앗의 개수를 줄이는 함수
     void ReduceSeedCount(CropAttributes cropAttributes)
