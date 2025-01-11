@@ -61,10 +61,42 @@ public class FarmController : MonoBehaviour
                 plantedCropPositions.Add(mousePosition);
                 lastPlantTime = Time.time;
 
+                // 인벤토리에서 씨앗의 수량을 1개씩 줄임
+                ReduceSeedCount(selectedCropAttributes);
+
                 StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f)); // 애니메이션 실행
             }
         }
     }
+
+    // 씨앗을 심을 때 인벤토리에서 해당 씨앗의 개수를 줄이는 함수
+    void ReduceSeedCount(CropAttributes cropAttributes)
+    {
+        // 인벤토리에서 해당 씨앗 아이템 찾기
+        Item seedItem = InventoryManager.Instance.MyItemList.Find(item => item.itemName == cropAttributes.SeedName);
+
+        if (seedItem != null && int.Parse(seedItem.quantity) > 0)
+        {
+            // 수량 감소
+            int newQuantity = int.Parse(seedItem.quantity) - 1;
+            seedItem.quantity = newQuantity.ToString();
+
+            // 수량이 0이면 인벤토리에서 제거
+            if (newQuantity == 0)
+            {
+                InventoryManager.Instance.MyItemList.Remove(seedItem);
+                Debug.Log($"{cropAttributes.SeedName} 씨앗이 0개가 되어 인벤토리에서 제거되었습니다.");
+            }
+
+            // 인벤토리 저장
+            InventoryManager.Instance.Save();
+        }
+        else
+        {
+            Debug.Log("씨앗이 부족하거나 존재하지 않습니다.");
+        }
+    }
+
 
     public void SelectCorn()
     {
@@ -130,4 +162,5 @@ public class FarmController : MonoBehaviour
         return Time.time >= lastPlantTime + plantCooldown;
     }
 }
+
 
