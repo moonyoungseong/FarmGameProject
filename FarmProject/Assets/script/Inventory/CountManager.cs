@@ -19,7 +19,6 @@ public class CountManager : MonoBehaviour
     {
         // MyItemList 가져오기
         myItems = InventoryManager.Instance.MyItemList;
-
         allItems = InventoryManager.Instance.AllItemList;
 
         // 데이터 로딩 완료 후 작업
@@ -28,11 +27,11 @@ public class CountManager : MonoBehaviour
 
     public void GetItemClick()
     {
-        // 데이터가 로드되었는지 확인
+        // myItems가 비어있는 경우 처리
         if (myItems == null || myItems.Count == 0)
         {
-            Debug.Log("아이템 목록이 비어 있거나 초기화되지 않았습니다.");
-            return;
+            Debug.Log("아이템 목록이 비어 있습니다. 기본 아이템을 추가합니다.");
+            AddSpecificItemToMyItems("바위", 1);  // "바위" 아이템을 1개 추가
         }
 
         Item curItem = myItems.Find(x => x.itemName == ItemNameInput.text);
@@ -49,8 +48,10 @@ public class CountManager : MonoBehaviour
                     curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
                     GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
                 }
-                
-                else StartCoroutine(GoldManager.Instance.ShowInsufficientGoldUI()); // 가격 부족 UI 띄우기
+                else
+                {
+                    StartCoroutine(GoldManager.Instance.ShowInsufficientGoldUI()); // 가격 부족 UI 띄우기
+                }
             }
         }
         else
@@ -58,8 +59,17 @@ public class CountManager : MonoBehaviour
             Debug.Log("아이템을 찾을 수 없습니다.");
             // 전체에서 얻을 아이템을 찾아 내 아이템에 추가
             Item curAllItem = allItems.Find(x => x.itemName == ItemNameInput.text);
-            if (curAllItem != null) myItems.Add(curAllItem);
+            if (curAllItem != null)
+            {
+                Debug.Log($"아이템 {curAllItem.itemName}을(를) 추가합니다.");
+                myItems.Add(curAllItem);
+            }
+            else
+            {
+                Debug.Log("아이템을 전체 목록에서 찾을 수 없습니다.");
+            }
         }
+
         toEnd();
     }
 
@@ -104,10 +114,36 @@ public class CountManager : MonoBehaviour
 
             return id1.CompareTo(id2);
         });
-        //myItems.Sort((p1, p2) => p1.itemID.CompareTo(p2.itemID));
+
         InventoryManager.Instance.Save();
         ItemNameInput.text = "";
         ItemNumberInput.text = "";
     }
-}
 
+    // 특정 아이템만 추가하는 메서드
+    private void AddSpecificItemToMyItems(string itemName, int quantity)
+    {
+        if (allItems == null || allItems.Count == 0) return;
+
+        // "바위"라는 아이템을 찾고, 없다면 추가
+        Item itemToAdd = allItems.Find(x => x.itemName == itemName);
+        if (itemToAdd != null)
+        {
+            // myItems에 해당 아이템이 없다면 추가
+            if (myItems.Find(x => x.itemName == itemName) == null)
+            {
+                itemToAdd.quantity = quantity.ToString(); // 수량 설정
+                myItems.Add(itemToAdd);
+                Debug.Log($"아이템 {itemName}이(가) 추가되었습니다.");
+            }
+            else
+            {
+                Debug.Log($"아이템 {itemName}은 이미 존재합니다.");
+            }
+        }
+        else
+        {
+            Debug.Log($"아이템 {itemName}을(를) 전체 목록에서 찾을 수 없습니다.");
+        }
+    }
+}
