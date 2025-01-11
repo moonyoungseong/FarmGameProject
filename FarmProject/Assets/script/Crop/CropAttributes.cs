@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Crop", menuName = "Farming Game/Crop", order = 1)]
 public class CropAttributes : ScriptableObject
 {
+    public string SeedName;               // ¾¾¾Ñ ÀÌ¸§
     public string name;                   // ÀÛ¹° ÀÌ¸§
     public int id;                        // ÀÛ¹° ID
     public int seedCost;                  // ¾¾¾Ñ °¡°Ý
