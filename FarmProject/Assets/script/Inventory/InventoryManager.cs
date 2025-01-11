@@ -108,6 +108,12 @@ public class InventoryManager : MonoBehaviour
         ExplainPanel.SetActive(false);
     }
 
+    public Item GetItemByID(string itemID)
+{
+    // JSON 데이터에서 아이템 정보를 검색
+    return MyItemList.Find(item => item.itemID == itemID);
+}
+
     public void Save()
     {
         string jdata = JsonConvert.SerializeObject(MyItemList);
