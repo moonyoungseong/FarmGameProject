@@ -4,28 +4,43 @@ using UnityEngine.EventSystems;
 
 public class FarmController : MonoBehaviour
 {
-    public CropFactory cropFactory;         // CropFactory를 참조
-    public CropAttributes CornAttributes;   // 옥수수 작물 속성 데이터
-    public CropAttributes TomatoAttributes; // 토마토 작물 속성 데이터
-    public CropAttributes RiceAttributes;   // 쌀 작물 속성 데이터
+    public GameObject player1;               // 플레이어 1
+    public GameObject player2;               // 플레이어 2
+    public CropFactory cropFactory;          // CropFactory를 참조
+    public CropAttributes CornAttributes;    // 옥수수 작물 속성 데이터
+    public CropAttributes TomatoAttributes;  // 토마토 작물 속성 데이터
+    public CropAttributes RiceAttributes;    // 쌀 작물 속성 데이터
 
-    public LayerMask groundLayer;           // 바닥 레이어 설정
-    public Transform player;                // 플레이어의 Transform
-    public float maxPlantDistance = 5f;     // 작물을 심을 수 있는 최대 거리
-    public float maxPlantAngle = 30f;       // 플레이어 전방 기준 허용 각도
-    public float plantCooldown = 1f;        // 작물을 심을 수 있는 대기시간
-    public float minPlantDistance = 1f;     // 다른 작물과의 최소 거리 제한
+    public LayerMask groundLayer;            // 바닥 레이어 설정
+    private Transform player;                 // 플레이어의 Transform
+    public float maxPlantDistance = 5f;      // 작물을 심을 수 있는 최대 거리
+    public float maxPlantAngle = 30f;        // 플레이어 전방 기준 허용 각도
+    public float plantCooldown = 1f;         // 작물을 심을 수 있는 대기시간
+    public float minPlantDistance = 1f;      // 다른 작물과의 최소 거리 제한
 
-    private float lastPlantTime = 0f;       // 마지막으로 작물을 심은 시간
+    private float lastPlantTime = 0f;        // 마지막으로 작물을 심은 시간
     private List<Vector3> plantedCropPositions = new List<Vector3>();
-    private PlayerMove playerMoveScript;
 
     // 현재 선택된 작물을 관리할 변수
     private CropAttributes selectedCropAttributes;
 
+    // 기존에 있던 playerMoveScript 변수 사용
+    private PlayerMove playerMoveScript;
+
     void Start()
     {
-        playerMoveScript = player.GetComponent<PlayerMove>();
+        // 씬 로딩 시 활성화된 플레이어에 따라 playerMoveScript 할당
+        if (player1.activeInHierarchy)
+        {
+            playerMoveScript = player1.GetComponent<PlayerMove>(); // Player1의 PlayerMove 스크립트 할당
+            player = player1.transform;  // 플레이어 트랜스폼 설정
+        }
+        else if (player2.activeInHierarchy)
+        {
+            playerMoveScript = player2.GetComponent<PlayerMove>(); // Player2의 PlayerMove 스크립트 할당
+            player = player2.transform;  // 플레이어 트랜스폼 설정
+        }
+
         selectedCropAttributes = null; // 기본 상태에서는 아무 것도 심지 않음
     }
 
@@ -46,7 +61,7 @@ public class FarmController : MonoBehaviour
                 plantedCropPositions.Add(mousePosition);
                 lastPlantTime = Time.time;
 
-                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f));
+                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f)); // 애니메이션 실행
             }
         }
     }
@@ -115,3 +130,4 @@ public class FarmController : MonoBehaviour
         return Time.time >= lastPlantTime + plantCooldown;
     }
 }
+
