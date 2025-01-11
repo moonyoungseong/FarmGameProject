@@ -7,7 +7,7 @@ public class CropAttributes : ScriptableObject
 {
     public string SeedName;               // 씨앗 이름
     public string name;                   // 작물 이름
-    public int id;                        // 작물 ID
+    public string id;                        // 작물 ID
     public int seedCost;                  // 씨앗 가격
     public int sellPrice;                 // 판매 가격
 
