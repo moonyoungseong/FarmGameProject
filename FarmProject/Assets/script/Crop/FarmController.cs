@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class FarmController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class FarmController : MonoBehaviour
     public float minPlantDistance = 1f;      // 다른 작물과의 최소 거리 제한
 
     private float lastPlantTime = 0f;        // 마지막으로 작물을 심은 시간
+    public GameObject NoSeedUI;               // 작물 없을때 나오는 UI
     private List<Vector3> plantedCropPositions = new List<Vector3>();
 
     // 현재 선택된 작물을 관리할 변수
@@ -57,6 +59,11 @@ public class FarmController : MonoBehaviour
             // 씨앗이 없으면 심지 않도록 처리
             if (!HasSeed(selectedCropAttributes))
             {
+                NoSeedUI.SetActive(true);
+
+                // 2초 후에 UI 비활성화
+                StartCoroutine(DisableUIAfterTime(2f));
+
                 Debug.Log("선택한 작물의 씨앗이 없습니다.");
                 return;
             }
@@ -81,6 +88,15 @@ public class FarmController : MonoBehaviour
     {
         Item seedItem = InventoryManager.Instance.MyItemList.Find(item => item.itemName == cropAttributes.SeedName);
         return seedItem != null && int.Parse(seedItem.quantity) > 0;
+    }
+
+    private System.Collections.IEnumerator DisableUIAfterTime(float delayTime)
+    {
+        // 2초 대기
+        yield return new WaitForSeconds(delayTime);
+
+        // UI 비활성화
+        NoSeedUI.SetActive(false);
     }
 
 
