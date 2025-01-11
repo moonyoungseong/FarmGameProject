@@ -45,7 +45,13 @@ public class CountManager : MonoBehaviour
                 int total = parsedPrice * int.Parse(ItemNumberInput.text);
                 if (GoldManager.Instance.GetGold() >= total)
                 {
-                    curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
+                    //curItem.quantity = (int.Parse(curItem.quantity) + int.Parse(ItemNumberInput.text)).ToString();
+                    //GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
+                    // 아이템 수량을 int로 처리 후 갱신
+                    int currentQuantity = int.Parse(curItem.quantity); // 문자열을 int로 변환
+                    currentQuantity += int.Parse(ItemNumberInput.text); // 새로 구매할 수량 더하기
+                    curItem.quantity = currentQuantity.ToString(); // 갱신된 수량을 다시 문자열로 저장
+
                     GoldManager.Instance.SubtractGold(parsedPrice * int.Parse(ItemNumberInput.text)); // 가격 구하기
                 }
                 else
