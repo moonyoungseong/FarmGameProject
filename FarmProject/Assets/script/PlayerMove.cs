@@ -66,7 +66,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // 심기 중에는 이동 및 회전을 멈추기
-        if (isPlanting | isPicking)
+        if (isPlanting || isPicking)
         {
             return;  // 심기 중에는 아무 것도 하지 않음
         }
@@ -148,11 +148,13 @@ public class PlayerMove : MonoBehaviour
         {
             isPicking = true;
             animator.SetTrigger("isPicking");  // 애니메이션 트리거 실행
+            Debug.Log("Picking started."); // 시작 시 로그
 
             yield return new WaitForSeconds(animationDuration);  // 애니메이션 지속 시간 대기
 
             isPicking = false;  // 수확 종료 후 이동 가능
             animator.ResetTrigger("isPicking");  // 트리거 초기화
+            Debug.Log("Picking ended. isPicking: " + isPicking); // 종료 후 로그
         }
     }
 }
