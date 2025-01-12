@@ -84,13 +84,13 @@ public class HarvestableCrop : MonoBehaviour
 
         Debug.Log($"{cropAttributes.name}을(를) 수확했습니다!");
 
-        //StartCoroutine(playerMoveScript.PickingAnimationCoroutine(5f)); // 애니메이션 실행
+        StartCoroutine(playerMoveScript.PickingAnimationCoroutine(6f)); // 애니메이션 실행
 
         // 수확 처리 로직
         AddCropToInventory(cropAttributes);
 
-        // 수확 후 오브젝트 제거
-        Destroy(gameObject);
+        // 6.5초 후에 오브젝트 제거
+        Invoke("DestroyCrop", 6.5f);
     }
 
     private void AddCropToInventory(CropAttributes cropAttributes)
@@ -140,5 +140,10 @@ public class HarvestableCrop : MonoBehaviour
 
         // 인벤토리 저장 및 UI 갱신
         InventoryManager.Instance.Save();
+    }
+
+    private void DestroyCrop()
+    {
+        Destroy(gameObject);  // 오브젝트 제거
     }
 }
