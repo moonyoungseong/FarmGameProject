@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded = true;
     private bool isPlanting = false;  // 심는 상태를 추적하는 변수
+    private bool isPicking = false;  // 작물 캐는 상태를 추적하는 변수
 
     public TextMeshProUGUI characterNameText; // 캐릭터 이름
 
@@ -65,7 +66,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // 심기 중에는 이동 및 회전을 멈추기
-        if (isPlanting)
+        if (isPlanting | isPicking)
         {
             return;  // 심기 중에는 아무 것도 하지 않음
         }
@@ -137,6 +138,21 @@ public class PlayerMove : MonoBehaviour
 
             isPlanting = false;  // 심기 종료
             animator.ResetTrigger("isPlanting");  // 트리거 초기화
+        }
+    }
+
+    // 코루틴으로 수확 동작 처리
+    public IEnumerator PickingAnimationCoroutine(float animationDuration)
+    {
+        if (!isPicking)
+        {
+            isPicking = true;
+            animator.SetTrigger("isPicking");  // 애니메이션 트리거 실행
+
+            yield return new WaitForSeconds(animationDuration);  // 애니메이션 지속 시간 대기
+
+            isPicking = false;  // 수확 종료 후 이동 가능
+            animator.ResetTrigger("isPicking");  // 트리거 초기화
         }
     }
 }
