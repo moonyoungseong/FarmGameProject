@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class CropStateHandler : MonoBehaviour
 {
-    public Crop crop;
+    private Crop crop;  // crop 변수
+
+    // crop 할당 메서드
+    public void AssignCrop(Crop newCrop)
+    {
+        crop = newCrop;
+    }
 
     private void Update()
     {
-        // 'W' 키를 눌러서 물을 주는 테스트
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.R) && crop != null)
         {
             crop.WaterCrop();
         }
     }
 }
+
