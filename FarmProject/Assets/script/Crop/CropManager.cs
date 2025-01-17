@@ -4,39 +4,32 @@ public class CropManager : MonoBehaviour
 {
     private CropAttributes cropAttributes;  // CropAttributes를 연결
     private GameObject currentCropObject;  // 현재 상태의 작물 오브젝트
-    private int currentGrowthStage = 0;    // 현재 성장 단계 (0: 씨앗, 1: 성장 중, 2: 완전 성장)
+    private float currentGrowthTime;       // 현재 작물의 성장 시간
 
     // CropFactory에서 넘겨받은 CropAttributes 설정
     public void SetCropAttributes(CropAttributes attributes)
     {
         cropAttributes = attributes;
-        currentGrowthStage = 0;  // 초기 성장 단계
+        currentGrowthTime = 0f;  // 초기화
         currentCropObject = Instantiate(cropAttributes.seedPrefab, transform.position, Quaternion.identity);
     }
 
     void Update()
     {
-        // 물을 주었을 때 성장 단계가 진행되도록 함
-        if (Input.GetKeyDown(KeyCode.R))
+        // 작물 성장 관리
+        if (currentGrowthTime < cropAttributes.growthTime)
         {
-            WaterCrop();
-        }
-    }
-
-    void WaterCrop()
-    {
-        // 현재 단계가 최대 단계보다 작으면, 성장 진행
-        if (currentGrowthStage < cropAttributes.growthStages)
-        {
-            currentGrowthStage++;  // 단계 증가
-            CheckGrowthStage();  // 성장 단계 확인 및 프리팹 교체
+            currentGrowthTime += Time.deltaTime;
+            CheckGrowthStage();
         }
     }
 
     void CheckGrowthStage()
     {
-        // 성장 단계에 맞는 프리팹을 설정
-        switch (currentGrowthStage)
+        int growthStage = Mathf.FloorToInt((currentGrowthTime / cropAttributes.growthTime) * cropAttributes.growthStages);
+
+        // 성장 단계에 맞춰 프리팹을 교체
+        switch (growthStage)
         {
             case 0:
                 SetCropPrefab(cropAttributes.seedPrefab);
@@ -52,14 +45,12 @@ public class CropManager : MonoBehaviour
 
     void SetCropPrefab(GameObject prefab)
     {
-        // 기존 오브젝트를 삭제하고 새로운 상태로 교체
         if (currentCropObject != null)
         {
-            Destroy(currentCropObject);
+            Destroy(currentCropObject);  // 기존 오브젝트 삭제
         }
 
-        // 새로운 프리팹을 인스턴스화
+        // 새로운 상태로 프리팹을 생성
         currentCropObject = Instantiate(prefab, transform.position, Quaternion.identity);
     }
 }
-
