@@ -1,28 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class DecoManager : MonoBehaviour
 {
-    private List<Item> myItems;
-    private List<Item> allItems;
-    public List<Item> CurDecoList = new List<Item>(); // MyItemList이 Json으로 저장
+    public List<Item> DecoItems = new List<Item>();
+    public GameObject[] DecoSlot;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // InventoryManager가 데이터 로딩을 마친 후 이벤트를 통해 알림 받기
-        InventoryManager.Instance.OnDataLoaded += OnInventoryDataLoaded;
+        // InventoryManager의 MyItemList에서 HomeDeco 아이템 필터링
+        DecoItems = InventoryManager.Instance.MyItemList.FindAll(item => item.itemType == "HomeDeco");
+
+        //Test();
+        HomeList();
     }
 
-    void OnInventoryDataLoaded()
+    public void HomeList()
     {
-        // MyItemList 가져오기
-        myItems = InventoryManager.Instance.MyItemList;
-        allItems = InventoryManager.Instance.AllItemList;
+        // 개수만큼 슬롯 보이기
+        for (int i = 0; i < DecoSlot.Length; i++)
+        {
+            //Slot[i].SetActive(i < CurItemList.Count);
 
-        // 데이터 로딩 완료 후 작업
-        Debug.Log("꾸미기 데이터가 로드되었습니다.");
+            if (i < DecoItems.Count)
+            {
+                // 슬롯에 아이템 이름과 아이콘 설정
+                Transform slotTransform = DecoSlot[i].transform;
+                slotTransform.Find("Name").GetComponent<TextMeshProUGUI>().text = DecoItems[i].itemName;
+                slotTransform.Find("Count").GetComponent<TextMeshProUGUI>().text = DecoItems[i].quantity + "개";
+                slotTransform.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/" + DecoItems[i].itemIcon); // ItemIconImage는 슬롯 내의 Image 컴포넌트
+                DecoSlot[i].SetActive(true);
+            }
+            else
+            {
+                DecoSlot[i].SetActive(false);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -30,4 +46,16 @@ public class DecoManager : MonoBehaviour
     {
         
     }
+
+    public void Test()
+    {
+        Debug.Log($"HomeDeco 아이템 개수: {DecoItems.Count}");
+
+        // HomeDeco 리스트 출력
+        foreach (var item in DecoItems)
+        {
+            Debug.Log($"아이템 이름: {item.itemName}, 아이템 ID: {item.itemID}");
+        }
+    }
+
 }
