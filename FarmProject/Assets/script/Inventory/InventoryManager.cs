@@ -122,7 +122,7 @@ public class InventoryManager : MonoBehaviour
         TabClick(curType);
     }
 
-    void Load()
+    public void Load()
     {
         string jdata = File.ReadAllText(Application.dataPath + "/Resources/MyItemText.txt");
         MyItemList = JsonConvert.DeserializeObject<List<Item>>(jdata);
