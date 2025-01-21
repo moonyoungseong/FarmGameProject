@@ -11,7 +11,8 @@ public class DecoManager : MonoBehaviour
     public ParticleSystem spawnParticlePrefab; // 파티클 시스템 프리팹
 
     private GameObject spawnedDecoItem; // 소환된 프리팹을 저장할 변수
-    private bool isPlacingItem = false;  // 아이템 설치 중 여부
+    private bool isPlacingItem = false; // 아이템 설치 중 여부
+    private bool canPlaceItem = false;  // 아이템 설치 가능 여부
 
     public LayerMask groundLayer;
 
@@ -23,12 +24,14 @@ public class DecoManager : MonoBehaviour
 
     public void HomeList()
     {
+        // 수량이 0인 아이템을 리스트에서 제거
+        DecoItems.RemoveAll(item => int.Parse(item.quantity) <= 0);
+
         // 개수만큼 슬롯 보이기
         for (int i = 0; i < DecoSlot.Length; i++)
         {
             if (i < DecoItems.Count)
             {
-                // 슬롯에 아이템 이름과 아이콘 설정
                 Transform slotTransform = DecoSlot[i].transform;
                 slotTransform.Find("Name").GetComponent<TextMeshProUGUI>().text = DecoItems[i].itemName;
                 slotTransform.Find("Count").GetComponent<TextMeshProUGUI>().text = DecoItems[i].quantity + "개";
@@ -44,18 +47,17 @@ public class DecoManager : MonoBehaviour
 
     public void UpdateDecoItems()
     {
-        // InventoryManager의 MyItemList에서 HomeDeco 아이템 필터링
         DecoItems = InventoryManager.Instance.MyItemList.FindAll(item => item.itemType == "HomeDeco");
     }
 
-    // 거래 이벤트 발생 시 호출
     public void OnTradeCompleted()
     {
-        UpdateDecoItems(); // DecoItems 갱신
-        HomeList();        // UI 업데이트
+        UpdateDecoItems();
+        HomeList();
+        // myItems에서 수량 업데이트
+        //UpdateItemInMyItems(item.itemName, item.quantity);
     }
 
-    // 마우스 위치를 따라 프리팹 소환
     public void SpawnDecoItemFollowMouse(int index)
     {
         if (index < 0 || index >= DecoItems.Count)
@@ -64,35 +66,33 @@ public class DecoManager : MonoBehaviour
             return;
         }
 
-        // DecoItem의 프리팹 이름 가져오기
-        string prefabName = DecoItems[index].itemIcon.Replace("_i", ""); // 필요 시 "_i" 제거
+        string prefabName = DecoItems[index].itemIcon.Replace("_i", "");
         GameObject prefab = Resources.Load<GameObject>("Prefabs/Item/DecoItem/" + prefabName);
 
         if (prefab != null)
         {
-            // 기존에 소환된 아이템이 있으면 삭제
             if (spawnedDecoItem != null)
             {
                 Destroy(spawnedDecoItem);
             }
 
-            // Raycast로 마우스 위치에 대한 땅의 위치를 찾음
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // 레이케스트가 땅에 닿으면 오브젝트 생성
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
             {
-                Vector3 worldPosition = hit.point; // Raycast가 맞은 지점으로 위치 조정
+                Vector3 worldPosition = hit.point;
+                worldPosition.z = 0f;
 
-                // Z값을 고정시키고, X, Y 값만 업데이트
-                worldPosition.z = 0f; // 땅의 Z값 고정
-
-                // 프리팹 소환
                 spawnedDecoItem = Instantiate(prefab, worldPosition, Quaternion.identity);
                 Debug.Log($"프리팹 {prefabName} 소환 완료!");
 
-                isPlacingItem = true;  // 아이템 설치 중
+                isPlacingItem = true;
+                canPlaceItem = false; // 처음에는 설치 불가능
+                StartCoroutine(EnablePlacementAfterDelay(1f)); // 2초 뒤 설치 가능
+
+                // 설치한 아이템의 개수를 줄임
+                ReduceItemQuantity(index);
             }
         }
         else
@@ -101,54 +101,51 @@ public class DecoManager : MonoBehaviour
         }
     }
 
+    IEnumerator EnablePlacementAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canPlaceItem = true;
+        Debug.Log("아이템 설치가 가능합니다!");
+    }
+
     void Update()
     {
-        // 마우스 포인터를 따라 소환된 프리팹 이동
         if (spawnedDecoItem != null && isPlacingItem)
         {
-            // Raycast로 마우스 위치에 대한 땅의 위치를 찾음
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Raycast가 땅에만 반응하도록 레이어 마스크를 사용
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
             {
-                // Raycast가 맞은 지점으로 위치 조정
                 Vector3 worldPosition = hit.point;
-
-                // Y값을 레이케스트로 구한 값으로 고정
-                worldPosition.y = hit.point.y; // 레이케스트로 구한 y값으로 고정
-
-                // X와 Z값은 마우스 위치에 따라 이동
+                worldPosition.y = hit.point.y;
                 worldPosition.x = hit.point.x;
                 worldPosition.z = hit.point.z;
 
-                // 오브젝트의 위치를 worldPosition으로 설정
                 spawnedDecoItem.transform.position = worldPosition;
             }
         }
 
-        // 마우스 클릭 시 아이템 설치
         if (Input.GetMouseButtonDown(0) && spawnedDecoItem != null && isPlacingItem)
         {
-            PlaceDecoItem(); // 아이템 설치
-  
-            isPlacingItem = false;  // 아이템 설치 후 상태 변경
-            spawnedDecoItem = null; // 아이템 삭제
+            if (canPlaceItem) // 설치 가능 여부 확인
+            {
+                PlaceDecoItem();
+            }
+            else
+            {
+                Debug.LogWarning("아직 설치할 수 없습니다. 기다려주세요!");
+            }
         }
     }
 
     void PlaySpawnParticle(Vector3 position)
     {
-        if (spawnParticlePrefab != null)  // 파티클 프리팹이 null인지 체크
+        if (spawnParticlePrefab != null)
         {
-            // 파티클을 특정 위치에 재생
             ParticleSystem particle = Instantiate(spawnParticlePrefab, position, Quaternion.identity);
-            particle.Play(); // 파티클 시작
-
-            Debug.Log("파티클이 시작되었습니다: " + particle.isPlaying); // 파티클이 재생되는지 확인
-
-            Destroy(particle.gameObject, particle.main.duration); // 파티클이 끝나면 자동으로 삭제
+            particle.Play();
+            Destroy(particle.gameObject, particle.main.duration);
         }
         else
         {
@@ -156,30 +153,86 @@ public class DecoManager : MonoBehaviour
         }
     }
 
-
-    // 아이템을 설치하고 새로운 아이템을 준비
     void PlaceDecoItem()
     {
         if (spawnedDecoItem != null)
         {
+            PlaySpawnParticle(spawnedDecoItem.transform.position);
+            Debug.Log("아이템 설치 완료!");
 
-            if (spawnedDecoItem != null) // spawnedDecoItem이 null이 아니면 파티클 재생
+            // 설치한 아이템의 개수를 줄임
+            //ReduceItemQuantity(spawnedDecoItem.name);
+
+            // UI 업데이트
+            //HomeList();
+
+            // 설치 상태 초기화
+            isPlacingItem = false;
+            spawnedDecoItem = null;
+        }
+    }
+
+    void ReduceItemQuantity(int index)
+    {
+        if (index >= 0 && index < DecoItems.Count)
+        {
+            var item = DecoItems[index];
+
+            // 수량 감소
+            int curNumber = int.Parse(item.quantity) - 1;
+            Debug.Log($"아이템 {item.itemName} 수량 감소 전: {item.quantity}, 수량 감소 후: {curNumber}");
+
+            if (curNumber <= 0)
             {
-                PlaySpawnParticle(spawnedDecoItem.transform.position); // 파티클 재생
+                // 수량이 0 이하이면 리스트에서 제거
+                DecoItems.RemoveAt(index);
+                Debug.Log($"아이템 {item.itemName} 수량이 0 이하로 감소, 삭제됨.");
+
+                // myItems에서도 해당 아이템의 수량이 0이면 삭제
+                RemoveItemFromMyItems(item.itemName);
             }
             else
             {
-                Debug.LogWarning("spawnedDecoItem이 null이므로 파티클을 재생할 수 없습니다.");
+                // 수량 업데이트
+                item.quantity = curNumber.ToString();
+                Debug.Log($"아이템 {item.itemName} 수량 업데이트됨: {item.quantity}");
+
+                // myItems에서 수량 업데이트
+                UpdateItemInMyItems(item.itemName, item.quantity);
             }
 
-            // 아이템을 설치 (여기서는 그냥 놓는다고 가정)
-            Debug.Log("아이템 설치 완료!");
+            // UI 업데이트
+            HomeList();
 
-            // 새로운 아이템을 소환할 준비
-            isPlacingItem = false;  // 설치 완료
-
-            // 다음 프리팹을 설치할 준비
-            spawnedDecoItem = null; // 이전 프리팹을 null로 설정하여 초기화           
+            // 인벤토리 저장
+            InventoryManager.Instance.Save();
+        }
+        else
+        {
+            Debug.LogWarning("아이템 인덱스가 유효하지 않습니다.");
         }
     }
+
+    // myItems에서 해당 아이템 삭제
+    void RemoveItemFromMyItems(string itemName)
+    {
+        var itemToRemove = InventoryManager.Instance.MyItemList.Find(x => x.itemName == itemName);
+        if (itemToRemove != null)
+        {
+            InventoryManager.Instance.MyItemList.Remove(itemToRemove);
+            Debug.Log($"아이템 {itemName}이(가) myItems에서 삭제되었습니다.");
+        }
+    }
+
+    // myItems에서 해당 아이템의 수량 업데이트
+    void UpdateItemInMyItems(string itemName, string quantity)
+    {
+        var itemToUpdate = InventoryManager.Instance.MyItemList.Find(x => x.itemName == itemName);
+        if (itemToUpdate != null)
+        {
+            itemToUpdate.quantity = quantity;
+            Debug.Log($"아이템 {itemName}의 수량이 myItems에서 업데이트되었습니다.");
+        }
+    }
+
 }
