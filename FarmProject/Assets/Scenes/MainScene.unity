@@ -17034,6 +17034,7 @@ MonoBehaviour:
   - {fileID: 647440792}
   - {fileID: 1914184787}
   - {fileID: 1149869563}
+  spawnParticlePrefab: {fileID: 198571207664451194, guid: 554d7b66a092be044b29fc508c47b6f1, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
