@@ -8,6 +8,7 @@ public class DecoManager : MonoBehaviour
 {
     public List<Item> DecoItems = new List<Item>();
     public GameObject[] DecoSlot;
+    public ParticleSystem spawnParticlePrefab; // 파티클 시스템 프리팹
 
     private GameObject spawnedDecoItem; // 소환된 프리팹을 저장할 변수
     private bool isPlacingItem = false;  // 아이템 설치 중 여부
@@ -131,16 +132,46 @@ public class DecoManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && spawnedDecoItem != null && isPlacingItem)
         {
             PlaceDecoItem(); // 아이템 설치
+  
             isPlacingItem = false;  // 아이템 설치 후 상태 변경
             spawnedDecoItem = null; // 아이템 삭제
         }
     }
+
+    void PlaySpawnParticle(Vector3 position)
+    {
+        if (spawnParticlePrefab != null)  // 파티클 프리팹이 null인지 체크
+        {
+            // 파티클을 특정 위치에 재생
+            ParticleSystem particle = Instantiate(spawnParticlePrefab, position, Quaternion.identity);
+            particle.Play(); // 파티클 시작
+
+            Debug.Log("파티클이 시작되었습니다: " + particle.isPlaying); // 파티클이 재생되는지 확인
+
+            Destroy(particle.gameObject, particle.main.duration); // 파티클이 끝나면 자동으로 삭제
+        }
+        else
+        {
+            Debug.LogWarning("파티클 프리팹이 null입니다. 파티클이 재생되지 않았습니다.");
+        }
+    }
+
 
     // 아이템을 설치하고 새로운 아이템을 준비
     void PlaceDecoItem()
     {
         if (spawnedDecoItem != null)
         {
+
+            if (spawnedDecoItem != null) // spawnedDecoItem이 null이 아니면 파티클 재생
+            {
+                PlaySpawnParticle(spawnedDecoItem.transform.position); // 파티클 재생
+            }
+            else
+            {
+                Debug.LogWarning("spawnedDecoItem이 null이므로 파티클을 재생할 수 없습니다.");
+            }
+
             // 아이템을 설치 (여기서는 그냥 놓는다고 가정)
             Debug.Log("아이템 설치 완료!");
 
@@ -148,7 +179,7 @@ public class DecoManager : MonoBehaviour
             isPlacingItem = false;  // 설치 완료
 
             // 다음 프리팹을 설치할 준비
-            spawnedDecoItem = null; // 이전 프리팹을 null로 설정하여 초기화
+            spawnedDecoItem = null; // 이전 프리팹을 null로 설정하여 초기화           
         }
     }
 }
