@@ -8,6 +8,8 @@ public class WindmillInteraction : MonoBehaviour
     public GameObject player2;               // 플레이어 2
     public GameObject ladder1;
 
+    public Animator playerAnimator; // Animator를 할당해야 함
+
     private Transform player;                // 현재 활성화된 플레이어의 Transform을 저장
 
     void Start()
@@ -21,6 +23,9 @@ public class WindmillInteraction : MonoBehaviour
         {
             player = player2.transform;  // 플레이어 2의 Transform 설정
         }
+
+        // Animator를 플레이어의 컴포넌트로 설정
+        playerAnimator = player.GetComponent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -50,27 +55,31 @@ public class WindmillInteraction : MonoBehaviour
         // 현재 활성화된 플레이어가 있다면 이동 및 회전 수행
         if (player != null)
         {
-            Vector3 newPosition = new Vector3(10.56f, 2.71f, 34.41f); // 이동할 위치
-            Vector3 newRotation = new Vector3(0f, 169.016f, 0f); // 회전값 (Y축 90도)
-            MoveInit(player, newPosition, newRotation);
+            // 첫 번째 위치로 즉시 이동
+            Vector3 instantPosition = new Vector3(10.56f, 2.71f, 34.41f);
+            Vector3 instantRotation = new Vector3(0f, 169.016f, 0f);
+            MoveInit(player, instantPosition, instantRotation);
 
-            // 2초 후에 다른 위치로 이동
-            StartCoroutine(DelayMoveInit(player, 2f));
+            // 두 번째 위치로 천천히 이동
+            Vector3 smoothPosition = new Vector3(11.15f, 9.4f, 31.7f);
+            Vector3 smoothRotation = new Vector3(0f, 180f, 0f);
+            // 두 번째 위치로 천천히 이동 (애니메이션 포함)
+            StartCoroutine(SmoothMoveWithAnimation(player, smoothPosition, 3f)); // 3초 동안 이동
         }
     }
 
-    // MoveInit 함수: 위치와 회전값을 설정
+    // MoveInit 함수: 즉시 이동과 회전 수행
     public void MoveInit(Transform target, Vector3 targetPosition, Vector3 targetRotation)
     {
         if (target != null)
         {
-            // 위치 설정
+            // 즉시 위치 설정
             target.position = targetPosition;
 
-            // 회전값 설정 (Vector3를 Quaternion으로 변환)
+            // 즉시 회전 설정 (Vector3를 Quaternion으로 변환)
             target.rotation = Quaternion.Euler(targetRotation);
 
-            Debug.Log($"플레이어가 {targetPosition} 위치로 이동하고, 회전값을 {targetRotation}로 설정했습니다.");
+            Debug.Log($"플레이어가 {targetPosition} 위치로 즉시 이동했습니다.");
         }
         else
         {
@@ -78,17 +87,30 @@ public class WindmillInteraction : MonoBehaviour
         }
     }
 
-    // 2초 후에 새로운 위치로 MoveInit을 호출하는 코루틴
-    private IEnumerator DelayMoveInit(Transform target, float delay)
+    private IEnumerator SmoothMoveWithAnimation(Transform target, Vector3 targetPosition, float duration)
     {
-        // 지정된 시간(초) 만큼 대기
-        yield return new WaitForSeconds(delay);
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("isClimbing", true); // 이동 애니메이션 시작
+            playerAnimator.speed = 1f / duration;      // 애니메이션 속도 조절
+        }
 
-        // 새로운 위치와 회전값 설정
-        Vector3 newPosition = new Vector3(20f, 100f, 50f); // 두 번째 이동할 위치
-        Vector3 newRotation = new Vector3(0f, 180f, 0f); // 두 번째 회전값 (Y축 90도)
+        Vector3 startPosition = target.position;
+        float elapsedTime = 0f;
 
-        // 대기 후 MoveInit 호출
-        MoveInit(target, newPosition, newRotation);
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            target.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            yield return null;
+        }
+
+        target.position = targetPosition;
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("isClimbing", false); // 이동 애니메이션 정지
+            playerAnimator.speed = 1f;                  // 애니메이션 속도 초기화
+        }
     }
 }
