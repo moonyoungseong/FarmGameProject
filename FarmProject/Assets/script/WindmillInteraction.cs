@@ -6,7 +6,9 @@ public class WindmillInteraction : MonoBehaviour
 {
     public GameObject player1;               // 플레이어 1
     public GameObject player2;               // 플레이어 2
-    public GameObject ladder1;
+    public GameObject ladder1;               // 사다리밑 UI
+    public GameObject ladder2;               // 사다리위 UI
+    public GameObject FinishImage;           // 완료 UI
 
     public Animator playerAnimator; // Animator를 할당해야 함
 
@@ -37,6 +39,14 @@ public class WindmillInteraction : MonoBehaviour
             // 필요한 동작 추가
             ladder1.SetActive(true);
         }
+
+        // 트리거에 진입한 오브젝트가 특정 태그를 가진 경우
+        if (other.CompareTag("WindZone2"))
+        {
+            Debug.Log("플레이어가 특정 Trigger Zone에 들어왔습니다!");
+            // 필요한 동작 추가
+            ladder2.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -47,6 +57,14 @@ public class WindmillInteraction : MonoBehaviour
             Debug.Log("플레이어가 특정 Trigger Zone에서 나갔습니다!");
             // 필요한 동작 추가
             ladder1.SetActive(false);
+        }
+
+        // 트리거에서 나간 오브젝트가 특정 태그를 가진 경우
+        if (other.CompareTag("WindZone2"))
+        {
+            Debug.Log("플레이어가 특정 Trigger Zone에서 나갔습니다!");
+            // 필요한 동작 추가
+            ladder2.SetActive(false);
         }
     }
 
@@ -66,6 +84,29 @@ public class WindmillInteraction : MonoBehaviour
             // 두 번째 위치로 천천히 이동 (애니메이션 포함)
             StartCoroutine(SmoothMoveWithAnimation(player, smoothPosition, 3f)); // 3초 동안 이동
         }
+    }
+
+    public void FIxWind()
+    {
+        if (playerAnimator != null)
+        {
+            StartCoroutine(PlayFixWindAnimation());
+            
+        }
+    }
+
+    private IEnumerator PlayFixWindAnimation()
+    {
+        // 애니메이션 시작
+        playerAnimator.SetBool("isFixing", true);
+
+        // 5초 동안 대기
+        yield return new WaitForSeconds(5f);
+
+        // 애니메이션 정지
+        playerAnimator.SetBool("isFixing", false);
+
+        FinishImage.SetActive(true);        // 완료 안내문
     }
 
     // MoveInit 함수: 즉시 이동과 회전 수행
