@@ -53,6 +53,9 @@ public class WindmillInteraction : MonoBehaviour
             Vector3 newPosition = new Vector3(10.56f, 2.71f, 34.41f); // 이동할 위치
             Vector3 newRotation = new Vector3(0f, 169.016f, 0f); // 회전값 (Y축 90도)
             MoveInit(player, newPosition, newRotation);
+
+            // 2초 후에 다른 위치로 이동
+            StartCoroutine(DelayMoveInit(player, 2f));
         }
     }
 
@@ -73,5 +76,19 @@ public class WindmillInteraction : MonoBehaviour
         {
             Debug.LogWarning("플레이어가 설정되지 않았습니다.");
         }
+    }
+
+    // 2초 후에 새로운 위치로 MoveInit을 호출하는 코루틴
+    private IEnumerator DelayMoveInit(Transform target, float delay)
+    {
+        // 지정된 시간(초) 만큼 대기
+        yield return new WaitForSeconds(delay);
+
+        // 새로운 위치와 회전값 설정
+        Vector3 newPosition = new Vector3(20f, 100f, 50f); // 두 번째 이동할 위치
+        Vector3 newRotation = new Vector3(0f, 180f, 0f); // 두 번째 회전값 (Y축 90도)
+
+        // 대기 후 MoveInit 호출
+        MoveInit(target, newPosition, newRotation);
     }
 }
