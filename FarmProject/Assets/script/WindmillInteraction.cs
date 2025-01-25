@@ -9,6 +9,7 @@ public class WindmillInteraction : MonoBehaviour
     public GameObject ladder1;               // 사다리밑 UI
     public GameObject ladder2;               // 사다리위 UI
     public GameObject FinishImage;           // 완료 UI
+    public GameObject[] LadderAbout; // 사다리 타고 나서 지워할것들
 
     public Animator playerAnimator; // Animator를 할당해야 함
 
@@ -65,6 +66,8 @@ public class WindmillInteraction : MonoBehaviour
             Debug.Log("플레이어가 특정 Trigger Zone에서 나갔습니다!");
             // 필요한 동작 추가
             ladder2.SetActive(false);
+            LadderAbout[0].SetActive(false);
+            LadderAbout[1].SetActive(false);
         }
     }
 
