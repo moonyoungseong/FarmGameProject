@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class HoneyCollector : MonoBehaviour
 {
     public TextMeshProUGUI timerText; // 남은 시간을 표시할 UI Text
     public Button collectButton; // 꿀 수집 버튼
     public Button waitButton; // 대기 버튼
+    public GameObject notificationUI; // 특정 UI (알림 메시지 등)
 
     private int honeyCount = 0; // 현재 충전된 꿀 개수
     private float timer = 10f; // 타이머 초기값 (10초)
@@ -15,10 +17,11 @@ public class HoneyCollector : MonoBehaviour
     {
         // 버튼 클릭 이벤트 등록
         collectButton.onClick.AddListener(CollectHoney);
-        waitButton.onClick.AddListener(WaitHoney);
+        waitButton.onClick.AddListener(OnWaitButtonClicked);
 
         UpdateUI();
         UpdateButtonStates(); // 초기 버튼 상태 설정
+        notificationUI.SetActive(false); // UI 초기 상태는 비활성화
     }
 
     void Update()
@@ -54,10 +57,17 @@ public class HoneyCollector : MonoBehaviour
         }
     }
 
-    void WaitHoney()
+    void OnWaitButtonClicked()
     {
-        Debug.Log("꿀이 충전되는 중입니다...");
-        // 대기 버튼은 단순히 비활성화된 상태로 유지
+        Debug.Log("대기 버튼 클릭됨");
+        StartCoroutine(ShowNotification()); // 알림 UI 표시 코루틴 호출
+    }
+
+    IEnumerator ShowNotification()
+    {
+        notificationUI.SetActive(true); // UI 활성화
+        yield return new WaitForSeconds(2f); // 2초 대기
+        notificationUI.SetActive(false); // UI 비활성화
     }
 
     void UpdateUI()
