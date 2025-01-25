@@ -10,6 +10,9 @@ public class WindmillInteraction : MonoBehaviour
     public GameObject ladder2;               // 사다리위 UI
     public GameObject FinishImage;           // 완료 UI
     public GameObject[] LadderAbout; // 사다리 타고 나서 지워할것들
+    public GameObject windmillFan; // 풍차 팬 오브젝트
+
+    private bool isRepaired = false; // 수리 상태를 저장
 
     public Animator playerAnimator; // Animator를 할당해야 함
 
@@ -68,6 +71,9 @@ public class WindmillInteraction : MonoBehaviour
             ladder2.SetActive(false);
             LadderAbout[0].SetActive(false);
             LadderAbout[1].SetActive(false);
+
+            // 팬 회전을 시작하기 위해 코루틴 호출
+            StartCoroutine(StartFanRotation(3f)); // 3초 후에 팬 회전 시작
         }
     }
 
@@ -84,6 +90,7 @@ public class WindmillInteraction : MonoBehaviour
             // 두 번째 위치로 천천히 이동
             Vector3 smoothPosition = new Vector3(11.15f, 9.4f, 31.7f);
             Vector3 smoothRotation = new Vector3(0f, 180f, 0f);
+
             // 두 번째 위치로 천천히 이동 (애니메이션 포함)
             StartCoroutine(SmoothMoveWithAnimation(player, smoothPosition, 3f)); // 3초 동안 이동
         }
@@ -155,6 +162,34 @@ public class WindmillInteraction : MonoBehaviour
         {
             playerAnimator.SetBool("isClimbing", false); // 이동 애니메이션 정지
             playerAnimator.speed = 1f;                  // 애니메이션 속도 초기화
+        }
+    }
+
+    // 풍차 팬을 회전시키는 함수
+    public void RotateFan(float speed)
+    {
+        if (windmillFan != null && isRepaired)
+        {
+            // 풍차 팬을 지속적으로 회전
+            windmillFan.transform.Rotate(Vector3.forward, speed * Time.deltaTime);
+        }
+    }
+
+    // 코루틴: 일정 시간 대기 후 팬 회전 시작
+    private IEnumerator StartFanRotation(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        isRepaired = true; // 팬이 수리 완료되었다고 표시
+        Debug.Log("풍차 팬이 회전을 시작합니다!");
+    }
+
+    void Update()
+    {
+        // 수리 후 계속 회전
+        if (isRepaired)
+        {
+            RotateFan(30f);
         }
     }
 }
