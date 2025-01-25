@@ -3040,7 +3040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &202627989
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17452,6 +17452,9 @@ MonoBehaviour:
   ladder1: {fileID: 2091452227}
   ladder2: {fileID: 1949690482}
   FinishImage: {fileID: 202627988}
+  LadderAbout:
+  - {fileID: 259656197}
+  - {fileID: 361801410}
   playerAnimator: {fileID: 5866666021909216657, guid: a13c3a99382aae548bc35274eccb7857, type: 3}
 --- !u!1001 &729462197
 PrefabInstance:
@@ -35901,6 +35904,9 @@ MonoBehaviour:
   ladder1: {fileID: 2091452227}
   ladder2: {fileID: 1949690482}
   FinishImage: {fileID: 202627988}
+  LadderAbout:
+  - {fileID: 259656197}
+  - {fileID: 361801410}
   playerAnimator: {fileID: 5866666021909216657, guid: a13c3a99382aae548bc35274eccb7857, type: 3}
 --- !u!1 &1462856996
 GameObject:
@@ -40406,6 +40412,9 @@ MonoBehaviour:
   ladder1: {fileID: 2091452227}
   ladder2: {fileID: 1949690482}
   FinishImage: {fileID: 202627988}
+  LadderAbout:
+  - {fileID: 259656197}
+  - {fileID: 361801410}
   playerAnimator: {fileID: 5866666021909216657, guid: a13c3a99382aae548bc35274eccb7857, type: 3}
 --- !u!4 &1680943775 stripped
 Transform:
