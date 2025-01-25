@@ -39,16 +39,19 @@ public class WindmillInteraction : MonoBehaviour
         // 트리거에 진입한 오브젝트가 특정 태그를 가진 경우
         if (other.CompareTag("WindZone"))
         {
+#if UNITY_EDITOR
             Debug.Log("플레이어가 특정 Trigger Zone에 들어왔습니다!");
-            // 필요한 동작 추가
+#endif
+
             ladder1.SetActive(true);
         }
 
         // 트리거에 진입한 오브젝트가 특정 태그를 가진 경우
         if (other.CompareTag("WindZone2"))
         {
+#if UNITY_EDITOR
             Debug.Log("플레이어가 특정 Trigger Zone에 들어왔습니다!");
-            // 필요한 동작 추가
+#endif
             ladder2.SetActive(true);
         }
     }
@@ -58,16 +61,18 @@ public class WindmillInteraction : MonoBehaviour
         // 트리거에서 나간 오브젝트가 특정 태그를 가진 경우
         if (other.CompareTag("WindZone"))
         {
+#if UNITY_EDITOR
             Debug.Log("플레이어가 특정 Trigger Zone에서 나갔습니다!");
-            // 필요한 동작 추가
+#endif
             ladder1.SetActive(false);
         }
 
         // 트리거에서 나간 오브젝트가 특정 태그를 가진 경우
         if (other.CompareTag("WindZone2"))
         {
+#if UNITY_EDITOR
             Debug.Log("플레이어가 특정 Trigger Zone에서 나갔습니다!");
-            // 필요한 동작 추가
+#endif
             ladder2.SetActive(false);
             LadderAbout[0].SetActive(false);
             LadderAbout[1].SetActive(false);
@@ -130,11 +135,15 @@ public class WindmillInteraction : MonoBehaviour
             // 즉시 회전 설정 (Vector3를 Quaternion으로 변환)
             target.rotation = Quaternion.Euler(targetRotation);
 
+#if UNITY_EDITOR
             Debug.Log($"플레이어가 {targetPosition} 위치로 즉시 이동했습니다.");
+#endif
         }
         else
         {
+#if UNITY_EDITOR
             Debug.LogWarning("플레이어가 설정되지 않았습니다.");
+#endif
         }
     }
 
@@ -181,7 +190,10 @@ public class WindmillInteraction : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         isRepaired = true; // 팬이 수리 완료되었다고 표시
+
+#if UNITY_EDITOR
         Debug.Log("풍차 팬이 회전을 시작합니다!");
+#endif
     }
 
     void Update()
