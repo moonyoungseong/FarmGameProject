@@ -59,6 +59,7 @@ public class CharacterSelection : MonoBehaviour
     // ¾À ÀüÈ¯ ÇÔ¼ö
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);  // ¾À ·Îµå
+        //SceneManager.LoadScene(sceneName);  // ¾À ·Îµå
+        //SceneLoader.LoadSceneWithLoading(sceneName);
     }
 }
