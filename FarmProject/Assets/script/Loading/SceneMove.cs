@@ -7,7 +7,6 @@ public class SceneMove : MonoBehaviour
 {
     public void LoadScene(string sceneName)
     {
-        //SceneManager.LoadScene(sceneName);  // ¾À ·Îµå
         SceneLoader.LoadSceneWithLoading(sceneName);
     }
 }
