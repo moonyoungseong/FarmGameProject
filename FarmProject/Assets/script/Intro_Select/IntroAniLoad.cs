@@ -49,6 +49,7 @@ public class IntroAniLoad : MonoBehaviour
     // ¾À ÀüÈ¯ ÇÔ¼ö
     void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);  // ¾À ·Îµå
+        //SceneManager.LoadScene(sceneName);  // ¾À ·Îµå
+        SceneLoader.LoadSceneWithLoading(sceneName);
     }
 }
