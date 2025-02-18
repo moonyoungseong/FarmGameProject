@@ -10,6 +10,8 @@ public class FarmTileChanger : MonoBehaviour
 
     public CursorIcons cursorIcons;  // 인스펙터에서 CursorIcons 참조
 
+    public ParticleSystem changeSoilParticleEffect; // 파티클 시스템 추가
+
     private void Start()
     {
         farmTileLayer = LayerMask.NameToLayer("FarmTile");   // 기본 밭 레이어
@@ -80,8 +82,21 @@ public class FarmTileChanger : MonoBehaviour
     {
         if (newPrefab != null)
         {
-            GameObject newTile = Instantiate(newPrefab, position, Quaternion.identity);
+            // 기존 밭의 위치와 회전을 유지
+            GameObject newTile = Instantiate(newPrefab, oldTile.transform.position, oldTile.transform.rotation);
+
+            // 계층 유지 (필요한 경우)
+            newTile.transform.SetParent(oldTile.transform.parent);
+
+            // 기존 밭 삭제
             Destroy(oldTile);
+
+            // 파티클 효과 재생 (하나의 파티클만 사용)
+            if (changeSoilParticleEffect != null)
+            {
+                ParticleSystem particle = Instantiate(changeSoilParticleEffect, position, Quaternion.identity);
+                particle.Play();
+            }
         }
     }
 }
