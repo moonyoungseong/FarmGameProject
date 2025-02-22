@@ -21,6 +21,7 @@ public class FarmController : MonoBehaviour
 
     private float lastPlantTime = 0f;        // 마지막으로 작물을 심은 시간
     public GameObject NoSeedUI;               // 작물 없을때 나오는 UI
+    //public GameObject noGardenUI;             // 밭에 아직 작물 심을수 없을때
     private List<Vector3> plantedCropPositions = new List<Vector3>();
 
     // 현재 선택된 작물을 관리할 변수
@@ -50,38 +51,33 @@ public class FarmController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject() && CanPlant())
         {
+            Vector3 mousePosition = GetMouseWorldPosition();
+
             if (selectedCropAttributes == null)
             {
                 Debug.Log("선택된 작물이 없습니다.");
-                return; // 작물이 선택되지 않은 경우 심기 취소
+                return;
             }
 
-            // 씨앗이 없으면 심지 않도록 처리
             if (!HasSeed(selectedCropAttributes))
             {
                 NoSeedUI.SetActive(true);
-
-                // 2초 후에 UI 비활성화
                 StartCoroutine(DisableUIAfterTime(2f));
-
                 Debug.Log("선택한 작물의 씨앗이 없습니다.");
                 return;
             }
 
-            Vector3 mousePosition = GetMouseWorldPosition();
             if (IsWithinPlantingRange(mousePosition) && IsFarEnoughFromOtherCrops(mousePosition))
             {
                 cropFactory.CreateCrop(selectedCropAttributes, mousePosition);
                 plantedCropPositions.Add(mousePosition);
                 lastPlantTime = Time.time;
-
-                // 인벤토리에서 씨앗의 수량을 1개씩 줄임
                 ReduceSeedCount(selectedCropAttributes);
-
-                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f)); // 애니메이션 실행
+                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f));
             }
         }
     }
+
 
     // 씨앗이 있는지 확인하는 함수
     bool HasSeed(CropAttributes cropAttributes)
@@ -97,6 +93,7 @@ public class FarmController : MonoBehaviour
 
         // UI 비활성화
         NoSeedUI.SetActive(false);
+        //noGardenUI.SetActive(false);
     }
 
 
@@ -150,6 +147,7 @@ public class FarmController : MonoBehaviour
     public void SelectNone()
     {
         selectedCropAttributes = null;
+        //DefaultCursorManager.instance.ResetCursor();  // 기본 커서로 리셋
         Debug.Log("아무 것도 선택하지 않았습니다.");
     }
 
