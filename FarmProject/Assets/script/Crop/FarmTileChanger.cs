@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;  // EventSystem을 사용하기 위한 네임스페이스
 
 public class FarmTileChanger : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class FarmTileChanger : MonoBehaviour
 
     void Update()
     {
+        // UI가 아닌 곳에서만 동작하도록 검사
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return; // UI 위에서 클릭하면 아무 작업도 하지 않음
+        }
+
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
