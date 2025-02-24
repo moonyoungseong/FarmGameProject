@@ -5,9 +5,12 @@ using UnityEngine;
 public class Crop : MonoBehaviour
 {
     private IState currentState;
+    private CropManager cropManager;
 
     private void Start()
     {
+        // CropManager 컴포넌트를 찾거나 추가
+        cropManager = GetComponent<CropManager>();
         // 초기 상태는 씨앗 상태로 설정
         currentState = new SeedState();
     }
@@ -27,6 +30,11 @@ public class Crop : MonoBehaviour
     public void WaterCrop()
     {
         currentState.HandleWatering(this); // 현재 상태에서 물을 주는 행동을 처리
+
+        if (cropManager != null)
+        {
+            cropManager.WaterCrop();
+        }
     }
 
     // 자연재해가 발생하는 메서드
