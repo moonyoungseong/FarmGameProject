@@ -65,6 +65,7 @@ public class CropManager : MonoBehaviour
     {
         if (!isFullyGrown && !hasWatered)  // 물을 한 번만 줄 수 있도록 설정, 이미 자란 작물에는 물을 주지 않음
         {
+            Debug.Log("CropManager에서 물준것임");
             hasWatered = true;  // 물을 주었다고 표시
         }
     }
