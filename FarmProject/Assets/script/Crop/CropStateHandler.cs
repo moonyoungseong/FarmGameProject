@@ -19,5 +19,12 @@ public class CropStateHandler : MonoBehaviour
             crop.WaterCrop();
         }
     }
-}
 
+    //public void WaterCrop()     // 이 함수 실행이 잘 안된다. 일단 임시로 해놓고 나중에 지우든지 하자.
+    //{
+    //    if( crop != null)
+    //    {
+    //        crop.WaterCrop();
+    //    }
+    //}
+}
