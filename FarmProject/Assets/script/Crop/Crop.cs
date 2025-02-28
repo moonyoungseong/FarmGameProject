@@ -33,6 +33,7 @@ public class Crop : MonoBehaviour
 
         if (cropManager != null)
         {
+            Debug.Log("Crop에서 물준것임");
             cropManager.WaterCrop(); // 이게 물 준 효과
         }
     }
