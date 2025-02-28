@@ -29,11 +29,11 @@ public class Crop : MonoBehaviour
     // 물을 주는 메서드
     public void WaterCrop()
     {
-        currentState.HandleWatering(this); // 현재 상태에서 물을 주는 행동을 처리
+        currentState.HandleWatering(this); // 현재 상태에서 물을 주는 행동을 처리 // 이게 State 진화
 
         if (cropManager != null)
         {
-            cropManager.WaterCrop();
+            cropManager.WaterCrop(); // 이게 물 준 효과
         }
     }
 
