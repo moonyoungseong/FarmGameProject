@@ -25516,7 +25516,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838135584}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102919491}
+        m_TargetAssemblyTypeName: ResolutionManager, Assembly-CSharp
+        m_MethodName: SetHD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &838135584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32641,6 +32653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1102919490}
+  - component: {fileID: 1102919491}
   m_Layer: 0
   m_Name: SettingManager
   m_TagString: Untagged
@@ -32663,6 +32676,18 @@ Transform:
   m_Father: {fileID: 673662066}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102919491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102919489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a369651891a839c4aab0db4b1db04194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1105522258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46529,7 +46554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1493869029}
         m_TargetAssemblyTypeName: SpeakerController, Assembly-CSharp
         m_MethodName: ToggleSound
         m_Mode: 1
@@ -46593,6 +46618,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iconOn: {fileID: -213356348, guid: 156ec492e516ccb4099add479601d65e, type: 3}
   iconOff: {fileID: 1897002124, guid: 156ec492e516ccb4099add479601d65e, type: 3}
+  muteButtonImage: {fileID: 1493869027}
+  volumeSlider: {fileID: 142813125}
 --- !u!1 &1494953947
 GameObject:
   m_ObjectHideFlags: 0
@@ -61447,7 +61474,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2028286434}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102919491}
+        m_TargetAssemblyTypeName: ResolutionManager, Assembly-CSharp
+        m_MethodName: SetFullHD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2028286434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62434,7 +62473,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2060473310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102919491}
+        m_TargetAssemblyTypeName: ResolutionManager, Assembly-CSharp
+        m_MethodName: SetHDPlus
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2060473310
 MonoBehaviour:
   m_ObjectHideFlags: 0
