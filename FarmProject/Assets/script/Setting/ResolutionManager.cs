@@ -1,8 +1,10 @@
 using UnityEngine;
+
 /// <summary>
 /// 해상도 변경 코드가 현재 작동은 안하고 있는중
 /// 나중에 테스트 해보고 변경예정
 /// </summary>
+
 public class ResolutionManager : MonoBehaviour
 {
     public void SetFullHD()
@@ -20,7 +22,7 @@ public class ResolutionManager : MonoBehaviour
 
     public void sethdplus()
     {
-        screen.setresolution(1600, 900, fullscreenmode.fullscreenwindow);
-        debug.log("해상도를 hd+ (1600x900)로 변경");
+        Screen.SetResolution(1600, 900, FullScreenMode.FullScreenWindow);
+        Debug.Log("해상도를 hd+ (1600x900)로 변경");
     }
 }
