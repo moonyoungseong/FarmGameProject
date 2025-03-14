@@ -41,7 +41,7 @@ public class CharacterSelection : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // 캐릭터 이름 저장
+    // 캐릭터 이름 저장, 이거 이름 변경 버튼에 그대로 적용하기 테스트
     public void SaveCharacterName()
     {
         string characterName = characterNameInputField.text;  // 입력된 이름 가져오기
