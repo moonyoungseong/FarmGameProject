@@ -14102,7 +14102,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 497984538}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102919492}
+        m_TargetAssemblyTypeName: NaDataResetter, Assembly-CSharp
+        m_MethodName: OnChangeNameButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &497984538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32485,7 +32497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1095394842
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32701,7 +32713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270a0bdda11b8c54fa98582a1791fa6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterSelection: {fileID: 0}
+  ChangeNameInputField: {fileID: 1903158778}
 --- !u!1001 &1105522258
 PrefabInstance:
   m_ObjectHideFlags: 0
