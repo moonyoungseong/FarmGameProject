@@ -6,10 +6,25 @@ using TMPro;
 
 public class CharacterSelection : MonoBehaviour
 {
+    //public static CharacterSelection Instance { get; private set; } // 싱글톤 인스턴스
+
     public GameObject maleCharacter;  // 남자 캐릭터 오브젝트
     public GameObject femaleCharacter; // 여자 캐릭터 오브젝트
     public Animator animator;         // 캐릭터의 애니메이터
     public TMP_InputField characterNameInputField;  // TMP_InputField
+
+    //private void Awake()
+    //{
+    //    // 싱글톤 설정
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //}
 
     // 남자 캐릭터 선택
     public void ShowMaleCharacter()
