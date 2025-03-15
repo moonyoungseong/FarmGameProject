@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class NaDataResetter : MonoBehaviour
 {
@@ -30,10 +31,14 @@ public class NaDataResetter : MonoBehaviour
         }
     }
 
-    public void ResetAllData()
+    public void ResetAllData()  // 이거는 가장 마지막에 테스트 해보자. 아직버튼에 연결 안한 상태
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
         Debug.Log("모든 데이터가 초기화되었습니다.");
+
+        // 처음 씬으로 이동 (예: "MainMenu" 씬)
+        // SceneManager.LoadScene("SelectCharacter"); // 이거는 나중에 처음화면 만들고 씬 이름 변경
+
     }
 }
