@@ -7,17 +7,22 @@ public class NaDataResetter : MonoBehaviour
 {
     //[SerializeField] private CharacterSelection characterSelection; // 이름 짓는 함수 있는 스크립트
     public TMP_InputField ChangeNameInputField;  // TMP_InputField
+    public TMP_Text MainNameText;  // 메인 화면에 있는 이름 Text
+
 
     public void OnChangeNameButtonClicked()
     {
         // 싱글톤 인스턴스를 통해 접근
         //CharacterSelection.Instance.SaveCharacterName();
 
-        string chageName = ChangeNameInputField.text;  // 입력된 이름 가져오기
-        if (!string.IsNullOrEmpty(chageName))
+        string changeName = ChangeNameInputField.text;  // 입력된 이름 가져오기
+        if (!string.IsNullOrEmpty(changeName))
         {
-            PlayerPrefs.SetString("CharacterName", chageName);  // PlayerPrefs에 저장
+            PlayerPrefs.SetString("CharacterName", changeName);  // PlayerPrefs에 저장
             PlayerPrefs.Save();  // 저장 강제 실행
+
+            // 입력된 이름을 UI에 바로 반영
+            MainNameText.text = changeName;
         }
         else
         {
