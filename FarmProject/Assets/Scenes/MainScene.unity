@@ -32714,6 +32714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeNameInputField: {fileID: 1903158778}
+  MainNameText: {fileID: 792108915}
 --- !u!1001 &1105522258
 PrefabInstance:
   m_ObjectHideFlags: 0
