@@ -1,30 +1,101 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class CropStateHandler : MonoBehaviour
 {
     private Crop crop;  // crop 변수
+    public PlayableDirector sprinklerTimeline; // 타임라인 추가
+    public SprinklerPool sprinklerPool; // 오브젝트 풀링 시스템 추가
 
     // crop 할당 메서드
     public void AssignCrop(Crop newCrop)
     {
-        crop = newCrop;
+        crop = newCrop; // 새로운 crop 객체를 할당
+        Debug.Log("Crop assigned: " + crop.name); // crop 할당 확인
+    }
+
+    private void Start()
+    {
+        // null 검사 및 경고 메시지 출력
+        if (sprinklerPool == null)
+        {
+            Debug.LogWarning("SprinklerPool is not assigned!");
+        }
+        else
+        {
+            Debug.Log("SprinklerPool is assigned."); // sprinklerPool이 할당된 경우
+        }
+
+        if (sprinklerTimeline == null)
+        {
+            Debug.LogWarning("SprinklerTimeline is not assigned!");
+        }
+        else
+        {
+            Debug.Log("SprinklerTimeline is assigned."); // sprinklerTimeline이 할당된 경우
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && Input.GetKeyDown(KeyCode.E) && crop != null) // 특정키를 눌렀을 때 물 주기
+        if (crop == null)
         {
-            crop.WaterCrop();
+            Crop foundCrop = FindObjectOfType<Crop>(); // 씬에서 자동 검색
+            if (foundCrop != null)
+            {
+                AssignCrop(foundCrop);
+                Debug.Log("Crop dynamically assigned: " + foundCrop.name);
+            }
         }
+
+        //// E + R 키가 동시에 눌렸을 때 물 주기 및 스프링클러 활성화
+        if (Input.GetKey(KeyCode.R) && Input.GetKeyDown(KeyCode.E) && crop != null)
+        {
+            Debug.Log("E + R keys pressed. Watering crop..."); // E + R 키가 눌렸을 때 로그 출력
+            //crop.WaterCrop(); // 기존 물 주기 기능 실행
+            ActivateSprinkler(); // 스프링클러 활성화 및 타임라인 실행
+        }
+
+        // ActivateSprinkler(); // 스프링클러 활성화 및 타임라인 실행
     }
 
-    //public void WaterCrop()     // 이 함수 실행이 잘 안된다. 일단 임시로 해놓고 나중에 지우든지 하자.
-    //{
-    //    if( crop != null)
-    //    {
-    //        crop.WaterCrop();
-    //    }
-    //}
+    public void ActivateSprinkler()
+    {
+        if (crop == null)
+        {
+            Debug.LogWarning("Crop is not assigned! Cannot water the crop.");
+            return;
+        }
+
+        crop.WaterCrop(); // 기존 물 주기 기능 실행
+
+        if (sprinklerPool == null) return; // 풀링 시스템이 null이면 함수를 종료
+
+        // 오브젝트 풀에서 스프링클러를 가져옵니다.
+        GameObject sprinkler = sprinklerPool.GetSprinkler();
+
+        if (sprinkler != null)
+        {
+            Debug.Log("Sprinkler activated: " + sprinkler.name); // 스프링클러 활성화 로그 출력
+            sprinkler.SetActive(true); // 가져온 스프링클러를 활성화
+
+            // 스프링클러의 위치를 기반으로 타임라인 실행
+            SprinklerTimelineHandler sprinklerTimelineHandler = FindObjectOfType<SprinklerTimelineHandler>();
+            if (sprinklerTimelineHandler != null)
+            {
+                Debug.Log("Starting sprinkler animation at position: " + sprinkler.transform.position); // 타임라인 실행 위치 확인
+                sprinklerTimelineHandler.StartSprinklerAnimation(sprinkler.transform.position);
+            }
+            else
+            {
+                Debug.LogWarning("SprinklerTimelineHandler is not found in the scene."); // SprinklerTimelineHandler가 씬에 없으면 경고
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Failed to get sprinkler from pool."); // 풀에서 스프링클러를 가져오지 못했을 때 경고
+        }
+    }
 }
