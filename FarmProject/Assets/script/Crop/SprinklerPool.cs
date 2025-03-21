@@ -1,40 +1,32 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SprinklerPool : MonoBehaviour
 {
     public GameObject sprinklerPrefab; // 스프링클러 프리팹
-    public int poolSize = 10; // 스프링클러 개수
-    private Queue<GameObject> sprinklerPool = new Queue<GameObject>();
+    private Queue<GameObject> pool = new Queue<GameObject>(); // 오브젝트 풀
 
-    private void Start()
+    // 스프링클러 풀에서 가져오기
+    public GameObject GetSprinkler()
     {
-        // 미리 10개 생성하고 비활성화 상태로 큐에 저장
-        for (int i = 0; i < poolSize; i++)
+        if (pool.Count > 0)
         {
-            GameObject sprinkler = Instantiate(sprinklerPrefab);
-            sprinkler.SetActive(false);
-            sprinklerPool.Enqueue(sprinkler);
-        }
-    }
-
-    // 풀에서 스프링클러 가져오기
-    public GameObject GetSprinkler(Vector3 position)
-    {
-        if (sprinklerPool.Count > 0)
-        {
-            GameObject sprinkler = sprinklerPool.Dequeue();
-            sprinkler.transform.position = position;
-            sprinkler.SetActive(true);
+            GameObject sprinkler = pool.Dequeue();
+            sprinkler.SetActive(true); // 활성화
             return sprinkler;
         }
-        return null; // 풀에 남아있는 스프링클러가 없으면 null 반환
+        else
+        {
+            GameObject sprinkler = Instantiate(sprinklerPrefab);
+            sprinkler.SetActive(false); // 비활성화된 상태로 생성
+            return sprinkler;
+        }
     }
 
-    // 스프링클러 다시 반환 (비활성화 후 큐에 넣음)
+    // 스프링클러 풀로 반환하기
     public void ReturnSprinkler(GameObject sprinkler)
     {
-        sprinkler.SetActive(false);
-        sprinklerPool.Enqueue(sprinkler);
+        sprinkler.SetActive(false); // 비활성화
+        pool.Enqueue(sprinkler); // 풀에 반환
     }
 }
