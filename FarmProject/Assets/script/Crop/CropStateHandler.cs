@@ -14,7 +14,7 @@ public class CropStateHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && crop != null)
+        if (Input.GetKeyDown(KeyCode.R) && Input.GetKeyDown(KeyCode.E) && crop != null) // 특정키를 눌렀을 때 물 주기
         {
             crop.WaterCrop();
         }
