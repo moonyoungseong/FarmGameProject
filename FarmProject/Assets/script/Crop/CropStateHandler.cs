@@ -57,8 +57,6 @@ public class CropStateHandler : MonoBehaviour
             //crop.WaterCrop(); // 기존 물 주기 기능 실행
             ActivateSprinkler(); // 스프링클러 활성화 및 타임라인 실행
         }
-
-        // ActivateSprinkler(); // 스프링클러 활성화 및 타임라인 실행
     }
 
     public void ActivateSprinkler()
@@ -69,33 +67,23 @@ public class CropStateHandler : MonoBehaviour
             return;
         }
 
-        crop.WaterCrop(); // 기존 물 주기 기능 실행
+        crop.WaterCrop(); // 작물에 물 주기
 
-        if (sprinklerPool == null) return; // 풀링 시스템이 null이면 함수를 종료
-
-        // 오브젝트 풀에서 스프링클러를 가져옵니다.
-        GameObject sprinkler = sprinklerPool.GetSprinkler();
-
-        if (sprinkler != null)
+        SprinklerTimelineHandler sprinklerTimelineHandler = FindObjectOfType<SprinklerTimelineHandler>();
+        if (sprinklerTimelineHandler != null)
         {
-            Debug.Log("Sprinkler activated: " + sprinkler.name); // 스프링클러 활성화 로그 출력
-            sprinkler.SetActive(true); // 가져온 스프링클러를 활성화
-
-            // 스프링클러의 위치를 기반으로 타임라인 실행
-            SprinklerTimelineHandler sprinklerTimelineHandler = FindObjectOfType<SprinklerTimelineHandler>();
-            if (sprinklerTimelineHandler != null)
-            {
-                Debug.Log("Starting sprinkler animation at position: " + sprinkler.transform.position); // 타임라인 실행 위치 확인
-                sprinklerTimelineHandler.StartSprinklerAnimation(sprinkler.transform.position);
-            }
-            else
-            {
-                Debug.LogWarning("SprinklerTimelineHandler is not found in the scene."); // SprinklerTimelineHandler가 씬에 없으면 경고
-            }
+            Debug.Log("Starting sprinkler animation.");
+            sprinklerTimelineHandler.StartSprinklerAnimation(transform.position, 10); // 10개 스프링클러 활성화
         }
         else
         {
-            Debug.LogWarning("Failed to get sprinkler from pool."); // 풀에서 스프링클러를 가져오지 못했을 때 경고
+            Debug.LogWarning("SprinklerTimelineHandler is not found in the scene.");
         }
     }
 }
+
+
+
+
+
+
