@@ -42647,6 +42647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprinklerPrefab: {fileID: 8551452911317355593, guid: 82fa94e5a773d3640975326010815949, type: 3}
+  sceneSprinklers: []
 --- !u!114 &1362701563
 MonoBehaviour:
   m_ObjectHideFlags: 0
