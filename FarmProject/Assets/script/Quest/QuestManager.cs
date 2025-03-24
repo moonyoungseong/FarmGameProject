@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class QuestObjective
+public class QuestObjective     // 목표 항목 정의 클래스 "토마토 3개 수집" 같은
 {
     public string objective;
 }
 
 [System.Serializable]
-public class Quest
+public class Quest              // 퀘스트를 정의하는 클래스
 {
     public int questID;
     public string questName;
-    public string description;
+    public string description;  // 설명
     public string giverNPC;
     public string receiverNPC;
-    public List<QuestObjective> objectives;
+    public List<QuestObjective> objectives;     // 퀘스트 해야할것
     public List<Reward> reward;
-    public int levelRequirement; // optional
+    public int levelRequirement; // 요구되는 레벨
 }
 
 [System.Serializable]
@@ -31,14 +31,14 @@ public class QuestCategory
 }
 
 [System.Serializable]
-public class Reward
+public class Reward     // 보상
 {
     public int itemID;
     public string icon;
 }
 
 [System.Serializable]
-public class QuestData
+public class QuestData  // QuestCategory가 포함된 퀘스트 전체 데이터를 저장
 {
     public QuestCategory quests;
 }
@@ -55,10 +55,10 @@ public class QuestManager : MonoBehaviour
     private List<DeliveryQuestCommand> deliveryCommands = new List<DeliveryQuestCommand>();
     private List<MovementQuestCommand> movementCommands = new List<MovementQuestCommand>();
 
-    void Start()
+    void Start()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
     {
         LoadQuestData();
-        //SetUpCollectionQuests();
+        //SetUpCollectionQuests();  
         //SetUpDialogueQuests();
         //SetUpConstructionQuests()
         //SetUpDeliveryQuests();
@@ -66,7 +66,7 @@ public class QuestManager : MonoBehaviour
         ExecuteQuestsExample();
     }
 
-    void LoadQuestData()
+    void LoadQuestData()    // JSON 파일에서 퀘스트 데이터를 로드
     {
         if (questDataFile != null)
         {
@@ -139,7 +139,7 @@ public class QuestManager : MonoBehaviour
     }
 
 
-    void ExecuteQuestsExample()
+    void ExecuteQuestsExample()     // 이 함수가 실제로 퀘스트를 실행하는 코드 .ExecuteQuest()
     {
         // 수집형 퀘스트 실행 예제
         foreach (var command in collectCommands)
