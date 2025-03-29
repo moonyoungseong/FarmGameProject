@@ -58,12 +58,12 @@ public class QuestManager : MonoBehaviour
     void Start()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
     {
         LoadQuestData();
-        //SetUpCollectionQuests();  
+        //SetUpCollectionQuests();  // 수집형 퀘스트 세팅 - 세팅을 해야 실행이 정상적으로 작동된다.
         //SetUpDialogueQuests();
         //SetUpConstructionQuests()
         //SetUpDeliveryQuests();
         //SetUpMovementQuests();
-        ExecuteQuestsExample();
+        ExecuteQuestsExample();     // 퀘스트 실행 코드 
     }
 
     void LoadQuestData()    // JSON 파일에서 퀘스트 데이터를 로드
@@ -79,7 +79,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    void SetUpCollectionQuests()
+    void SetUpCollectionQuests()     // 퀘스트 이름에 토마토 적히면 토마토, 다른거 적히면 다른 퀘스트 수집이 됨
     {
         foreach (var quest in questData.quests.Collection)
         {
