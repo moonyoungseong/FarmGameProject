@@ -7,28 +7,39 @@ public class DialogueQuestCommand : IQuestCommand
     private Quest quest;
     private string npcName;
     private bool isQuestStarted;
+    private bool isQuestCompleted;
+
+    public string NpcName => npcName;
+    public bool IsQuestStarted => isQuestStarted;  // 외부에서 대화 진행 여부를 확인할 수 있게 수정
 
     public DialogueQuestCommand(Quest quest, string npcName)
     {
         this.quest = quest;
         this.npcName = npcName;
         this.isQuestStarted = false;
+        this.isQuestCompleted = false;
     }
 
     public void Execute()
     {
-        // 대화 시작
-        Debug.Log($"{npcName}와 대화 시작: {quest.questName} 퀘스트");
-        isQuestStarted = true;
+        if (!isQuestStarted)
+        {
+            Debug.Log($"{npcName}와 대화 시작: {quest.questName} 퀘스트");
+            isQuestStarted = true;
+        }
     }
 
-    // 대화 후 퀘스트 완료 체크
     public void CompleteQuest()
     {
-        if (isQuestStarted)
+        if (isQuestStarted && !isQuestCompleted)
         {
             Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
-            // 보상 처리 등 추가
+            isQuestCompleted = true;
+            GiveRewards();
+        }
+        else if (isQuestCompleted)
+        {
+            Debug.Log($"{npcName}와의 대화가 이미 완료되었습니다.");
         }
         else
         {
@@ -36,10 +47,13 @@ public class DialogueQuestCommand : IQuestCommand
         }
     }
 
-    //// 대화형 퀘스트 실행
-    //public void StartDialogueQuest()
-    //{
-    //    Debug.Log($"{npcName}와 대화 시작!");
-    //    QuestManager.Instance.StartDialogueQuest(4);  // 퀘스트 ID 2번 실행
-    //}
+    private void GiveRewards()
+    {
+        foreach (var reward in quest.reward)
+        {
+            // 보상 지급 로직 추가
+        }
+    }
 }
+
+
