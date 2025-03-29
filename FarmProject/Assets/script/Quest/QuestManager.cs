@@ -55,11 +55,11 @@ public class QuestManager : MonoBehaviour
     private List<DeliveryQuestCommand> deliveryCommands = new List<DeliveryQuestCommand>();
     private List<MovementQuestCommand> movementCommands = new List<MovementQuestCommand>();
 
-    void Start()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
+    void Awake()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
     {
         LoadQuestData();
         //SetUpCollectionQuests();  // 수집형 퀘스트 세팅 - 세팅을 해야 실행이 정상적으로 작동된다.
-        //SetUpDialogueQuests();
+        SetUpDialogueQuests();
         //SetUpConstructionQuests()
         //SetUpDeliveryQuests();
         //SetUpMovementQuests();
@@ -79,25 +79,75 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    void SetUpCollectionQuests()     // 퀘스트 이름에 토마토 적히면 토마토, 다른거 적히면 다른 퀘스트 수집이 됨
+    public void SetUpCollectionQuests(string itemName)  // itemName을 받아서 해당 퀘스트만 설정
     {
+        collectCommands.Clear();  // 기존의 모든 퀘스트 명령을 초기화
         foreach (var quest in questData.quests.Collection)
         {
-            string itemName = quest.questName.Contains("토마토") ? "토마토" :
-                              quest.questName.Contains("옥수수") ? "옥수수" : "쌀";
-
-            CollectQuestCommand command = new CollectQuestCommand(quest, itemName, 3);
-            collectCommands.Add(command);
+            // itemName에 맞는 퀘스트만 설정
+            if (quest.questName.Contains(itemName))  // 퀘스트 이름에 itemName이 포함되면 해당 퀘스트 추가
+            {
+                CollectQuestCommand command = new CollectQuestCommand(quest, itemName, 3);
+                collectCommands.Add(command);
+            }
         }
     }
 
-    void SetUpDialogueQuests()
+    //public void SetUpCollectionQuests()     // 퀘스트 이름에 토마토 적히면 토마토, 다른거 적히면 다른 퀘스트 수집이 됨
+    //{
+    //    foreach (var quest in questData.quests.Collection)
+    //    {
+    //        string itemName = quest.questName.Contains("토마토") ? "토마토" :
+    //                          quest.questName.Contains("옥수수") ? "옥수수" : "쌀";
+
+    //        CollectQuestCommand command = new CollectQuestCommand(quest, itemName, 3);
+    //        collectCommands.Add(command);
+    //    }
+    //}
+
+    // 대화형 퀘스트 자동 시작
+    public void SetUpDialogueQuests()
     {
         foreach (var quest in questData.quests.Dialogue)
         {
-            string npcName = quest.giverNPC; // 대화할 NPC 이름
-            DialogueQuestCommand command = new DialogueQuestCommand(quest, npcName);
-            dialogueCommands.Add(command);
+            if (quest.giverNPC != null)
+            {
+                DialogueQuestCommand command = new DialogueQuestCommand(quest, quest.giverNPC);
+                dialogueCommands.Add(command);
+            }
+        }
+    }
+
+    public void CompleteDialogueQuest(string npcName)
+    {
+        foreach (var command in dialogueCommands)
+        {
+            if (command.NpcName == npcName)
+            {
+                if (!command.IsQuestStarted)  // 대화가 시작되지 않았다면 대화 시작
+                {
+                    command.Execute();  // 대화 시작
+                }
+                else
+                {
+                    // 대화 후 퀘스트 완료 처리
+                    command.CompleteQuest();
+                }
+            }
+        }
+    }
+
+    // 퀘스트 완료 로직을 외부에서 호출할 수 있도록 수정
+    public void MarkQuestAsCompleted(string npcName)
+    {
+        foreach (var command in dialogueCommands)
+        {
+            if (command.NpcName == npcName)
+            {
+                command.CompleteQuest();  // 실제로 퀘스트 완료
+                questInvoker.SetQuestCommand(command);
+                questInvoker.ExecuteQuest();
+            }
         }
     }
 
@@ -138,8 +188,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-
-    void ExecuteQuestsExample()     // 이 함수가 실제로 퀘스트를 실행하는 코드 .ExecuteQuest()
+    public void ExecuteQuestsExample()     // 이 함수가 실제로 퀘스트를 실행하는 코드 .ExecuteQuest()
     {
         // 수집형 퀘스트 실행 예제
         foreach (var command in collectCommands)
@@ -155,7 +204,7 @@ public class QuestManager : MonoBehaviour
             questInvoker.ExecuteQuest();
 
             // 대화 후 퀘스트 완료 처리
-            command.CompleteQuest();
+            //command.CompleteQuest();
         }
 
         // 건설형 퀘스트 실행 예제
