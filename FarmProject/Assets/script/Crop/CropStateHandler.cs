@@ -13,7 +13,7 @@ public class CropStateHandler : MonoBehaviour
     public void AssignCrop(Crop newCrop)
     {
         crop = newCrop; // 새로운 crop 객체를 할당
-        Debug.Log("Crop assigned: " + crop.name); // crop 할당 확인
+        //Debug.Log("Crop assigned: " + crop.name); // crop 할당 확인
     }
 
     private void Start()
@@ -25,7 +25,7 @@ public class CropStateHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("SprinklerPool is assigned."); // sprinklerPool이 할당된 경우
+            //Debug.Log("SprinklerPool is assigned."); // sprinklerPool이 할당된 경우 ------------------- 잠시 주석 처리 
         }
 
         if (sprinklerTimeline == null)
@@ -34,7 +34,7 @@ public class CropStateHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("SprinklerTimeline is assigned."); // sprinklerTimeline이 할당된 경우
+            //Debug.Log("SprinklerTimeline is assigned."); // sprinklerTimeline이 할당된 경우 ------------------- 잠시 주석 처리 
         }
     }
 
@@ -46,7 +46,7 @@ public class CropStateHandler : MonoBehaviour
             if (foundCrop != null)
             {
                 AssignCrop(foundCrop);
-                Debug.Log("Crop dynamically assigned: " + foundCrop.name);
+                //Debug.Log("Crop dynamically assigned: " + foundCrop.name);
             }
         }
 
