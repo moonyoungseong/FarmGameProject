@@ -106,7 +106,7 @@ public class QuestManager : MonoBehaviour
     //}
 
     // 대화형 퀘스트 자동 시작
-    public void SetUpDialogueQuests()
+    public void SetUpDialogueQuests()   // 퀘스트를 NPC가 아니라 원래부터 존재한다.
     {
         foreach (var quest in questData.quests.Dialogue)
         {
