@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 public class QuestInteractionManager : MonoBehaviour
 {
@@ -23,24 +24,26 @@ public class QuestInteractionManager : MonoBehaviour
     {
         if (npcName == "마을이장")
         {
-            // 마을이장과 대화 시 대화형 퀘스트 완료
-            CompleteDialogueQuest("마을이장");
+            CompleteDialogueQuest(npcName); // 대화 완료
         }
         else if (npcName == "토마토농부")    // 수집형 string 버튼에 연결해서 누르면 퀘스트 시작
         {
             SetUpCollectionQuests("토마토");
+            questManager.ExecuteCollectQuests();
         }
         else if (npcName == "쌀농부")
         {
             SetUpCollectionQuests("쌀");
+            questManager.ExecuteCollectQuests();
         }
         else if (npcName == "옥수수농부")
         {
             SetUpCollectionQuests("옥수수");
+            questManager.ExecuteCollectQuests();
         }
         // 다른 NPC의 퀘스트 추가 가능
 
-        ExecuteQuests();
+        //ExecuteQuests();
     }
 
     // 대화형 퀘스트 완료 함수
@@ -58,9 +61,9 @@ public class QuestInteractionManager : MonoBehaviour
     }
 
     // 퀘스트 실행 함수
-    void ExecuteQuests()
+    void ExecuteQuests()    // 이거 필요없어 보임, 나중에 삭제 하자.
     {
         // 퀘스트 실행
-        questManager.ExecuteQuestsExample();
+        //questManager.ExecuteQuestsExample();
     }
 }
