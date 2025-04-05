@@ -19,7 +19,7 @@ public class MovementQuestCommand : IQuestCommand
     // 퀘스트 실행 메서드
     public void Execute()
     {
-        Debug.Log($"{quest.questName} 퀘스트 시작: {targetNPCName}에게 이동");
+        Debug.Log($"{quest.questName} 퀘스트 시작: {targetNPCName}에게 이동");   // 이거 문구가 어색하다. 나중에 수정
         // 퀘스트 시작 메시지 등 추가 로직을 작성할 수 있음
     }
 
