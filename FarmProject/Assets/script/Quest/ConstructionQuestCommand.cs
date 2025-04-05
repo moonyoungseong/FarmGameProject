@@ -16,7 +16,7 @@ public class ConstructionQuestCommand : IQuestCommand
     }
 
     // 퀘스트 실행 메서드 (퀘스트 시작 시 호출)
-    public void Execute()
+    public void Execute()   // 퀘스트 시작 코드
     {
         Debug.Log($"{quest.questName} 퀘스트 시작: {constructionType} 건설");
     }
@@ -48,7 +48,7 @@ public class ConstructionQuestCommand : IQuestCommand
         foreach (var reward in quest.reward)
         {
             // 보상 아이템 지급 처리 (아이템을 지급하는 로직은 보상 처리 부분에서 구현)
-            Debug.Log($"보상 지급: {reward.icon} 아이템 ID {reward.itemID}");
+            //Debug.Log($"보상 지급: {reward.icon} 아이템 ID {reward.itemID}");
             // 보상 아이템 지급에 대한 추가 로직을 여기에 구현
         }
 
