@@ -26,6 +26,10 @@ public class QuestInteractionManager : MonoBehaviour
         {
             CompleteDialogueQuest(npcName); // 대화 완료
         }
+        else if (npcName == "토끼주민")
+        {
+            CompleteDialogueQuest(npcName); // 대화 완료
+        }
         else if (npcName == "토마토농부")    // 수집형 string 버튼에 연결해서 누르면 퀘스트 시작
         {
             SetUpCollectionQuests("토마토");
@@ -40,6 +44,31 @@ public class QuestInteractionManager : MonoBehaviour
         {
             SetUpCollectionQuests("옥수수");
             questManager.ExecuteCollectQuests();
+        }
+        else if (npcName == "마을이장2")
+        {
+            SetUpConstructionQuests("House_1"); // "집" 또는 "강아지"
+            questManager.ExecuteConstructionQuests();
+        }
+        else if (npcName == "상점")
+        {
+            SetUpConstructionQuests("Dog"); // "집" 또는 "강아지"
+            questManager.ExecuteConstructionQuests();
+        }
+        else if (npcName == "옥수수농부2")  // 전달형 퀘스트: 고기를 양봉업자에게 전달
+        {
+            SetUpDeliveryQuests("옥수수");
+            questManager.ExecuteDeliveryQuests();
+        }
+        else if (npcName == "동물사육사")  // 전달형 퀘스트: 치킨을 상점에게 전달
+        {
+            SetUpDeliveryQuests("고기");
+            questManager.ExecuteDeliveryQuests();
+        }
+        else if (npcName == "마을이장3")  // 이동형 퀘스트: 사다리 타고 올라가서 수리
+        {
+            SetUpMovementQuests("LadderFixSpot");  // movementTarget 값
+            questManager.ExecuteMovementQuests();
         }
         // 다른 NPC의 퀘스트 추가 가능
 
@@ -58,6 +87,24 @@ public class QuestInteractionManager : MonoBehaviour
     {
         // 수집형 퀘스트 세팅
         questManager.SetUpCollectionQuests(itemName);
+    }
+
+    // 건설형 퀘스트 세팅
+    void SetUpConstructionQuests(string buildingName)
+    {
+        questManager.SetUpConstructionQuests(buildingName);
+    }
+
+    // 전달형 퀘스트 세팅 함수
+    void SetUpDeliveryQuests(string itemName)
+    {
+        questManager.SetUpDeliveryQuests(itemName);
+    }
+
+    // 이동형 퀘스트 세팅 함수
+    void SetUpMovementQuests(string movementTarget)
+    {
+        questManager.SetUpMovementQuests(movementTarget);
     }
 
     // 퀘스트 실행 함수
