@@ -12,9 +12,11 @@ public class Quest              // 퀘스트를 정의하는 클래스
 {
     public int questID;
     public string questName;
+    public string buildingName; // 지을 물건 이름
     public string description;  // 설명
     public string giverNPC;
     public string receiverNPC;
+    public string movementTarget;
     public List<QuestObjective> objectives;     // 퀘스트 해야할것
     public List<Reward> reward;
     public int levelRequirement; // 요구되는 레벨
@@ -152,40 +154,46 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    void SetUpConstructionQuests()
+    public void SetUpConstructionQuests(string buildingName)
     {
+        constructionCommands.Clear(); // 기존 명령 초기화 (선택)
         foreach (var quest in questData.quests.Construction)
         {
-            string buildingName = quest.questName.Contains("집") ? "집" :
-                                  quest.questName.Contains("강아지") ? "강아지" : "기타 건물";
-
-            ConstructionQuestCommand command = new ConstructionQuestCommand(quest, buildingName);
-            constructionCommands.Add(command);
+            if (quest.buildingName == buildingName) // 매개변수로 들어온 buildingName에 해당하는 퀘스트만
+            {
+                ConstructionQuestCommand command = new ConstructionQuestCommand(quest, buildingName);
+                constructionCommands.Add(command);
+            }
         }
     }
 
-    void SetUpDeliveryQuests()
+    public void SetUpDeliveryQuests(string itemName)
     {
+        deliveryCommands.Clear();  // 기존 전달형 퀘스트 초기화
+
         foreach (var quest in questData.quests.Delivery)
         {
-            // 퀘스트 이름에 맞는 전달 물건을 설정
-            string itemName = quest.questName.Contains("고기") ? "고기" :
-                              quest.questName.Contains("치킨") ? "치킨" :
-                              quest.questName.Contains("물") ? "물" : "기타";
-
-            string receiverNPC = quest.receiverNPC;  // 아이템을 받을 NPC 이름
-            DeliveryQuestCommand command = new DeliveryQuestCommand(quest, itemName, 3, receiverNPC);
-            deliveryCommands.Add(command);
+            // 퀘스트 이름에 itemName이 포함되어 있으면 세팅
+            if (quest.questName.Contains(itemName))
+            {
+                string receiverNPC = quest.receiverNPC;  // 아이템을 받을 NPC 이름
+                DeliveryQuestCommand command = new DeliveryQuestCommand(quest, itemName, 3, receiverNPC);
+                deliveryCommands.Add(command);
+            }
         }
     }
 
-    void SetUpMovementQuests()
+    public void SetUpMovementQuests(string targetID)
     {
-        foreach (var quest in questData.quests.Movement)  // Movement 퀘스트로 변경
+        movementCommands.Clear();
+
+        foreach (var quest in questData.quests.Movement)
         {
-            string receiverNPC = quest.receiverNPC;  // 이동할 NPC 이름
-            MovementQuestCommand command = new MovementQuestCommand(quest, receiverNPC);
-            movementCommands.Add(command);  // movementCommands 리스트에 추가
+            if (quest.movementTarget == targetID)
+            {
+                MovementQuestCommand command = new MovementQuestCommand(quest, quest.receiverNPC);
+                movementCommands.Add(command);
+            }
         }
     }
 
@@ -216,7 +224,7 @@ public class QuestManager : MonoBehaviour
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-            command.ConstructBuilding();
+            //command.ConstructBuilding();  // 건설 진행하면서 완료까지 되는 함수
         }
     }
 
@@ -227,7 +235,7 @@ public class QuestManager : MonoBehaviour
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-            command.DeliverItem(command.GetItemName());
+            //command.DeliverItem(command.GetItemName());
         }
     }
 
@@ -238,7 +246,7 @@ public class QuestManager : MonoBehaviour
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-            command.OnTriggerEnter(new Collider());
+            //command.OnTriggerEnter(new Collider());
         }
     }
 
