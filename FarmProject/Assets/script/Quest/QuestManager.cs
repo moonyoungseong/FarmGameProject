@@ -63,7 +63,8 @@ public class QuestManager : MonoBehaviour
         //SetUpConstructionQuests()
         //SetUpDeliveryQuests();
         //SetUpMovementQuests();
-        ExecuteQuestsExample();     // 퀘스트 실행 코드 
+        //ExecuteQuestsExample();     // 퀘스트 실행 코드 - 이거 종류별로 나눴는데 주석 처리 테스트
+        ExecuteDialogueQuests();
     }
 
     void LoadQuestData()    // JSON 파일에서 퀘스트 데이터를 로드
@@ -124,9 +125,9 @@ public class QuestManager : MonoBehaviour
         {
             if (command.NpcName == npcName)
             {
-                if (!command.IsQuestStarted)  // 대화가 시작되지 않았다면 대화 시작
+                if (!command.IsQuestStarted)  // 대화가 시작되지 않았다면 대화 시작 -- 이부분도 수정 필요, 퀘스트 완료하고 싹 정리하자.
                 {
-                    command.Execute();  // 대화 시작
+                    //command.Execute();  // 대화 시작
                 }
                 else
                 {
@@ -188,53 +189,57 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void ExecuteQuestsExample()     // 이 함수가 실제로 퀘스트를 실행하는 코드 .ExecuteQuest()
+    // 수집형 퀘스트만 실행
+    public void ExecuteCollectQuests()
     {
-        // 수집형 퀘스트 실행 예제
         foreach (var command in collectCommands)
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
         }
+    }
 
-        // 대화형 퀘스트 실행 예제
+    // 대화형 퀘스트만 실행
+    public void ExecuteDialogueQuests()
+    {
         foreach (var command in dialogueCommands)
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-
-            // 대화 후 퀘스트 완료 처리
-            //command.CompleteQuest();
         }
+    }
 
-        // 건설형 퀘스트 실행 예제
+    // 건설형 퀘스트만 실행
+    public void ExecuteConstructionQuests()
+    {
         foreach (var command in constructionCommands)
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-
-            // 건설 후 퀘스트 완료 처리
             command.ConstructBuilding();
         }
+    }
 
-        // 전달형 퀘스트 실행 예제
+    // 전달형 퀘스트만 실행
+    public void ExecuteDeliveryQuests()
+    {
         foreach (var command in deliveryCommands)
         {
             questInvoker.SetQuestCommand(command);
             questInvoker.ExecuteQuest();
-
-            // 전달할 물건 이름을 명시하여 퀘스트 완료 처리
-            command.DeliverItem(command.GetItemName());  // GetItemName()은 아이템 이름을 반환하는 메서드라고 가정
-        }
-
-        // Movement형 퀘스트 실행 예제
-        foreach (var command in movementCommands)
-        {
-            questInvoker.SetQuestCommand(command); // 퀘스트 명령 설정
-            questInvoker.ExecuteQuest();  // 퀘스트 실행
-
-            // 목표 지점에 도달 후 퀘스트 완료 처리
-            command.OnTriggerEnter(new Collider());  // 트리거를 통해 퀘스트 완료 (플레이어가 트리거 지점에 도달)
+            command.DeliverItem(command.GetItemName());
         }
     }
+
+    // 이동형 퀘스트만 실행
+    public void ExecuteMovementQuests()
+    {
+        foreach (var command in movementCommands)
+        {
+            questInvoker.SetQuestCommand(command);
+            questInvoker.ExecuteQuest();
+            command.OnTriggerEnter(new Collider());
+        }
+    }
+
 }
