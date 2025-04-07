@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class QuestListController : MonoBehaviour  // 클래스 이름 변경
 {
@@ -32,7 +33,7 @@ public class QuestListController : MonoBehaviour  // 클래스 이름 변경
         foreach (Quest quest in allQuests)
         {
             GameObject slot = Instantiate(questSlotPrefab, questSlotParent);
-            Text questText = slot.GetComponentInChildren<Text>();
+            TextMeshProUGUI questText = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (questText != null)
             {
                 questText.text = quest.questName;
