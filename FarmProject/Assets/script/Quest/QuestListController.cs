@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-public class QuestListController : MonoBehaviour  // 클래스 이름 변경
+public class QuestListController : MonoBehaviour
 {
-    public GameObject questSlotPrefab;       // 슬롯 프리팹
-    public Transform questSlotParent;        // 슬롯이 배치될 부모 오브젝트
-    public QuestManager questManager;        // 퀘스트 매니저 참조
+    public GameObject questSlotPrefab;
+    public Transform questSlotParent;
+    public QuestManager questManager;
 
     void Start()
     {
@@ -33,11 +32,18 @@ public class QuestListController : MonoBehaviour  // 클래스 이름 변경
         foreach (Quest quest in allQuests)
         {
             GameObject slot = Instantiate(questSlotPrefab, questSlotParent);
+
+            // 텍스트 설정
             TextMeshProUGUI questText = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (questText != null)
             {
                 questText.text = quest.questName;
             }
+
+            // 자물쇠 표시만 활성화
+            Transform lockImage = slot.transform.Find("LockImage");
+            if (lockImage != null)
+                lockImage.gameObject.SetActive(true);
         }
     }
 }
