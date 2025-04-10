@@ -10,7 +10,7 @@ public class QuestListController : MonoBehaviour
 
     void Start()
     {
-        CreateQuestSlots();
+        CreateQuestSlots();  // 시작 시 퀘스트 슬롯 생성
     }
 
     void CreateQuestSlots()
@@ -23,6 +23,7 @@ public class QuestListController : MonoBehaviour
 
         List<Quest> allQuests = new List<Quest>();
 
+        // 모든 종류의 퀘스트 리스트 통합
         allQuests.AddRange(questManager.questData.quests.Collection);
         allQuests.AddRange(questManager.questData.quests.Dialogue);
         allQuests.AddRange(questManager.questData.quests.Construction);
@@ -31,16 +32,17 @@ public class QuestListController : MonoBehaviour
 
         foreach (Quest quest in allQuests)
         {
+            // 슬롯 프리팹 생성 및 부모에 붙이기
             GameObject slot = Instantiate(questSlotPrefab, questSlotParent);
 
-            // 텍스트 설정
+            // 퀘스트 이름 텍스트 설정
             TextMeshProUGUI questText = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (questText != null)
             {
                 questText.text = quest.questName;
             }
 
-            // 자물쇠 표시만 활성화
+            // 자물쇠 이미지 활성화
             Transform lockImage = slot.transform.Find("LockImage");
             if (lockImage != null)
                 lockImage.gameObject.SetActive(true);
