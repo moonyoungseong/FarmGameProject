@@ -53,5 +53,27 @@ public class QuestListController : MonoBehaviour
             if (lockImage != null)
                 lockImage.gameObject.SetActive(true);
         }
+
+        // 대화형 퀘스트는 게임 시작 시 자물쇠 해제
+        foreach (Quest dialogueQuest in questManager.questData.quests.Dialogue)
+        {
+            UnlockQuestSlot(dialogueQuest.questName);
+        }
+    }
+
+    public void UnlockQuestSlot(string questName)
+    {
+        foreach (Transform slotTransform in questSlotParent)
+        {
+            QuestSlot slot = slotTransform.GetComponent<QuestSlot>();
+            if (slot != null && slot.questData != null && slot.questData.questName == questName)
+            {
+                slot.Unlock();
+                Debug.Log($"[{questName}] 자물쇠 해제 완료");
+                return;
+            }
+        }
+
+        Debug.LogWarning($"[{questName}] 이름의 슬롯을 찾지 못했습니다.");
     }
 }
