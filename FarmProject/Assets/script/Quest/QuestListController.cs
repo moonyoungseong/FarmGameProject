@@ -35,6 +35,12 @@ public class QuestListController : MonoBehaviour
             // 슬롯 프리팹 생성 및 부모에 붙이기
             GameObject slot = Instantiate(questSlotPrefab, questSlotParent);
 
+            QuestSlot questSlot = slot.GetComponent<QuestSlot>();   // 이게 퀘스트 슬롯 디테일 아래 3줄도
+            if (questSlot != null)
+            {
+                questSlot.questData = quest;
+            }
+
             // 퀘스트 이름 텍스트 설정
             TextMeshProUGUI questText = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (questText != null)
