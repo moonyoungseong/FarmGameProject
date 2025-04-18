@@ -23,7 +23,7 @@ public class Quest              // 퀘스트를 정의하는 클래스
 }
 
 [System.Serializable]
-public class QuestCategory
+public class QuestCategory  // 퀘스트 카테고리
 {
     public List<Quest> Collection; // 수집형
     public List<Quest> Dialogue; // 대화형
