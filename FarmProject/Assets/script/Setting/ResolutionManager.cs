@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 해상도 변경 코드가 현재 작동은 안하고 있는중
 /// 나중에 테스트 해보고 변경예정
+/// 해상도 같은 경우 최종적으로 빌드 후 테스트 해볼 예정
 /// </summary>
 
 public class ResolutionManager : MonoBehaviour
