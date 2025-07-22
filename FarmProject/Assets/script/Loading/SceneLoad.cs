@@ -6,13 +6,26 @@ using TMPro;
 
 public class SceneLoad : MonoBehaviour
 {
+    public Sprite[] backgroundImages;
+    public string[] tipMessages;
+    public Image loadingBackground;
+    public TextMeshProUGUI tipText;
+
     public Image loadingBar;
     public TextMeshProUGUI loadText;
     public TextMeshProUGUI anyKeyText; // 키 누르라는 글자
 
     private void Start()
     {
+        ShowRandomTipAndImage();  // 랜덤 이미지, 텍스트 설정
         StartCoroutine(LoadScene());
+    }
+
+    void ShowRandomTipAndImage()
+    {
+        int randomIndex = Random.Range(0, backgroundImages.Length);
+        loadingBackground.sprite = backgroundImages[randomIndex];
+        tipText.text = tipMessages[randomIndex];
     }
 
     IEnumerator LoadScene()
