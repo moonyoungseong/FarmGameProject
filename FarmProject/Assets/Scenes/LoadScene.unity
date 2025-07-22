@@ -268,6 +268,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248e62efc336919438fc089cb1f65e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundImages:
+  - {fileID: 21300000, guid: 485cce7e487d0ce4181692d38708f938, type: 3}
+  - {fileID: 21300000, guid: 4d45e2ebbcfa5d34483c414876b98106, type: 3}
+  - {fileID: 21300000, guid: ce1a3279df194b64fb7c0650ea887df7, type: 3}
+  tipMessages:
+  - "TIP : \uAC74\uC124\uC740 \uB9C8\uC744\uC5D0 \uC788\uB294 \uC0C1\uC810 NPC\uB97C
+    \uD1B5\uD574 \uAC74\uBB3C\uC744 \uAD6C\uC785\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    \uAD6C\uC785\uD55C \uAC74\uBB3C\uC740 \uBCF8\uC778\uC758 \uB545\uC5D0 \uC704\uCE58\uB97C
+    \uC9C0\uC815\uD558\uC5EC \uC124\uCE58\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  - "TIP : \uB18D\uC0AC\uB294 \uD1A0\uB9C8\uD1A0, \uC625\uC218\uC218, \uC300\uC744
+    \uC7AC\uBC30\uD560 \uC218 \uC788\uC73C\uBA70 \uBC2D\uC744 \uC791\uC5C5\uD55C
+    \uB4A4\uC5D0 \uC791\uBB3C\uC744 \uC2EC\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
+    \uC218\uD655\uD55C \uC791\uBB3C\uC740 \uD310\uB9E4 \uAC00\uB2A5\uD569\uB2C8\uB2E4."
+  - "TIP : \uC591\uBD09\uC740 \uC77C\uC815 \uC2DC\uAC04\uB9C8\uB2E4 \uAFC0\uC744
+    \uC5BB\uC744 \uC218 \uC788\uB294 \uAE30\uB2A5\uC774\uBA70 \uCD5C\uB300 3\uAC1C\uAE4C\uC9C0
+    \uC800\uC7A5\uB429\uB2C8\uB2E4. \uC624\uB978\uCABD UI\uB97C \uD1B5\uD574 \uAC04\uD3B8\uD558\uAC8C
+    \uC5BB\uC744 \uC218 \uC788\uB294 \uD310\uB9E4 \uAC00\uB2A5\uD55C \uC544\uC774\uD15C\uC785\uB2C8\uB2E4."
+  loadingBackground: {fileID: 2053182356}
+  tipText: {fileID: 707631351}
   loadingBar: {fileID: 897840610}
   loadText: {fileID: 661173732}
   anyKeyText: {fileID: 790528145}
@@ -441,8 +460,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 17.599976, y: 65.9}
-  m_SizeDelta: {x: 200, y: 200}
+  m_AnchoredPosition: {x: 527, y: -135}
+  m_SizeDelta: {x: 250, y: 200}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &707631351
 MonoBehaviour:
@@ -464,7 +483,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "TIP\n\n\uC548\uB155\uD558\uC138\uC694\n\uD658\uC601\uD569\uB2C8\uB2E4\n\uBC18\uAC00\uC6CC\uC694\n"
+  m_text: "TIP : \uAC00\uB098\uB2E4\uB77C \uB9C8\uBC14\uC0AC\uC544 \uC790\uCC28\uCE74
+    \uD0C0\uD30C \uD558\uB3D9 \uD574\uBB3C \uACFC\uBC31 \uB450\uC0B0\uC774 \uB9C8\uB974\uACE0
+    \uB2F3\uB3C4\uB85D \uBC14\uB78C\uC11C\uB9AC \uBD88\uBCC0\uD568\uC740 \uAC00\uB098\uB2E4\uB77C
+    \uB9C8\uBC14\uC0AC \uC544\uC790\uCC28\uCE74 \uD0C0\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
   m_sharedMaterial: {fileID: -3139449403354008100, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
@@ -497,9 +519,9 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -688,6 +710,7 @@ GameObject:
   - component: {fileID: 846622897}
   - component: {fileID: 846622896}
   - component: {fileID: 846622895}
+  - component: {fileID: 846622898}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -773,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.43835306, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.47334766, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -798,6 +821,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846622893}
   m_CullTransparentMesh: 1
+--- !u!114 &846622898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846622893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.8006325, b: 1, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &897840608
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +847,7 @@ GameObject:
   - component: {fileID: 897840609}
   - component: {fileID: 897840611}
   - component: {fileID: 897840610}
+  - component: {fileID: 897840612}
   m_Layer: 5
   m_Name: Loading_Image_fill
   m_TagString: Untagged
@@ -851,7 +890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.56037736, b: 0.56037736, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -876,6 +915,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897840608}
   m_CullTransparentMesh: 1
+--- !u!114 &897840612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897840608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.8006325, b: 1, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1062494886
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,7 +1404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0.2598734, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
