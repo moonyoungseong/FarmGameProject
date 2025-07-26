@@ -61,12 +61,12 @@ public class QuestManager : MonoBehaviour
     {
         LoadQuestData();
         //SetUpCollectionQuests();  // 수집형 퀘스트 세팅 - 세팅을 해야 실행이 정상적으로 작동된다.
-        SetUpDialogueQuests();
+        SetUpDialogueQuests();      // 대화형 퀘스트 세팅 - 시작부터 퀘스트가 실행되서 주석 처리 XX
         //SetUpConstructionQuests()
         //SetUpDeliveryQuests();
         //SetUpMovementQuests();
         //ExecuteQuestsExample();     // 퀘스트 실행 코드 - 이거 종류별로 나눴는데 주석 처리 테스트
-        ExecuteDialogueQuests();
+        ExecuteDialogueQuests();    // 대화형 코드 실행 / 다른 종류도 있음. 나중에 확인
     }
 
     void LoadQuestData()    // JSON 파일에서 퀘스트 데이터를 로드
@@ -140,7 +140,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // 퀘스트 완료 로직을 외부에서 호출할 수 있도록 수정
+    // 퀘스트 완료 로직을 외부에서 호출할 수 있도록 수정, 대화형 퀘스트
     public void MarkQuestAsCompleted(string npcName)
     {
         foreach (var command in dialogueCommands)
