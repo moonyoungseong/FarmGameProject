@@ -12,7 +12,7 @@ public class DialogueQuestCommand : IQuestCommand
     public string NpcName => npcName;
     public bool IsQuestStarted => isQuestStarted;  // 외부에서 대화 진행 여부를 확인할 수 있게 수정
 
-    public DialogueQuestCommand(Quest quest, string npcName)
+    public DialogueQuestCommand(Quest quest, string npcName)    // 대화형 퀘스트 구분
     {
         this.quest = quest;
         this.npcName = npcName;
@@ -20,7 +20,7 @@ public class DialogueQuestCommand : IQuestCommand
         this.isQuestCompleted = false;
     }
 
-    public void Execute()
+    public void Execute()   // 퀘스트 시작
     {
         if (!isQuestStarted)
         {
@@ -29,7 +29,7 @@ public class DialogueQuestCommand : IQuestCommand
         }
     }
 
-    public void CompleteQuest()
+    public void CompleteQuest()     // 대화, 보상 완료
     {
         if (isQuestStarted && !isQuestCompleted)
         {
@@ -47,7 +47,7 @@ public class DialogueQuestCommand : IQuestCommand
         }
     }
 
-    private void GiveRewards()
+    private void GiveRewards()  // 보상 퀘스트
     {
         foreach (var reward in quest.reward)
         {
