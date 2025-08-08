@@ -49,10 +49,11 @@ public class DialogueQuestCommand : IQuestCommand
 
     private void GiveRewards()  // 보상 퀘스트
     {
-        foreach (var reward in quest.reward)
-        {
-            // 보상 지급 로직 추가
-        }
+        Debug.Log("보상으로 꿀, 소세지, 아이스크림이 지급되었다."); // 테스트용 주석
+        //foreach (var reward in quest.reward)
+        //{
+        //    // 보상 지급 로직 추가
+        //}
     }
 }
 
