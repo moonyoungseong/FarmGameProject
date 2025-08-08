@@ -24,7 +24,7 @@ public class QuestInteractionManager : MonoBehaviour
     {
         if (npcName == "마을이장")
         {
-            CompleteDialogueQuest(npcName); // 대화 완료
+            CompleteDialogueQuest(npcName); // 대화형은 상호작용하면 퀘스트 완료
         }
         else if (npcName == "토끼주민")
         {
