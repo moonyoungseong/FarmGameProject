@@ -11326,6 +11326,7 @@ GameObject:
   - component: {fileID: 432413278}
   - component: {fileID: 432413280}
   - component: {fileID: 432413281}
+  - component: {fileID: 432413282}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -11394,6 +11395,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questManager: {fileID: 432413278}
+--- !u!114 &432413282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432413277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf19b1899c199045b284425e936216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &444714590
 GameObject:
   m_ObjectHideFlags: 0
