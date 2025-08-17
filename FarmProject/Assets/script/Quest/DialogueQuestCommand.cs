@@ -56,35 +56,38 @@ public class DialogueQuestCommand : IQuestCommand
     //    //}
     //}
 
+    //private void GiveRewards()
+    //{
+    //    if (quest.reward != null && quest.reward.Count > 0)
+    //    {
+    //        CountManager countManager = GameObject.FindObjectOfType<CountManager>();
+    //        if (countManager == null)
+    //        {
+    //            Debug.LogWarning("CountManager를 찾을 수 없습니다!");
+    //            return;
+    //        }
+
+    //        foreach (var reward in quest.reward)
+    //        {
+    //            // UI 입력 세팅
+    //            countManager.ItemNameInput.text = reward.itemname;
+    //            countManager.ItemNumberInput.text = "1";
+
+    //            // GetItemClick 호출
+    //            countManager.GetItemClick();
+
+    //            Debug.Log($"보상 지급: 아이템 이름={reward.itemname}, 수량=1");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning($"{quest.questName} 퀘스트에는 보상이 없습니다.");
+    //    }
+    //}
     private void GiveRewards()
     {
-        if (quest.reward != null && quest.reward.Count > 0)
-        {
-            CountManager countManager = GameObject.FindObjectOfType<CountManager>();
-            if (countManager == null)
-            {
-                Debug.LogWarning("CountManager를 찾을 수 없습니다!");
-                return;
-            }
-
-            foreach (var reward in quest.reward)
-            {
-                // UI 입력 세팅
-                countManager.ItemNameInput.text = reward.itemname;
-                countManager.ItemNumberInput.text = "1";
-
-                // GetItemClick 호출
-                countManager.GetItemClick();
-
-                Debug.Log($"보상 지급: 아이템 이름={reward.itemname}, 수량=1");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"{quest.questName} 퀘스트에는 보상이 없습니다.");
-        }
+        RewardManager.Instance.GiveRewards(quest.reward);
     }
-
 }
 
 
