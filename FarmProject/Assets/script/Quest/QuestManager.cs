@@ -36,6 +36,7 @@ public class QuestCategory  // 퀘스트 카테고리
 public class Reward     // 보상
 {
     public int itemID;
+    public string itemname;
     public string icon;
 }
 
