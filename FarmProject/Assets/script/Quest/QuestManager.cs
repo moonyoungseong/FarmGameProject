@@ -19,6 +19,8 @@ public class Quest              // 퀘스트를 정의하는 클래스
     public string movementTarget;
     public List<QuestObjective> objectives;     // 퀘스트 해야할것
     public List<Reward> reward;
+    public QuestState state = QuestState.NotStarted;    // 퀘스트 하기 전 상태 (고정값)
+    public int questIndex;                      // 퀘스트 순서 ( 진행상태에서 쓰기
     public int levelRequirement; // 요구되는 레벨
 }
 
@@ -30,6 +32,13 @@ public class QuestCategory  // 퀘스트 카테고리
     public List<Quest> Construction; // 건설형
     public List<Quest> Delivery; // 전달형
     public List<Quest> Movement; // 이동형
+}
+
+public enum QuestState
+{
+    NotStarted,   // 시작 전
+    InProgress,   // 진행 중
+    Completed     // 완료
 }
 
 [System.Serializable]
