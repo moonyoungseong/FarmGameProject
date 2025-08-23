@@ -26,6 +26,10 @@ public class DialogueQuestCommand : IQuestCommand
         {
             Debug.Log($"{npcName}와 대화 시작: {quest.questName} 퀘스트");
             isQuestStarted = true;
+
+            quest.state = QuestState.InProgress;
+
+            QuestStateManager.Instance.ShowQuestDetail(quest);
         }
     }
 
@@ -35,6 +39,11 @@ public class DialogueQuestCommand : IQuestCommand
         {
             Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
             isQuestCompleted = true;
+
+            quest.state = QuestState.Completed;
+
+            QuestStateManager.Instance.ShowQuestDetail(quest);
+
             GiveRewards();
         }
         else if (isQuestCompleted)
@@ -45,6 +54,11 @@ public class DialogueQuestCommand : IQuestCommand
         {
             Debug.Log($"{npcName}와 대화를 시작해야 퀘스트가 진행됩니다.");
         }
+    }
+
+    private void GiveRewards()
+    {
+        RewardManager.Instance.GiveRewards(quest.reward);
     }
 
     //private void GiveRewards()  // 보상 퀘스트
@@ -84,10 +98,7 @@ public class DialogueQuestCommand : IQuestCommand
     //        Debug.LogWarning($"{quest.questName} 퀘스트에는 보상이 없습니다.");
     //    }
     //}
-    private void GiveRewards()
-    {
-        RewardManager.Instance.GiveRewards(quest.reward);
-    }
+
 }
 
 
