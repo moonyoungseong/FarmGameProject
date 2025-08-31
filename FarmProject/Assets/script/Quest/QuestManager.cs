@@ -222,8 +222,7 @@ public class QuestManager : MonoBehaviour
     {
         foreach (var command in dialogueCommands)
         {
-            questInvoker.SetQuestCommand(command);
-            questInvoker.ExecuteQuest();
+            command.Execute();   // questInvoker를 거치지 않고 바로 실행 // 이거 대화형 퀘스트 수정하다가 변경, 나중에 수정해도 가능
         }
     }
 
