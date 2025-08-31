@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,49 +5,46 @@ public class DialogueQuestCommand : IQuestCommand
 {
     private Quest quest;
     private string npcName;
-    private bool isQuestStarted;
-    private bool isQuestCompleted;
+
+    // UI나 외부에서 quest를 참조할 수 있게 공개
+    public Quest Quest => quest;
 
     public string NpcName => npcName;
-    public bool IsQuestStarted => isQuestStarted;  // 외부에서 대화 진행 여부를 확인할 수 있게 수정
+    public bool IsQuestStarted => quest.state == QuestState.InProgress || quest.state == QuestState.Completed;
 
-    public DialogueQuestCommand(Quest quest, string npcName)    // 대화형 퀘스트 구분
+    public DialogueQuestCommand(Quest quest, string npcName)
     {
         this.quest = quest;
         this.npcName = npcName;
-        this.isQuestStarted = false;
-        this.isQuestCompleted = false;
     }
 
-    public void Execute()   // 퀘스트 시작
+    // 퀘스트 시작
+    public void Execute()
     {
-        if (!isQuestStarted)
+        if (quest.state == QuestState.NotStarted)
         {
             Debug.Log($"{npcName}와 대화 시작: {quest.questName} 퀘스트");
-            isQuestStarted = true;
-
             quest.state = QuestState.InProgress;
 
-            QuestStateManager.Instance.ShowQuestDetail(quest);
+            // UI 갱신
+            //UpdateQuestUI();
         }
     }
 
-    public void CompleteQuest()     // 대화, 보상 완료
+    // 퀘스트 완료
+    public void CompleteQuest()
     {
-        if (isQuestStarted && !isQuestCompleted)
+        if (quest.state == QuestState.InProgress)
         {
-            Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
-            isQuestCompleted = true;
-
             quest.state = QuestState.Completed;
+            Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
 
-            QuestStateManager.Instance.ShowQuestDetail(quest);
-
+            //UpdateQuestUI();
             GiveRewards();
         }
-        else if (isQuestCompleted)
+        else if (quest.state == QuestState.Completed)
         {
-            Debug.Log($"{npcName}와의 대화가 이미 완료되었습니다.");
+            Debug.Log($"{quest.questName} 퀘스트는 이미 완료되었습니다.");
         }
         else
         {
@@ -56,49 +52,24 @@ public class DialogueQuestCommand : IQuestCommand
         }
     }
 
-    private void GiveRewards()
-    {
-        RewardManager.Instance.GiveRewards(quest.reward);
-    }
-
-    //private void GiveRewards()  // 보상 퀘스트
+    //private void UpdateQuestUI()
     //{
-    //    Debug.Log("보상으로 꿀, 소세지, 아이스크림이 지급되었다."); // 테스트용 주석 , 마을이장 치즈, 체리, 치킨 34,35,36
-    //    //foreach (var reward in quest.reward)
-    //    //{
-    //    //    // 보상 지급 로직 추가
-    //    //}
-    //}
-
-    //private void GiveRewards()
-    //{
-    //    if (quest.reward != null && quest.reward.Count > 0)
+    //    if (QuestStateManager.Instance != null)
     //    {
-    //        CountManager countManager = GameObject.FindObjectOfType<CountManager>();
-    //        if (countManager == null)
-    //        {
-    //            Debug.LogWarning("CountManager를 찾을 수 없습니다!");
-    //            return;
-    //        }
-
-    //        foreach (var reward in quest.reward)
-    //        {
-    //            // UI 입력 세팅
-    //            countManager.ItemNameInput.text = reward.itemname;
-    //            countManager.ItemNumberInput.text = "1";
-
-    //            // GetItemClick 호출
-    //            countManager.GetItemClick();
-
-    //            Debug.Log($"보상 지급: 아이템 이름={reward.itemname}, 수량=1");
-    //        }
+    //        // 여기서 바로 QuestStateManager로 UI 갱신
+    //        QuestStateManager.Instance.ShowQuestDetail(quest);
     //    }
     //    else
     //    {
-    //        Debug.LogWarning($"{quest.questName} 퀘스트에는 보상이 없습니다.");
+    //        Debug.LogWarning("QuestStateManager.Instance가 씬에 존재하지 않습니다!");
     //    }
     //}
 
+    private void GiveRewards()
+    {
+        if (RewardManager.Instance != null && quest.reward != null)
+        {
+            RewardManager.Instance.GiveRewards(quest.reward);
+        }
+    }
 }
-
-
