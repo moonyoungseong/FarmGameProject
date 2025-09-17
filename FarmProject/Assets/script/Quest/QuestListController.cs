@@ -23,7 +23,6 @@ public class QuestListController : MonoBehaviour
 
         List<Quest> allQuests = new List<Quest>();
 
-        // 모든 종류의 퀘스트 리스트 통합
         allQuests.AddRange(questManager.questData.quests.Collection);
         allQuests.AddRange(questManager.questData.quests.Dialogue);
         allQuests.AddRange(questManager.questData.quests.Construction);
@@ -32,34 +31,24 @@ public class QuestListController : MonoBehaviour
 
         foreach (Quest quest in allQuests)
         {
-            // 슬롯 프리팹 생성 및 부모에 붙이기
             GameObject slot = Instantiate(questSlotPrefab, questSlotParent);
-
-            QuestSlot questSlot = slot.GetComponent<QuestSlot>();   // 이게 퀘스트 슬롯 디테일 아래 3줄도
+            QuestSlot questSlot = slot.GetComponent<QuestSlot>();
             if (questSlot != null)
-            {
                 questSlot.questData = quest;
-            }
 
-            // 퀘스트 이름 텍스트 설정
             TextMeshProUGUI questText = slot.GetComponentInChildren<TextMeshProUGUI>();
             if (questText != null)
-            {
                 questText.text = quest.questName;
-            }
 
-            // 자물쇠 이미지 활성화
             Transform lockImage = slot.transform.Find("LockImage");
             if (lockImage != null)
-                lockImage.gameObject.SetActive(true);
-        }
-
-        // 대화형 퀘스트는 게임 시작 시 자물쇠 해제
-        foreach (Quest dialogueQuest in questManager.questData.quests.Dialogue)
-        {
-            UnlockQuestSlot(dialogueQuest.questName);
+            {
+                // 진행 중이거나 완료된 퀘스트면 자물쇠 끄기
+                lockImage.gameObject.SetActive(quest.state == QuestState.NotStarted);
+            }
         }
     }
+
 
     public void UnlockQuestSlot(string questName)
     {
