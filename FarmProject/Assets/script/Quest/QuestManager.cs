@@ -57,6 +57,9 @@ public class QuestData  // QuestCategory가 포함된 퀘스트 전체 데이터를 저장
 
 public class QuestManager : MonoBehaviour
 {
+    // 싱글톤 인스턴스
+    public static QuestManager Instance { get; private set; }
+
     public TextAsset questDataFile;
     public QuestData questData;
     public QuestInvoker questInvoker;
@@ -69,6 +72,17 @@ public class QuestManager : MonoBehaviour
 
     void Awake()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
     {
+        // 싱글톤 초기화
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+        // 다른 씬으로 넘어가도 유지하고 싶다면
+        // DontDestroyOnLoad(gameObject);
+
         LoadQuestData();
         //SetUpCollectionQuests();  // 수집형 퀘스트 세팅 - 세팅을 해야 실행이 정상적으로 작동된다.
         SetUpDialogueQuests();      // 대화형 퀘스트 세팅 - 시작부터 퀘스트가 실행되서 주석 처리 XX
@@ -259,4 +273,24 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    //  UISwitch에서 호출할 수 있도록 Quest 검색 함수 추가
+    public Quest GetQuestByID(int questID)
+    {
+        if (questData == null || questData.quests == null) return null;
+
+        Quest quest = questData.quests.Collection.Find(q => q.questID == questID);
+        if (quest != null) return quest;
+
+        quest = questData.quests.Dialogue.Find(q => q.questID == questID);
+        if (quest != null) return quest;
+
+        quest = questData.quests.Construction.Find(q => q.questID == questID);
+        if (quest != null) return quest;
+
+        quest = questData.quests.Delivery.Find(q => q.questID == questID);
+        if (quest != null) return quest;
+
+        quest = questData.quests.Movement.Find(q => q.questID == questID);
+        return quest;
+    }
 }
