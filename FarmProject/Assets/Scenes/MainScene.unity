@@ -998,6 +998,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3012344251668226774, guid: f3ffa4aeeaecde846a2f6866ef65d336, type: 3}
   m_PrefabInstance: {fileID: 1098843067}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &39933863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 39933864}
+  m_Layer: 0
+  m_Name: QuestsJoin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &39933864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39933863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.4869, y: 15.941593, z: 47.70786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &40530458 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 544335576966108376, guid: b7c1f2f4982f90845917154c2351ca3d, type: 3}
@@ -12031,6 +12062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questManager: {fileID: 432413278}
+  questListController: {fileID: 1529653457}
 --- !u!114 &432413282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17385,6 +17417,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 432413281}
+        m_TargetAssemblyTypeName: QuestInteractionManager, Assembly-CSharp
+        m_MethodName: InteractWithNPC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "\uD1A0\uB9C8\uD1A0\uB18D\uBD80"
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &553587662
@@ -28898,7 +28942,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 913167635}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 13.341735, y: -10.573666, z: 43.474037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28913,8 +28957,8 @@ Transform:
   - {fileID: 1919557385}
   - {fileID: 49238703}
   - {fileID: 1632447808}
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 1591545173}
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &913167637
 PlayableDirector:
@@ -30980,7 +31024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.0045749843, y: 0.99450785, z: -0.09217907, w: 0.049358733}
-  m_LocalPosition: {x: -10.819998, y: 11.37, z: 49.039993}
+  m_LocalPosition: {x: 41.05, y: 11.37, z: 85.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39178,7 +39222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.7
+      value: 43.169994
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39186,7 +39230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 22.9
+      value: 59.740005
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52316,6 +52360,7 @@ Transform:
   - {fileID: 76996609}
   - {fileID: 1900710023}
   - {fileID: 361801411}
+  - {fileID: 913167636}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
