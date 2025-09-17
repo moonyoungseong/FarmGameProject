@@ -120,13 +120,13 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    //public void SetUpCollectionQuests()     // 퀘스트 이름에 토마토 적히면 토마토, 다른거 적히면 다른 퀘스트 수집이 됨
+    //public void SetUpCollectionQuests()
     //{
+    //    collectCommands.Clear();
     //    foreach (var quest in questData.quests.Collection)
     //    {
     //        string itemName = quest.questName.Contains("토마토") ? "토마토" :
     //                          quest.questName.Contains("옥수수") ? "옥수수" : "쌀";
-
     //        CollectQuestCommand command = new CollectQuestCommand(quest, itemName, 3);
     //        collectCommands.Add(command);
     //    }
