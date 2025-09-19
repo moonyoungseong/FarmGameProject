@@ -9,7 +9,7 @@ public class UISwitch : MonoBehaviour
     public GameObject startPanel;
     public GameObject inProgressPanel;
     public GameObject completePanel;
-    public GameObject comQuestPanel;    // 완료 전에 확인하는 패널
+    public GameObject comQuestPanel; // 수집형 완료 전 확인 패널
 
     [Header("시작 패널 UI")]
     public TMP_Text startNpcNameText;
@@ -25,7 +25,7 @@ public class UISwitch : MonoBehaviour
     public Quest currentQuest;
 
     /// <summary>
-    /// 버튼에서 호출: questID에 맞는 퀘스트를 불러와 패널 갱신
+    /// 퀘스트 선택 시 호출
     /// </summary>
     public void ShowQuest(int questID)
     {
@@ -56,76 +56,47 @@ public class UISwitch : MonoBehaviour
                 break;
         }
     }
-
     /// <summary>
-    /// 진행중 퀘스트 처리
-    /// 퀘스트 종류별 조건 함수로 구분
+    /// 진행 중 퀘스트 처리
     /// </summary>
     private void HandleInProgressQuest(Quest quest)
     {
-        bool canComplete = false;
-
-        // 수집형 조건 체크
         if (IsCollectionQuest(quest))
-            canComplete = CheckCollectionQuest(quest);
+        {
+            int itemID = 0;
+            int requiredQuantity = 3; // 수집형 퀘스트 고정 수량
 
-        // 다른 퀘스트 종류 조건 추가 가능
-        // else if (IsDialogueQuest(quest))
-        //     canComplete = CheckDialogueQuest(quest);
+            switch (quest.questID)
+            {
+                case 1: itemID = 3; break; // 토마토
+                case 2: itemID = 6; break; // 옥수수
+                case 3: itemID = 9; break; // 쌀
+            }
 
-        if (canComplete)
-            comQuestPanel.SetActive(true);  // 완료 질문 패널
+            Item item = InventoryManager.Instance.GetItemByID(itemID.ToString());
+
+            if (item != null && item.quantityInt >= requiredQuantity)
+            {
+                // 충분하면 완료 확인 패널 표시
+                comQuestPanel.SetActive(true);
+            }
+            else
+            {
+                // 부족하면 진행중 패널 표시
+                inProgressPanel.SetActive(true);
+            }
+        }
         else
-            inProgressPanel.SetActive(true); // 진행중 패널
+        {
+            // 수집형이 아니면 그냥 진행중 패널
+            inProgressPanel.SetActive(true);
+        }
     }
-
-    #region 퀘스트 조건 체크 함수
 
     private bool IsCollectionQuest(Quest quest)
     {
-        // 수집형 퀘스트 ID 기반 구분
-        int[] collectionIDs = { 1, 2, 3 }; // 토마토, 옥수수, 쌀 등
+        int[] collectionIDs = { 1, 2, 3 }; // 토마토, 옥수수, 쌀
         return System.Array.Exists(collectionIDs, id => id == quest.questID);
-    }
-
-    private bool CheckCollectionQuest(Quest quest)
-    {
-        int requiredItemID = 0;
-        int requiredQuantity = 0;
-
-        switch (quest.questID)
-        {
-            case 1: // 토마토 3개
-                requiredItemID = 3;
-                requiredQuantity = 3;
-                break;
-            case 2: // 옥수수 3개
-                requiredItemID = 6;
-                requiredQuantity = 3;
-                break;
-            case 3: // 쌀 3개
-                requiredItemID = 9;
-                requiredQuantity = 3;
-                break;
-        }
-
-        if (requiredItemID == 0) return false;
-
-        Item item = InventoryManager.Instance.GetItemByID(requiredItemID.ToString());
-        return item != null && item.quantityInt >= requiredQuantity;
-    }
-
-    #endregion
-
-    /// <summary>
-    /// comQuestPanel 안에서 '완료' 버튼이 눌렸을 때
-    /// </summary>
-    public void ConfirmComplete()
-    {
-        HideAllPanels();
-        currentQuest.state = QuestState.Completed;
-        completePanel.SetActive(true);
-        UpdateCompletePanel();
     }
 
     private void HideAllPanels()
@@ -167,6 +138,58 @@ public class UISwitch : MonoBehaviour
             else
                 completeRewardIcons[i].gameObject.SetActive(false);
         }
+    }
+    /// <summary>
+    /// comQuestPanel 안에서 '완료' 버튼이 눌렸을 때
+    /// </summary>
+    public void ConfirmComplete()
+    {
+        if (IsCollectionQuest(currentQuest))
+        {
+            int itemID = 0;
+            int requiredQuantity = 3; // 필요한 수량
+            switch (currentQuest.questID)
+            {
+                case 1: itemID = 3; break; // 토마토
+                case 2: itemID = 6; break; // 옥수수
+                case 3: itemID = 9; break; // 쌀
+            }
+
+            Item item = InventoryManager.Instance.GetItemByID(itemID.ToString());
+
+            if (item != null && item.quantityInt >= requiredQuantity)
+            {
+                // 충분하면 소모 후 완료 처리
+                CountManager.Instance.RemoveItemByID(itemID.ToString(), requiredQuantity);
+                Debug.Log($"퀘스트 완료: 아이템 {item.itemName} {requiredQuantity}개 소비됨");
+
+                // 퀘스트 상태 완료
+                currentQuest.state = QuestState.Completed;
+
+                HideAllPanels();
+                completePanel.SetActive(true);
+                UpdateCompletePanel();
+
+                // 보상 지급
+                RewardManager.Instance.GiveRewards(currentQuest.reward);
+            }
+            else
+            {
+                // 부족하면 진행중 패널로 돌아가기
+                Debug.Log("아이템 부족. 진행중 패널 표시.");
+                HideAllPanels();
+                inProgressPanel.SetActive(true);
+            }
+
+            return; // 수집형 퀘스트 처리 완료
+        }
+
+        // 수집형이 아닌 경우 일반 완료 처리
+        currentQuest.state = QuestState.Completed;
+        HideAllPanels();
+        completePanel.SetActive(true);
+        UpdateCompletePanel();
+        RewardManager.Instance.GiveRewards(currentQuest.reward);
     }
 
     /// <summary>
