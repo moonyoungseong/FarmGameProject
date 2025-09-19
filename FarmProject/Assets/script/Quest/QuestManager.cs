@@ -48,6 +48,7 @@ public class Reward     // 보상
     public int itemID;
     public string itemname;
     public string icon;
+    public int quantity;  // 추가 (기본 1개)
 }
 
 [System.Serializable]
