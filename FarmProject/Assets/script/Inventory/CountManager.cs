@@ -152,4 +152,53 @@ public class CountManager : MonoBehaviour
             Debug.Log($"아이템 {itemName}을(를) 전체 목록에서 찾을 수 없습니다.");
         }
     }
+
+    public void GiveRewardItem(string itemName, int quantity)
+    {
+        if (myItems == null || allItems == null)
+        {
+            Debug.LogWarning("아이템 목록이 초기화되지 않았습니다.");
+            return;
+        }
+
+        // 내 인벤토리에서 찾기
+        Item curItem = myItems.Find(x => x.itemName == itemName);
+        if (curItem != null)
+        {
+            // 이미 존재하면 수량만 증가
+            int currentQuantity = curItem.quantityInt;
+            currentQuantity += quantity;
+            curItem.quantity = currentQuantity.ToString();
+
+            Debug.Log($"보상 지급: {curItem.itemName}, 수량 += {quantity}");
+        }
+        else
+        {
+            // allItems에서 찾아서 새로 추가
+            Item curAllItem = allItems.Find(x => x.itemName == itemName);
+            if (curAllItem != null)
+            {
+                Item newItem = new Item(
+                    curAllItem.itemName,
+                    curAllItem.itemID,
+                    curAllItem.itemIcon,
+                    quantity.ToString(),
+                    curAllItem.buyPrice,
+                    curAllItem.sellPrice,
+                    curAllItem.itemType,
+                    curAllItem.description
+                );
+
+                myItems.Add(newItem);
+                Debug.Log($"보상 지급 신규 아이템 추가: {newItem.itemName}, 수량={quantity}");
+            }
+            else
+            {
+                Debug.LogWarning($"보상 아이템 {itemName}을 전체 목록에서 찾을 수 없습니다.");
+            }
+        }
+
+        toEnd();
+    }
+
 }
