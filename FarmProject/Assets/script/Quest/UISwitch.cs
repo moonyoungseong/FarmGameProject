@@ -18,7 +18,7 @@ public class UISwitch : MonoBehaviour
     [Header("완료 패널 UI")]
     public Image[] completeRewardIcons; // 3개 고정
 
-    private Quest currentQuest;
+    public Quest currentQuest;
 
     /// <summary>
     /// 버튼에서 호출: questID에 맞는 퀘스트를 불러와 패널 갱신

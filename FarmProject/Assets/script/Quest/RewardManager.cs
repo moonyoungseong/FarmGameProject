@@ -7,6 +7,8 @@ public class RewardManager : MonoBehaviour
     // 싱글톤 패턴 (원하면 사용)
     public static RewardManager Instance;
 
+    public UISwitch uiSwitch; // 인스펙터에서 연결
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -41,6 +43,14 @@ public class RewardManager : MonoBehaviour
         foreach (var reward in rewards)
         {
             GiveReward(reward);
+        }
+    }
+
+    public void GiveCurrentQuestRewards()
+    {
+        if (uiSwitch != null && uiSwitch.currentQuest != null)
+        {
+            GiveRewards(uiSwitch.currentQuest.reward);
         }
     }
 }
