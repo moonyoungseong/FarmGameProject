@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class UISwitch : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class UISwitch : MonoBehaviour
 
     [Header("완료 패널 UI")]
     public Image[] completeRewardIcons; // 3개 고정
+
+    [Header("퀘스트 버튼들")]
+    public List<Button> questButtons; // Inspector에서 버튼 10개 연결
 
     public Quest currentQuest;
 
@@ -162,6 +166,23 @@ public class UISwitch : MonoBehaviour
             }
             else
                 completeRewardIcons[i].gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 이전 버튼에서 호출
+    /// currentQuest.questID 기준으로 버튼 활성화
+    /// </summary>
+    public void ShowCurrentQuestButton()
+    {
+        if (questButtons == null || questButtons.Count == 0) return;
+
+        for (int i = 0; i < questButtons.Count; i++)
+        {
+            if (currentQuest != null && currentQuest.questID == i + 1) // ID가 1~10 가정
+                questButtons[i].gameObject.SetActive(true);
+            else
+                questButtons[i].gameObject.SetActive(false);
         }
     }
 }
