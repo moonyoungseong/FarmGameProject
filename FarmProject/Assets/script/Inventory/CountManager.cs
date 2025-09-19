@@ -5,9 +5,23 @@ using TMPro;
 
 public class CountManager : MonoBehaviour
 {
+    public static CountManager Instance { get; private set; } // 싱글톤 접근용
+
     public TMP_InputField ItemNameInput, ItemNumberInput;
     private List<Item> myItems;
     private List<Item> allItems;
+
+    private void Awake()
+    {
+        // 싱글톤 초기화
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // 씬 전환 시에도 유지
+    }
 
     void Start()
     {
@@ -153,7 +167,7 @@ public class CountManager : MonoBehaviour
         }
     }
 
-    public void GiveRewardItem(string itemName, int quantity)
+    public void GiveRewardItem(string itemName, int quantity)       // 퀘스트 보상용
     {
         if (myItems == null || allItems == null)
         {
@@ -199,6 +213,37 @@ public class CountManager : MonoBehaviour
         }
 
         toEnd();
+    }
+
+    public void RemoveItemByID(string itemID, int quantityToConsume)    // 수집형 퀘스트 재료 소모용
+    {
+        if (myItems == null || myItems.Count == 0)
+        {
+            Debug.LogWarning("아이템 목록이 비어 있거나 초기화되지 않았습니다.");
+            return;
+        }
+
+        Item item = myItems.Find(x => x.itemID == itemID);
+        if (item != null)
+        {
+            int newQuantity = item.quantityInt - quantityToConsume;
+            if (newQuantity <= 0)
+            {
+                myItems.Remove(item);
+                Debug.Log($"아이템 {item.itemName}이(가) 소모되어 제거되었습니다.");
+            }
+            else
+            {
+                item.quantity = newQuantity.ToString();
+                Debug.Log($"아이템 {item.itemName} 수량 감소: {quantityToConsume}, 남은 수량: {newQuantity}");
+            }
+
+            InventoryManager.Instance.Save();
+        }
+        else
+        {
+            Debug.LogWarning($"아이템 ID {itemID}을(를) 인벤토리에서 찾을 수 없습니다.");
+        }
     }
 
 }
