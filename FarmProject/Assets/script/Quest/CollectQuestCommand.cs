@@ -50,50 +50,6 @@ public class CollectQuestCommand : IQuestCommand
         }
     }
 
-    // 버튼 클릭 시 호출: 진행중 + 아이템 충분하면 완료,  QuestInteractionManager 스크립트에서 사용
-    // QuestInteractionManager 스크립트 내부
-    //public void TryCompleteQuest(Quest quest)
-    //{
-    //    // 아직 시작 안했으면 -> 시작 처리
-    //    //if (quest.state == QuestState.NotStarted)
-    //    //{
-    //    //    quest.state = QuestState.InProgress;
-    //    //    Debug.Log($"{quest.questName} 퀘스트를 시작했습니다!");
-    //    //    return;
-    //    //}
-
-    //    // 진행 중이면 -> 완료 조건 확인
-    //    if (quest.state == QuestState.InProgress)
-    //    {
-    //        // 인벤토리에서 아이템 가져오기
-    //        Item item = InventoryManager.Instance.GetItemByID(itemName);
-    //        int playerItemCount = 0;
-
-    //        if (item != null)
-    //        {
-    //            int.TryParse(item.quantity, out playerItemCount);
-    //        }
-
-    //        if (playerItemCount >= requiredAmount)
-    //        {
-    //            QuestCompleted();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log($"{itemName} 아이템이 부족합니다. 현재: {playerItemCount}/{requiredAmount}");
-    //        }
-    //        return;
-    //    }
-
-    //    // 이미 완료된 퀘스트면
-    //    if (quest.state == QuestState.Completed)
-    //    {
-    //        Debug.Log($"{quest.questName} 퀘스트는 이미 완료됐습니다.");
-    //    }
-    //}
-
-
-
     private void QuestCompleted()
     {
         quest.state = QuestState.Completed;  // 완료 상태로 변경
