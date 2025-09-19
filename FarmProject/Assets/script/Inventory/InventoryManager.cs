@@ -14,6 +14,17 @@ public class Item
     { itemName = _itemName; itemID = _itemID; itemIcon = _itemIcon; quantity = _quantity; buyPrice = _buyPrice; sellPrice = _sellPrice; itemType = _itemType; description = _description; }
 
     public string itemName, itemID, itemIcon, quantity, buyPrice, sellPrice, itemType, description;
+
+    // 문자열 quantity를 int로 반환
+    public int quantityInt
+    {
+        get
+        {
+            if (int.TryParse(quantity, out int result))
+                return result;
+            return 0;
+        }
+    }
 }
 
 public class InventoryManager : MonoBehaviour
