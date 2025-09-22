@@ -66,11 +66,17 @@ public class QuestManager : MonoBehaviour
     public QuestData questData;
     public QuestInvoker questInvoker;
 
+    public QuestListController questListController; // Inspector에서 연결
+
     private List<CollectQuestCommand> collectCommands = new List<CollectQuestCommand>();
     private List<DialogueQuestCommand> dialogueCommands = new List<DialogueQuestCommand>();
     private List<ConstructionQuestCommand> constructionCommands = new List<ConstructionQuestCommand>();
     private List<DeliveryQuestCommand> deliveryCommands = new List<DeliveryQuestCommand>();
     private List<MovementQuestCommand> movementCommands = new List<MovementQuestCommand>();
+
+    private List<ConstructionQuestCommand> dogConstructionCommands = new List<ConstructionQuestCommand>();
+    private List<ConstructionQuestCommand> houseConstructionCommands = new List<ConstructionQuestCommand>();
+
 
     void Awake()    // 주석쳐서 아직 실행안함, 퀘스트 시스템 아직 못 만듬
     {
@@ -122,18 +128,6 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    //public void SetUpCollectionQuests()
-    //{
-    //    collectCommands.Clear();
-    //    foreach (var quest in questData.quests.Collection)
-    //    {
-    //        string itemName = quest.questName.Contains("토마토") ? "토마토" :
-    //                          quest.questName.Contains("옥수수") ? "옥수수" : "쌀";
-    //        CollectQuestCommand command = new CollectQuestCommand(quest, itemName, 3);
-    //        collectCommands.Add(command);
-    //    }
-    //}
-
     // 대화형 퀘스트 자동 시작
     public void SetUpDialogueQuests()   // 퀘스트를 NPC가 아니라 원래부터 존재한다.
     {
@@ -180,17 +174,47 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void SetUpConstructionQuests(string buildingName)
+    public bool SetUpConstructionQuests(string buildingName)
     {
-        constructionCommands.Clear(); // 기존 명령 초기화 (선택)
         foreach (var quest in questData.quests.Construction)
         {
-            if (quest.buildingName == buildingName) // 매개변수로 들어온 buildingName에 해당하는 퀘스트만
+            if (quest.buildingName == buildingName)
             {
-                ConstructionQuestCommand command = new ConstructionQuestCommand(quest, buildingName);
-                constructionCommands.Add(command);
+                var command = new ConstructionQuestCommand(quest, buildingName);
+
+                if (buildingName == "Dog")
+                    dogConstructionCommands.Add(command);
+                else if (buildingName == "House_1")
+                    houseConstructionCommands.Add(command);
+
+                // 슬롯 자물쇠 해제 (퀘스트 시작 전에도 해제 가능)
+                if (questListController != null)
+                {
+                    questListController.UnlockQuestSlot(quest.questName);
+                }
+
+                return true;
             }
         }
+        return false;
+    }
+
+    /// <summary>
+    /// 필요할 때 커맨드를 꺼내오기 (없으면 null)
+    /// </summary>
+    public ConstructionQuestCommand GetConstructionCommand(string buildingName)
+    {
+        List<ConstructionQuestCommand> list = null;
+
+        if (buildingName == "Dog")
+            list = dogConstructionCommands;
+        else if (buildingName == "House_1")
+            list = houseConstructionCommands;
+
+        if (list != null)
+            return list.Find(c => c.BuildingName == buildingName);
+
+        return null;
     }
 
     public void SetUpDeliveryQuests(string itemName)
