@@ -8,6 +8,7 @@ TagManager:
   - WindZone
   - WindZone2
   - Sprinkler
+  - Dog
   layers:
   - Default
   - TransparentFX
