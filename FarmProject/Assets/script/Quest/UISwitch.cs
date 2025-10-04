@@ -40,7 +40,7 @@ public class UISwitch : MonoBehaviour
         questManager.SetUpDialogueQuests(); // 대화형 퀘스트 설정
     }
 
-    public void InteractWithNPC(string npcName)
+    public void InteractWithNPC(string npcName) // 대화형 퀘스트용
     {
         if (npcName == "마을이장")
         {
@@ -158,6 +158,44 @@ public class UISwitch : MonoBehaviour
             return;
         }
 
+        // --- 이동형 퀘스트 처리 ---
+        //if (!IsCollectionQuest(currentQuest) && string.IsNullOrEmpty(currentQuest.buildingName))
+        if (IsMovementQuest(currentQuest))
+        {
+            // MovementQuestCommand 생성
+            var movementCommand = new MovementQuestCommand(currentQuest, currentQuest.movementTarget);
+
+            switch (currentQuest.state)
+            {
+                case QuestState.NotStarted:
+                    movementCommand.Execute();    // 진행중으로 전환
+                    startPanel.SetActive(true);
+                    UpdateStartPanel();
+                    break;
+
+                case QuestState.InProgress:
+                    // canComplete 필드를 이용
+                    if (currentQuest.canComplete)
+                    {
+                        comQuestPanel.SetActive(true); // 완료 가능 패널
+                        Debug.Log($"[UI] {currentQuest.questName} - 이동형 퀘스트 완료 가능");
+                    }
+                    else
+                    {
+                        inProgressPanel.SetActive(true); // 진행중 패널
+                        Debug.Log($"[UI] {currentQuest.questName} - 이동형 퀘스트 진행중");
+                    }
+                    break;
+
+                case QuestState.Completed:
+                    completePanel.SetActive(true);
+                    UpdateCompletePanel();
+                    break;
+            }
+
+            return;
+        }
+
         // --- 일반 퀘스트 처리 ---
         switch (currentQuest.state)
         {
@@ -258,6 +296,12 @@ public class UISwitch : MonoBehaviour
     {
         int[] collectionIDs = { 1, 2, 3 };
         return System.Array.Exists(collectionIDs, id => id == quest.questID);
+    }
+
+    private bool IsMovementQuest(Quest quest)
+    {
+        // movementTarget이 비어있지 않으면 이동형 퀘스트로 판단
+        return !string.IsNullOrEmpty(quest.movementTarget);
     }
 
     private void HideAllPanels()
