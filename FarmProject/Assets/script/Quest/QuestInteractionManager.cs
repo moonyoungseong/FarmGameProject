@@ -35,8 +35,8 @@ public class QuestInteractionManager : MonoBehaviour
         }
         else if (npcName == "토마토농부")    // 수집형 string 버튼에 연결해서 누르면 퀘스트 시작
         {
-            SetUpCollectionQuests("토마토");
-            questManager.ExecuteCollectQuests();
+            //SetUpCollectionQuests("토마토");
+            //questManager.ExecuteCollectQuests();
         }
         else if (npcName == "쌀농부")
         {
@@ -78,28 +78,6 @@ public class QuestInteractionManager : MonoBehaviour
         //ExecuteQuests();
     }
 
-    //// 수집형 버튼 클릭 시 호출
-    //public void CollectCompleteButtonClick(int questId)
-    //{
-    //    Quest quest = QuestManager.Instance.GetQuestByID(questId);
-    //    if (quest != null)
-    //    {
-    //        // 퀘스트의 아이템 정보 가져오기
-    //        string itemName = quest.targetItemName;   // Quest 클래스에 수집 아이템 이름 속성 필요
-    //        int requiredAmount = quest.requiredAmount; // Quest 클래스에 수집 개수 속성 필요
-
-    //        CollectQuestCommand command = new CollectQuestCommand(quest, itemName, requiredAmount);
-
-    //        // 버튼 클릭 시 진행중이면 완료 시도
-    //        command.TryCompleteQuest();
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError($"퀘스트 {questId}를 찾을 수 없습니다.");
-    //    }
-    //}
-
-
     // 대화형 퀘스트 완료 함수
     void CompleteDialogueQuest(string npcName)
     {
@@ -139,12 +117,5 @@ public class QuestInteractionManager : MonoBehaviour
     void SetUpMovementQuests(string movementTarget)
     {
         questManager.SetUpMovementQuests(movementTarget);
-    }
-
-    // 퀘스트 실행 함수
-    void ExecuteQuests()    // 이거 필요없어 보임, 나중에 삭제 하자.
-    {
-        // 퀘스트 실행
-        //questManager.ExecuteQuestsExample();
     }
 }
