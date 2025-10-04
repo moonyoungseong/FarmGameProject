@@ -21,6 +21,8 @@ public class Quest              // 퀘스트를 정의하는 클래스
     public List<Reward> reward;
     public QuestState state = QuestState.NotStarted;    // 퀘스트 하기 전 상태 (고정값)
     public int questIndex;                      // 퀘스트 순서 ( 진행상태에서 쓰기
+    public int requiredAmount;
+    public string itemName;
     public int levelRequirement; // 요구되는 레벨
     public bool canComplete = false;    // 퀘스트 완료 가능한지 확인
 }
