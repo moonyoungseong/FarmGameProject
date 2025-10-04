@@ -54,10 +54,8 @@ public class UISwitch : MonoBehaviour
             switch (currentQuest.state)
             {
                 case QuestState.NotStarted:
-                    command.Execute(); // 진행중으로 전환
+                    command.Execute();
                     startPanel.SetActive(true);
-
-                    //  여기서 UI 갱신
                     UpdateStartPanel();
                     break;
 
@@ -73,11 +71,59 @@ public class UISwitch : MonoBehaviour
                     UpdateCompletePanel();
                     break;
             }
+            return;
+        }
+
+        // --- 수집형 퀘스트 처리 ---
+        if (IsCollectionQuest(currentQuest))
+        {
+            QuestManager.Instance.SetUpCollectionQuests(currentQuest.questName);
+            //var command = QuestManager.Instance.GetCollectCommand(currentQuest.questID);
+            var command = new CollectQuestCommand(currentQuest, currentQuest.itemName, currentQuest.requiredAmount);
+
+
+            if (command == null)
+            {
+                Debug.LogError($"CollectQuestCommand 없음: {currentQuest.questName}");
+                return;
+            }
+
+            // 항상 최신 인벤토리 반영
+            command.SyncWithInventory();
+
+            // NotStarted 상태이면 실행
+            if (currentQuest.state == QuestState.NotStarted)
+            {
+                command.Execute(); // 진행중으로 전환
+                startPanel.SetActive(true);
+                UpdateStartPanel();
+            }
+            // 진행 중이면 실제 인벤토리 수량 기준으로 UI 분기
+            else if (currentQuest.state == QuestState.InProgress)
+            {
+                // CanComplete()가 true면 완료 가능 패널, 아니면 진행중 패널
+                if (command.CanComplete())
+                {
+                    comQuestPanel.SetActive(true);
+                    Debug.Log($"[UI] {currentQuest.questName} - 완료 가능 패널 표시");
+                }
+                else
+                {
+                    inProgressPanel.SetActive(true);
+                    Debug.Log($"[UI] {currentQuest.questName} - 진행중 패널 표시");
+                }
+            }
+            // 이미 완료된 퀘스트
+            else if (currentQuest.state == QuestState.Completed)
+            {
+                completePanel.SetActive(true);
+                UpdateCompletePanel();
+            }
 
             return;
         }
 
-        // --- 수집형 및 일반 퀘스트 처리 ---
+        // --- 일반 퀘스트 처리 ---
         switch (currentQuest.state)
         {
             case QuestState.NotStarted:
@@ -86,7 +132,7 @@ public class UISwitch : MonoBehaviour
                 break;
 
             case QuestState.InProgress:
-                HandleInProgressQuest(currentQuest);
+                inProgressPanel.SetActive(true);
                 break;
 
             case QuestState.Completed:
@@ -96,38 +142,87 @@ public class UISwitch : MonoBehaviour
         }
     }
     /// <summary>
-    /// 진행 중 퀘스트 처리
+    /// 수집형 퀘스트 확인 버튼
     /// </summary>
-    private void HandleInProgressQuest(Quest quest)
+    public void ConfirmComplete()
     {
-        if (IsCollectionQuest(quest))
+        if (currentQuest == null) return;
+
+        // currentQuest 자체로 판단
+        // 수집형
+        if (IsCollectionQuest(currentQuest))
         {
-            int itemID = 0;
-            int requiredQuantity = 3;
+            var command = new CollectQuestCommand(currentQuest, currentQuest.itemName, currentQuest.requiredAmount);
 
-            switch (quest.questID)
+            if (command.CanComplete())
             {
-                case 1: itemID = 3; break; // 토마토
-                case 2: itemID = 6; break; // 옥수수
-                case 3: itemID = 9; break; // 쌀
-            }
-
-            Item item = InventoryManager.Instance.GetItemByID(itemID.ToString());
-
-            if (item != null && item.quantityInt >= requiredQuantity)
-            {
-                comQuestPanel.SetActive(true); // 완료 가능
+                command.CompleteQuest();
+                HideAllPanels();
+                completePanel.SetActive(true);
+                UpdateCompletePanel();
             }
             else
             {
-                inProgressPanel.SetActive(true); // 아직 진행중
+                Debug.Log("수집형 퀘스트: 아이템 부족. 진행중 패널 표시");
+                HideAllPanels();
+                inProgressPanel.SetActive(true);
             }
+            return;
         }
-        else
+
+        // 건설형
+        if (!string.IsNullOrEmpty(currentQuest.buildingName))
         {
-            inProgressPanel.SetActive(true); // 수집형 아님 → 그냥 진행중
+            var command = new ConstructionQuestCommand(currentQuest, currentQuest.buildingName);
+            command.CompleteQuest();
+            HideAllPanels();
+            completePanel.SetActive(true);
+            UpdateCompletePanel();
+            return;
         }
+
+
+        //// 대화형
+        //if (IsDialogueQuest(currentQuest))
+        //{
+        //    var command = new DialogueQuestCommand(currentQuest);
+        //    command.CompleteQuest();
+        //    HideAllPanels();
+        //    completePanel.SetActive(true);
+        //    UpdateCompletePanel();
+        //    return;
+        //}
+
+        //// 전달형
+        //if (IsDeliveryQuest(currentQuest))
+        //{
+        //    var command = new DeliveryQuestCommand(currentQuest);
+        //    command.CompleteQuest();
+        //    HideAllPanels();
+        //    completePanel.SetActive(true);
+        //    UpdateCompletePanel();
+        //    return;
+        //}
+
+        //// 이동형
+        //if (IsMovementQuest(currentQuest))
+        //{
+        //    var command = new MovementQuestCommand(currentQuest);
+        //    command.CompleteQuest();
+        //    HideAllPanels();
+        //    completePanel.SetActive(true);
+        //    UpdateCompletePanel();
+        //    return;
+        //}
+
+        // 커맨드 없는 경우
+        currentQuest.state = QuestState.Completed;
+        HideAllPanels();
+        completePanel.SetActive(true);
+        UpdateCompletePanel();
     }
+
+
 
     private bool IsCollectionQuest(Quest quest)
     {
@@ -174,76 +269,6 @@ public class UISwitch : MonoBehaviour
             else
                 completeRewardIcons[i].gameObject.SetActive(false);
         }
-    }
-
-    /// <summary>
-    /// 건설형 퀘스트 완료 버튼 클릭
-    /// </summary>
-    //public void OnConstructionCompleteButton()
-    //{
-    //    var command = QuestManager.Instance.GetConstructionCommand(currentQuest.buildingName);
-
-    //    if (command == null)
-    //    {
-    //        Debug.LogError("ConstructionCommand 없음!");
-    //        return;
-    //    }
-
-    //    command.CompleteQuest(); // 진행중 → 완료 + 보상 처리
-    //    HideAllPanels();
-    //    completePanel.SetActive(true);
-    //    UpdateCompletePanel();
-    //}
-
-    /// <summary>
-    /// comQuestPanel 안에서 수집형 완료 버튼 클릭
-    /// </summary>
-    public void ConfirmComplete()
-    {
-        if (IsCollectionQuest(currentQuest))
-        {
-            int itemID = 0;
-            int requiredQuantity = 3;
-
-            switch (currentQuest.questID)
-            {
-                case 1: itemID = 3; break; // 토마토
-                case 2: itemID = 6; break; // 옥수수
-                case 3: itemID = 9; break; // 쌀
-            }
-
-            Item item = InventoryManager.Instance.GetItemByID(itemID.ToString());
-
-            if (item != null && item.quantityInt >= requiredQuantity)
-            {
-                // 아이템 소모
-                CountManager.Instance.RemoveItemByID(itemID.ToString(), requiredQuantity);
-                Debug.Log($"퀘스트 완료: 아이템 {item.itemName} {requiredQuantity}개 사용됨");
-
-                currentQuest.state = QuestState.Completed;
-                HideAllPanels();
-                completePanel.SetActive(true);
-                UpdateCompletePanel();
-
-                // 보상 지급
-                RewardManager.Instance.GiveRewards(currentQuest.reward);
-            }
-            else
-            {
-                Debug.Log("아이템 부족. 진행중 패널 표시");
-                HideAllPanels();
-                inProgressPanel.SetActive(true);
-            }
-
-            return;
-        }
-
-        // 수집형이 아닌 경우 일반 완료 처리
-        currentQuest.state = QuestState.Completed;
-        HideAllPanels();
-        completePanel.SetActive(true);
-        UpdateCompletePanel();
-        //RewardManager.Instance.GiveRewards(currentQuest.reward);
     }
 
     /// <summary>
