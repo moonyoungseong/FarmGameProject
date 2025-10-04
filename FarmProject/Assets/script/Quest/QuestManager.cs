@@ -162,20 +162,6 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // 퀘스트 완료 로직을 외부에서 호출할 수 있도록 수정, 대화형 퀘스트
-    public void MarkQuestAsCompleted(string npcName)
-    {
-        foreach (var command in dialogueCommands)
-        {
-            if (command.NpcName == npcName)
-            {
-                command.CompleteQuest();  // 실제로 퀘스트 완료
-                questInvoker.SetQuestCommand(command);
-                questInvoker.ExecuteQuest();
-            }
-        }
-    }
-
     public bool SetUpConstructionQuests(string buildingName)
     {
         foreach (var quest in questData.quests.Construction)
