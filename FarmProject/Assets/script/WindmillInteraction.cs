@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WindmillInteraction : MonoBehaviour
 {
+    private MovementQuestCommand movementQuest;
+
     public GameObject player1;               // 플레이어 1
     public GameObject player2;               // 플레이어 2
     public GameObject ladder1;               // 사다리밑 UI
@@ -32,6 +34,10 @@ public class WindmillInteraction : MonoBehaviour
 
         // Animator를 플레이어의 컴포넌트로 설정
         playerAnimator = player.GetComponent<Animator>();
+
+        // 예시: Windmill 수리 퀘스트 연결
+        Quest windmillQuest = QuestManager.Instance.GetQuestByID(10);
+        movementQuest = new MovementQuestCommand(windmillQuest, "풍차 수리");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -122,6 +128,13 @@ public class WindmillInteraction : MonoBehaviour
         playerAnimator.SetBool("isFixing", false);
 
         FinishImage.SetActive(true);        // 완료 안내문
+
+        //  이동형 퀘스트 완료 체크
+        if (movementQuest != null)
+        {
+            bool result = movementQuest.ReachTarget();
+            Debug.Log("수리 퀘스트 완료 여부: " + result);
+        }
     }
 
     // MoveInit 함수: 즉시 이동과 회전 수행
