@@ -31,39 +31,22 @@ public class DialogueQuestCommand : IQuestCommand
         }
     }
 
-    // 퀘스트 완료
+    //퀘스트 완료
     public void CompleteQuest()
     {
-        if (quest.state == QuestState.InProgress)
-        {
-            quest.state = QuestState.Completed;
-            Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
-
-            //UpdateQuestUI();
-            GiveRewards();
-        }
-        else if (quest.state == QuestState.Completed)
+        if (quest.state == QuestState.Completed)
         {
             Debug.Log($"{quest.questName} 퀘스트는 이미 완료되었습니다.");
+            return;
         }
-        else
-        {
-            Debug.Log($"{npcName}와 대화를 시작해야 퀘스트가 진행됩니다.");
-        }
-    }
 
-    //private void UpdateQuestUI()
-    //{
-    //    if (QuestStateManager.Instance != null)
-    //    {
-    //        // 여기서 바로 QuestStateManager로 UI 갱신
-    //        QuestStateManager.Instance.ShowQuestDetail(quest);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogWarning("QuestStateManager.Instance가 씬에 존재하지 않습니다!");
-    //    }
-    //}
+        // 상태가 NotStarted, InProgress 상관없이 바로 완료 처리
+        quest.state = QuestState.Completed;
+        Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
+
+        // 보상 지급
+        GiveRewards();
+    }
 
     private void GiveRewards()
     {
