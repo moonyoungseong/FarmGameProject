@@ -1,53 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementQuestCommand : IQuestCommand
 {
-    private Quest quest;  // 퀘스트 정보
-    private string targetNPCName;  // 목표 NPC 이름
-    private bool isCompleted;  // 퀘스트 완료 여부
+    private Quest quest;
+    private string targetLocationName;
+    private bool hasArrived = false;
 
-    // 생성자에서 퀘스트와 목표 NPC 이름을 받음
-    public MovementQuestCommand(Quest quest, string targetNPCName)
+    private QuestListController questListController;
+
+    public MovementQuestCommand(Quest quest, string targetLocationName)
     {
         this.quest = quest;
-        this.targetNPCName = targetNPCName;
-        this.isCompleted = false;  // 시작 시 퀘스트 완료되지 않음
+        this.targetLocationName = targetLocationName;
+
+        // QuestListController 자동 주입 (있다면)
+        questListController = GameObject.FindObjectOfType<QuestListController>();
+        if (questListController == null)
+            Debug.LogWarning("QuestListController를 찾지 못했습니다. UI 갱신이 불가능할 수 있습니다.");
     }
 
-    // 퀘스트 실행 메서드
     public void Execute()
     {
-        Debug.Log($"{quest.questName} 퀘스트 시작: {targetNPCName}에게 이동");   // 이거 문구가 어색하다. 나중에 수정
-        // 퀘스트 시작 메시지 등 추가 로직을 작성할 수 있음
+        if (quest.state == QuestState.NotStarted)
+        {
+            quest.state = QuestState.InProgress;
+            Debug.Log($"[퀘스트 시작] {quest.questName} - {targetLocationName}로 이동하세요.");
+        }
+
+        // 슬롯 자물쇠 해제 (있다면)
+        questListController?.UnlockQuestSlot(quest.questName);
     }
 
-    // 트리거 영역에 들어갔을 때 호출되는 메서드 (이 메서드는 트리거 영역에 붙은 오브젝트에서 호출)
-    public void OnTriggerEnter(Collider other)
+    //  외부에서 호출 가능 (예: FixWind() 끝났을 때)
+    public bool ReachTarget()
     {
-        if (other != null && !isCompleted && other.CompareTag("Player"))
+        if (quest.state == QuestState.InProgress && !hasArrived)
         {
-            Debug.Log($"{quest.questName} 퀘스트 완료! {targetNPCName}에게 도달");
-            QuestCompleted();
+            hasArrived = true;
+            quest.canComplete = true;  // 완료 가능 표시
+            CompleteQuest();
+            return true;
         }
-        else
-        {
-            Debug.Log("트리거에 유효하지 않은 객체가 들어옴");
-        }
+        return false;
     }
 
-    // 퀘스트 완료 처리 메서드
-    private void QuestCompleted()
+    private void CompleteQuest()
     {
-        isCompleted = true;
-        Debug.Log($"{quest.questName} 퀘스트 완료!");
+        quest.state = QuestState.Completed;
+        Debug.Log($"[퀘스트 완료] {quest.questName} - {targetLocationName} 도착 완료!");
 
-        // 보상 처리 등 퀘스트 완료 후 처리
-        foreach (var reward in quest.reward)
-        {
-            Debug.Log($"보상 지급: {reward.icon} 아이템 ID {reward.itemID}");
-            // 추가 보상 처리 로직
-        }
+        RewardManager.Instance.GiveRewards(quest.reward);
     }
 }
