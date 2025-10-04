@@ -998,37 +998,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3012344251668226774, guid: f3ffa4aeeaecde846a2f6866ef65d336, type: 3}
   m_PrefabInstance: {fileID: 1098843067}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &39933863
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 39933864}
-  m_Layer: 0
-  m_Name: QuestsJoin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &39933864
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 39933863}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.4869, y: 15.941593, z: 47.70786}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &40530458 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 544335576966108376, guid: b7c1f2f4982f90845917154c2351ca3d, type: 3}
@@ -3251,7 +3220,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7800,7 +7769,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8788,7 +8757,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9965,7 +9934,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18273,7 +18242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "NPC : \uD1A0\uB9C8\uD1A0\uB18D\uBD80"
+  m_text: "NPC :\uB9C8\uC744\uC774\uC7A52"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
   m_sharedMaterial: {fileID: -3139449403354008100, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
@@ -18704,18 +18673,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 423230759}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1529653459}
         m_TargetAssemblyTypeName: UISwitch, Assembly-CSharp
         m_MethodName: ShowQuest
@@ -18726,18 +18683,6 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 432413281}
-        m_TargetAssemblyTypeName: QuestInteractionManager, Assembly-CSharp
-        m_MethodName: InteractWithNPC
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: "\uD1A0\uB9C8\uD1A0\uB18D\uBD80"
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &553587662
@@ -19756,7 +19701,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22409,7 +22354,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0b97d02305ef74e7ea0cb413d9cc158a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 394fa39b4219b4a49a9b64ee3bf35481, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25821,7 +25766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2aa6ab62866ce4439ab7303f7da55e51, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6d5f58465fff456eb84bd071b3134b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -27250,8 +27195,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD1A0\uB9C8\uD1A0\uB18D\uBD80\uC758 \uC694\uCCAD\uC73C\uB85C \uD1A0\uB9C8\uD1A0
-    3\uAC1C\uB97C \uC218\uC9D1\uD574\uC57C \uD569\uB2C8\uB2E4."
+  m_text: "\uB9C8\uC744\uC5D0 \uC9D1\uC744 \uC0DD\uC131\uD558\uB294 \uD018\uC2A4\uD2B8
+    \uC785\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
   m_sharedMaterial: {fileID: -3139449403354008100, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
@@ -32626,7 +32571,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.0045749843, y: 0.99450785, z: -0.09217907, w: 0.049358733}
-  m_LocalPosition: {x: -29.1, y: 11.37, z: 70.2}
+  m_LocalPosition: {x: 43.1, y: 11.37, z: 86.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32919,7 +32864,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -35356,7 +35301,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39237,7 +39182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC9C4\uD589\uC0C1\uD0DC : \uC2DC\uC791 \uC804"
+  m_text: "\uC9C4\uD589 \uC0C1\uD0DC : \uC2DC\uC791 \uC804"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a66bd9bd01a2234f816261cdfcaf0e9, type: 2}
   m_sharedMaterial: {fileID: 3207744515720234835, guid: 1a66bd9bd01a2234f816261cdfcaf0e9, type: 2}
@@ -40415,7 +40360,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41566,7 +41511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -26.980007
+      value: 45.219986
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.y
@@ -41574,7 +41519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 44.060005
+      value: 60.660004
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44347,7 +44292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299607485
 Transform:
   m_ObjectHideFlags: 0
@@ -45770,7 +45715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e505938e24e40403c872a4c05df3c3d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -46737,7 +46682,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -49254,7 +49199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD1A0\uB9C8\uD1A0 3\uAC1C \uC218\uC9D1"
+  m_text: "\uC9D1 \uC0DD\uC131"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
   m_sharedMaterial: {fileID: -3139449403354008100, guid: 6f36ded14330f604b98ce4f81577ecae, type: 2}
@@ -53258,6 +53203,8 @@ MonoBehaviour:
     reward: []
     state: 0
     questIndex: 0
+    requiredAmount: 0
+    itemName: 
     levelRequirement: 0
     canComplete: 0
 --- !u!1 &1531956994
@@ -55173,7 +55120,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 432413282}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
-        m_MethodName: GiveCurrentQuestRewards
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
