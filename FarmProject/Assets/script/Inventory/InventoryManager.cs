@@ -125,6 +125,13 @@ public class InventoryManager : MonoBehaviour
     return MyItemList.Find(item => item.itemID == itemID);
 }
 
+    public Item GetItemByName(string itemName)
+    {
+        if (string.IsNullOrEmpty(itemName)) return null;
+        return MyItemList.Find(item => item.itemName != null &&
+                                      item.itemName.Trim().ToLower() == itemName.Trim().ToLower());
+    }
+
     public void Save()
     {
         string jdata = JsonConvert.SerializeObject(MyItemList);
