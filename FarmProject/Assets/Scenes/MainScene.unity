@@ -7642,7 +7642,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300681037}
   m_LocalRotation: {x: -0.00040111813, y: -0.03655051, z: 0.0027851183, w: 0.99932784}
-  m_LocalPosition: {x: -5.904558, y: 1.9066525, z: 1.83037}
+  m_LocalPosition: {x: -5.904558, y: 1.31, z: 1.83037}
   m_LocalScale: {x: 2, y: 1, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19149,7 +19149,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 570611517}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1529653459}
+        m_TargetAssemblyTypeName: UISwitch, Assembly-CSharp
+        m_MethodName: ShowQuest
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &570611517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25347,7 +25359,7 @@ GameObject:
   - component: {fileID: 733661665}
   - component: {fileID: 733661664}
   m_Layer: 0
-  m_Name: WindZone2
+  m_Name: WindZone2_FIX
   m_TagString: WindZone2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25424,7 +25436,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 733661663}
   m_LocalRotation: {x: -0.00040111813, y: -0.03655051, z: 0.0027851183, w: 0.99932784}
-  m_LocalPosition: {x: -5.904558, y: 3.2766523, z: 1.83037}
+  m_LocalPosition: {x: 1.71, y: 3.2766523, z: -20.82}
   m_LocalScale: {x: 2, y: 1, z: 1.5000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32568,7 +32580,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.0045749843, y: 0.99450785, z: -0.09217907, w: 0.049358733}
-  m_LocalPosition: {x: 43.1, y: 11.37, z: 47.9}
+  m_LocalPosition: {x: 13.414559, y: 11.37, z: 45.829998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41508,7 +41520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.219986
+      value: 15.534547
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.y
@@ -41516,7 +41528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 21.760002
+      value: 19.689999
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalRotation.w
