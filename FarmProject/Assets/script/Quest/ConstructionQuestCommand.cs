@@ -35,7 +35,7 @@ public class ConstructionQuestCommand : IQuestCommand
         GameObject building = GameObject.FindWithTag("Dog");
         if (building != null)
         {
-            CompleteQuest(); // 퀘스트 완료 처리
+            //CompleteQuest(); // 퀘스트 완료 처리
             return true;     //  건물 존재 → true
         }
         return false;        //  건물 없음 → false
@@ -47,11 +47,6 @@ public class ConstructionQuestCommand : IQuestCommand
         quest.state = QuestState.Completed;
         Debug.Log($"[퀘스트 완료] {quest.questName} - {buildingName} 건설 완료!");
 
-        // 보상 지급
-        foreach (var reward in quest.reward)
-        {
-            // 예: RewardManager.Instance.GiveItem(reward);
-            Debug.Log($"보상 지급: {reward.itemname} x{reward.quantity}");
-        }
+        RewardManager.Instance.GiveRewards(quest.reward);
     }
 }
