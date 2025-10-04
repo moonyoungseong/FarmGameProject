@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class UISwitch : MonoBehaviour
 {
+    public QuestManager questManager; // QuestManager를 참조하여 퀘스트 시스템과 상호작용
+
     [Header("패널")]
     public GameObject startPanel;
     public GameObject inProgressPanel;
@@ -23,6 +25,39 @@ public class UISwitch : MonoBehaviour
     public List<Button> questButtons;
 
     public Quest currentQuest;
+
+    // 게임 시작 시 호출되는 Start 함수
+    void Start()
+    {
+        // 게임 시작과 함께 대화형 퀘스트 세팅
+        //SetUpDialogueQuests("마을이장"); // "마을이장" NPC에 대한 대화형 퀘스트를 설정
+        SetUpDialogueQuests(); // "마을이장" NPC에 대한 대화형 퀘스트를 설정
+    }
+
+    // 대화형 퀘스트 세팅 함수 (매개변수로 NPC 이름 받음)
+    void SetUpDialogueQuests()
+    {
+        questManager.SetUpDialogueQuests(); // 대화형 퀘스트 설정
+    }
+
+    public void InteractWithNPC(string npcName)
+    {
+        if (npcName == "마을이장")
+        {
+            CompleteDialogueQuest(npcName); // 대화형은 상호작용하면 퀘스트 완료
+        }
+        else if (npcName == "토끼주민")
+        {
+            CompleteDialogueQuest(npcName); // 대화 완료
+        }
+    }
+
+    // 대화형 퀘스트 완료 함수
+    void CompleteDialogueQuest(string npcName)
+    {
+        // 대화형 퀘스트 완료
+        questManager.CompleteDialogueQuest(npcName);
+    }
 
     /// <summary>
     /// 퀘스트 선택 시 호출
@@ -181,18 +216,6 @@ public class UISwitch : MonoBehaviour
             return;
         }
 
-
-        //// 대화형
-        //if (IsDialogueQuest(currentQuest))
-        //{
-        //    var command = new DialogueQuestCommand(currentQuest);
-        //    command.CompleteQuest();
-        //    HideAllPanels();
-        //    completePanel.SetActive(true);
-        //    UpdateCompletePanel();
-        //    return;
-        //}
-
         //// 전달형
         //if (IsDeliveryQuest(currentQuest))
         //{
@@ -217,9 +240,16 @@ public class UISwitch : MonoBehaviour
 
         // 커맨드 없는 경우
         currentQuest.state = QuestState.Completed;
+        //var command = new DialogueQuestCommand(currentQuest, currentQuest.npcName);
+        //command.CompleteQuest();
         HideAllPanels();
         completePanel.SetActive(true);
         UpdateCompletePanel();
+    }
+
+    private bool IsDialogueQuest(Quest quest)
+    {
+        return quest != null && QuestManager.Instance.questData.quests.Dialogue.Contains(quest);
     }
 
 
