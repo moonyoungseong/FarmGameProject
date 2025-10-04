@@ -12998,7 +12998,6 @@ GameObject:
   - component: {fileID: 432413279}
   - component: {fileID: 432413278}
   - component: {fileID: 432413280}
-  - component: {fileID: 432413281}
   - component: {fileID: 432413282}
   m_Layer: 0
   m_Name: QuestManager
@@ -13056,20 +13055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f8fe101fe0a2784ea11f37c790a7fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &432413281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 432413277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452fb2ec620f2f84fb0dfc8e95741d81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  questManager: {fileID: 432413278}
-  questListController: {fileID: 1529653457}
 --- !u!114 &432413282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15244,28 +15229,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 432413281}
-        m_TargetAssemblyTypeName: QuestInteractionManager, Assembly-CSharp
+      - m_Target: {fileID: 1529653459}
+        m_TargetAssemblyTypeName: UISwitch, Assembly-CSharp
         m_MethodName: InteractWithNPC
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: "\uB9C8\uC744\uC774\uC7A5"
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 358567875}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1514882759}
@@ -15279,6 +15252,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 293554490}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 358567875}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &473144097
 MonoBehaviour:
@@ -32571,7 +32568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.0045749843, y: 0.99450785, z: -0.09217907, w: 0.049358733}
-  m_LocalPosition: {x: 43.1, y: 11.37, z: 86.8}
+  m_LocalPosition: {x: 43.1, y: 11.37, z: 47.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41519,7 +41516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 60.660004
+      value: 21.760002
       objectReference: {fileID: 0}
     - target: {fileID: 2106585151094673546, guid: 31bdf8eb5c2f2a545956e0763ca4c455, type: 3}
       propertyPath: m_LocalRotation.w
@@ -53166,6 +53163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ba8a22f00beea0439a96ada6c5bdf50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questManager: {fileID: 432413278}
   startPanel: {fileID: 423230759}
   inProgressPanel: {fileID: 1282760996}
   completePanel: {fileID: 293554490}
@@ -54806,7 +54804,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 432413281}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: QuestInteractionManager, Assembly-CSharp
         m_MethodName: InteractWithNPC
         m_Mode: 5
