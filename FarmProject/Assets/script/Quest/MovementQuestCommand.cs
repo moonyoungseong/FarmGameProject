@@ -38,13 +38,13 @@ public class MovementQuestCommand : IQuestCommand
         {
             hasArrived = true;
             quest.canComplete = true;  // 완료 가능 표시
-            CompleteQuest();
+            //CompleteQuest();
             return true;
         }
         return false;
     }
 
-    private void CompleteQuest()
+    public void CompleteQuest()
     {
         quest.state = QuestState.Completed;
         Debug.Log($"[퀘스트 완료] {quest.questName} - {targetLocationName} 도착 완료!");
