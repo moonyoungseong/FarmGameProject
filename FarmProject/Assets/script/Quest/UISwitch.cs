@@ -265,16 +265,16 @@ public class UISwitch : MonoBehaviour
         //    return;
         //}
 
-        //// 이동형
-        //if (IsMovementQuest(currentQuest))
-        //{
-        //    var command = new MovementQuestCommand(currentQuest);
-        //    command.CompleteQuest();
-        //    HideAllPanels();
-        //    completePanel.SetActive(true);
-        //    UpdateCompletePanel();
-        //    return;
-        //}
+        // 이동형
+        if (IsMovementQuest(currentQuest))
+        {
+            var command = new MovementQuestCommand(currentQuest, currentQuest.movementTarget);
+            command.CompleteQuest();
+            HideAllPanels();
+            completePanel.SetActive(true);
+            UpdateCompletePanel();
+            return;
+        }
 
         // 커맨드 없는 경우
         currentQuest.state = QuestState.Completed;
