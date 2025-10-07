@@ -1,55 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryQuestCommand : IQuestCommand
 {
     private Quest quest;
-    private string itemName;  // 전달할 물건 이름
-    private int requiredAmount;
+    private string itemName;
     private string receiverNPC;
+    private bool isAccepted = false;
 
-    public DeliveryQuestCommand(Quest quest, string itemName, int requiredAmount, string receiverNPC)
+    private QuestListController questListController;
+
+    public DeliveryQuestCommand(Quest quest, string itemName, string receiverNPC)
     {
         this.quest = quest;
         this.itemName = itemName;
-        this.requiredAmount = requiredAmount;
         this.receiverNPC = receiverNPC;
+
+        // QuestListController 자동 주입 (있다면)
+        questListController = GameObject.FindObjectOfType<QuestListController>();
+        if (questListController == null)
+            Debug.LogWarning("QuestListController를 찾지 못했습니다. UI 갱신이 불가능할 수 있습니다.");
     }
 
-    // 퀘스트 실행
+    // 옥수수농부와 대화 시 실행 (퀘스트 수락)
     public void Execute()
     {
-        Debug.Log($"{quest.questName} 퀘스트 시작: {itemName} {requiredAmount}개 전달");
+        if (quest.state == QuestState.NotStarted)
+        {
+            quest.state = QuestState.InProgress;
+            isAccepted = true;
+
+            Debug.Log($"[퀘스트 시작] {quest.questName} - {receiverNPC}에게 {itemName} 전달하세요.");
+
+            // 슬롯 자물쇠 해제 (있다면)
+            questListController?.UnlockQuestSlot(quest.questName);
+
+            // 퀘스트 시작 시 옥수수 1개 지급
+            Reward startReward = new Reward { itemname = itemName, quantity = 1 };
+            RewardManager.Instance.GiveReward(startReward);
+        }
     }
 
-    // 물건을 전달하는 메서드
-    public void DeliverItem(string deliveredItemName)
+    // 양봉업자와 대화 시 실행 (퀘스트 완료 체크)
+    public void DeliverItem(string deliveredItemName, string npcName)
     {
-        if (deliveredItemName == itemName)
-        {
-            Debug.Log($"{itemName} 전달 완료!");
 
-            // 퀘스트 완료 처리
+        Debug.Log(isAccepted);
+        if (quest.state != QuestState.InProgress)    // !isAccepted || 
+        {
+            Debug.Log("퀘스트가 진행 중이 아닙니다.");
+            return;
+        }
+
+        if (npcName != receiverNPC)
+        {
+            Debug.Log($"잘못된 NPC에게 전달했습니다. ({npcName} → {receiverNPC}에게만 가능)");
+            return;
+        }
+
+        // 인벤토리에서 아이템 가져오기
+        Item item = InventoryManager.Instance.GetItemByName(itemName);
+
+        if (deliveredItemName == itemName && item != null && item.quantityInt >= 1)
+        {
+            // 인벤토리에서 1개 차감 (나중에 구현)
+            //CountManager.Instance.RemoveItemByID(itemID, 1);
+
             QuestCompleted();
         }
         else
         {
-            Debug.Log("잘못된 물건 전달!");
+            Debug.Log("전달할 아이템이 없습니다!");
         }
     }
 
-    // 아이템 이름을 반환하는 메서드 (추가)
-    public string GetItemName()
-    {
-        return itemName;
-    }
 
-    // 퀘스트 완료 처리
     private void QuestCompleted()
     {
-        Debug.Log($"{quest.questName} 퀘스트 완료!");
+        quest.state = QuestState.Completed;
+        quest.canComplete = true;
 
-        // 보상 지급 등 퀘스트 완료 로직
+        Debug.Log($"[퀘스트 완료] {quest.questName}");
+
+        RewardManager.Instance.GiveRewards(quest.reward);
     }
 }
