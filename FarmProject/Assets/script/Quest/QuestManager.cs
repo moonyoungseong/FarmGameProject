@@ -215,7 +215,7 @@ public class QuestManager : MonoBehaviour
             if (quest.questName.Contains(itemName))
             {
                 string receiverNPC = quest.receiverNPC;  // 아이템을 받을 NPC 이름
-                DeliveryQuestCommand command = new DeliveryQuestCommand(quest, itemName, 3, receiverNPC);
+                DeliveryQuestCommand command = new DeliveryQuestCommand(quest, itemName, receiverNPC);
                 deliveryCommands.Add(command);
             }
         }
