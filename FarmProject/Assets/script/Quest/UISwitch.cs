@@ -196,6 +196,53 @@ public class UISwitch : MonoBehaviour
             return;
         }
 
+        // --- 전달형 퀘스트 처리 ---
+        if (IsDeliveryQuest(currentQuest))
+        {
+            // DeliveryQuestCommand 생성
+            var deliveryCommand = new DeliveryQuestCommand(
+                currentQuest,
+                currentQuest.itemName,
+                currentQuest.receiverNPC
+            );
+
+            switch (currentQuest.state)
+            {
+                case QuestState.NotStarted:
+                    // NPC와 대화하여 퀘스트 수락 가능
+
+                    // 퀘스트 수락
+                    deliveryCommand.Execute();
+
+                    startPanel.SetActive(true);
+                    UpdateStartPanel();
+                    Debug.Log($"[UI] {currentQuest.questName} - 전달형 퀘스트 시작 가능");
+                    break;
+
+                case QuestState.InProgress:
+                    // canComplete을 이용해 UI 분기
+                    if (currentQuest.canComplete)
+                    {
+                        comQuestPanel.SetActive(true); // 완료 가능 패널
+                        Debug.Log($"[UI] {currentQuest.questName} - 전달형 퀘스트 완료 가능");
+                    }
+                    else
+                    {
+                        inProgressPanel.SetActive(true); // 진행중 패널
+                        Debug.Log($"[UI] {currentQuest.questName} - 전달형 퀘스트 진행중");
+                    }
+                    break;
+
+                case QuestState.Completed:
+                    completePanel.SetActive(true);
+                    UpdateCompletePanel();
+                    Debug.Log($"[UI] {currentQuest.questName} - 전달형 퀘스트 완료됨");
+                    break;
+            }
+
+            return;
+        }
+
         // --- 일반 퀘스트 처리 ---
         switch (currentQuest.state)
         {
@@ -215,7 +262,7 @@ public class UISwitch : MonoBehaviour
         }
     }
     /// <summary>
-    /// 수집형 퀘스트 확인 버튼
+    /// 퀘스트 확인 버튼
     /// </summary>
     public void ConfirmComplete()
     {
@@ -265,6 +312,36 @@ public class UISwitch : MonoBehaviour
         //    return;
         //}
 
+        // 전달형
+        if (IsDeliveryQuest(currentQuest))
+        {
+            var command = new DeliveryQuestCommand(
+                currentQuest,
+                currentQuest.itemName,
+                currentQuest.receiverNPC
+            );
+
+            // 인벤토리에서 아이템 확인
+            Item item = InventoryManager.Instance.GetItemByName(currentQuest.itemName);
+
+            // 아이템이 있고, 지정된 NPC(receiverNPC)에게 전달할 때만 완료
+            if (item != null && item.quantityInt >= 1)
+            {
+                command.DeliverItem(item.itemName, currentQuest.receiverNPC);
+                HideAllPanels();
+                completePanel.SetActive(true);
+                UpdateCompletePanel();
+            }
+            else
+            {
+                Debug.Log("전달형 퀘스트: 조건 불충분 (아이템 부족 또는 잘못된 NPC). 진행중 유지");
+                HideAllPanels();
+                inProgressPanel.SetActive(true);
+            }
+            return;
+        }
+
+
         // 이동형
         if (IsMovementQuest(currentQuest))
         {
@@ -302,6 +379,11 @@ public class UISwitch : MonoBehaviour
     {
         // movementTarget이 비어있지 않으면 이동형 퀘스트로 판단
         return !string.IsNullOrEmpty(quest.movementTarget);
+    }
+
+    private bool IsDeliveryQuest(Quest quest)
+    {
+        return !string.IsNullOrEmpty(quest.receiverNPC) && !string.IsNullOrEmpty(quest.itemName);
     }
 
     private void HideAllPanels()
