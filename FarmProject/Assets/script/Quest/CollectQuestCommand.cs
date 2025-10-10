@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CollectQuestCommand : IQuestCommand
@@ -10,19 +9,14 @@ public class CollectQuestCommand : IQuestCommand
 
     private QuestListController questListController;
 
-    public CollectQuestCommand(Quest quest, string itemName, int requiredAmount)
+    public CollectQuestCommand(Quest quest, string itemName, int requiredAmount, QuestListController controller)
     {
         Quest = quest;
         ItemName = itemName;
         RequiredAmount = requiredAmount;
+        questListController = controller;
 
-        // 초기 동기화
-        SyncWithInventory();
-
-        // QuestListController 자동 주입 (있다면)
-        questListController = GameObject.FindObjectOfType<QuestListController>();
-        if (questListController == null)
-            Debug.LogWarning("QuestListController를 찾지 못했습니다. UI 갱신이 불가능할 수 있습니다.");
+        SyncWithInventory(); // 현재 인벤토리 상태 동기화
     }
 
     public void Execute()
@@ -30,79 +24,65 @@ public class CollectQuestCommand : IQuestCommand
         if (Quest.state == QuestState.NotStarted)
         {
             Quest.state = QuestState.InProgress;
-            Debug.Log($"[퀘스트 시작] {Quest.questName} - {ItemName} {RequiredAmount}개 수집");
-        }
+            questListController?.UnlockQuestSlot(Quest.questName);
 
-        // 슬롯 자물쇠 해제 (있다면)
-        questListController?.UnlockQuestSlot(Quest.questName);
+            Debug.Log($"[수집형 퀘스트 시작] {Quest.questName}, 필요 아이템: {ItemName}, 개수: {RequiredAmount}");
+        }
+        else
+        {
+            Debug.Log($"[수집형 퀘스트 실행] {Quest.questName}, 현재 상태: {Quest.state}");
+        }
     }
 
-    /// <summary>
-    /// 인벤토리와 동기화해서 CollectedAmount 업데이트
-    /// </summary>
     public void SyncWithInventory()
     {
-        Item item = InventoryManager.Instance.GetItemByName(ItemName);
-        int count = (item != null) ? item.quantityInt : 0;
-        CollectedAmount = Mathf.Min(count, RequiredAmount);
+        if (InventoryManager.Instance == null)
+        {
+            Debug.LogWarning("InventoryManager.Instance is null");
+            CollectedAmount = 0;
+            return;
+        }
+        var item = InventoryManager.Instance.GetItemByName(ItemName);
+        CollectedAmount = item != null ? Mathf.Min(item.quantityInt, RequiredAmount) : 0;
     }
 
-    /// <summary>
-    /// 플레이어가 아이템 획득 시 호출
-    /// </summary>
     public void CollectItem(string collectedItemName)
     {
-        if (Quest == null || Quest.state != QuestState.InProgress) return;
-
-        if (!string.Equals(collectedItemName?.Trim(), ItemName?.Trim(), StringComparison.OrdinalIgnoreCase))
-            return; // 다른 아이템이면 무시
+        if (Quest.state != QuestState.InProgress || collectedItemName != ItemName) return;
 
         SyncWithInventory();
-        Debug.Log($"[{Quest.questName}] 아이템 수집 업데이트: {CollectedAmount}/{RequiredAmount}");
+        Debug.Log($"[{Quest.questName}] 아이템 수집: {CollectedAmount}/{RequiredAmount}");
     }
 
-    /// <summary>
-    ///  완료 가능 여부 확인 (UISwitch에서 사용)
-    /// </summary>
     public bool CanComplete()
     {
-        string questItem = ItemName.Trim().ToLower(); // 퀘스트 아이템 이름
-        Item item = InventoryManager.Instance.MyItemList.Find(x => x.itemName.Trim().ToLower() == questItem);
-        bool result = (item != null && item.quantityInt >= RequiredAmount);
-
-        Debug.Log($"[CanComplete] Quest:{Quest.questName}, Item:{ItemName}, 현재:{(item != null ? item.quantityInt : 0)}, 필요:{RequiredAmount}, 가능여부:{result}");
-
-        return result;
+        var item = InventoryManager.Instance.GetItemByName(ItemName);
+        return item != null && item.quantityInt >= RequiredAmount;
     }
 
-    /// <summary>
-    /// 퀘스트 완료 처리 (확인 버튼 등에서 호출)
-    /// </summary>
     public void CompleteQuest()
     {
         if (!CanComplete())
         {
-            Debug.LogWarning($"퀘스트 완료 불가: {Quest.questName}, 아이템 부족");
+            Debug.LogWarning($"퀘스트 완료 불가: {Quest.questName}");
             return;
         }
 
-        // 아이템 차감
-        Item item = InventoryManager.Instance.GetItemByName(ItemName);
+        var item = InventoryManager.Instance.GetItemByName(ItemName);
         if (item != null)
         {
             CountManager.Instance.RemoveItemByID(item.itemID, RequiredAmount);
-            Debug.Log($"퀘스트 완료: 아이템 {item.itemName} {RequiredAmount}개 차감됨");
         }
 
-        // 상태 변경
         Quest.state = QuestState.Completed;
-        Debug.Log($"[퀘스트 완료] {Quest.questName} - {ItemName} 수집 완료!");
-
-        // 보상 지급
         RewardManager.Instance.GiveRewards(Quest.reward);
-        foreach (var reward in Quest.reward)
-        {
-            Debug.Log($"보상 지급: {reward.itemname} x{reward.quantity}");
-        }
+        Debug.Log($"[퀘스트 완료] {Quest.questName}");
+    }
+
+    public void Undo()
+    {
+        Debug.Log($"[퀘스트 되돌리기] {Quest.questName}");
+        Quest.state = QuestState.NotStarted;
+        // 이동형이면 목표 위치 초기화 필요하면 여기에 추가
     }
 }
