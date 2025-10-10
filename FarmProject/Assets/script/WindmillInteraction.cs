@@ -14,7 +14,8 @@ public class WindmillInteraction : MonoBehaviour
     public GameObject[] LadderAbout; // 사다리 타고 나서 지워할것들
     public GameObject windmillFan; // 풍차 팬 오브젝트
 
-    private bool isRepaired = false; // 수리 상태를 저장
+    public bool isRepaired = false; // 수리 상태를 저장
+    public bool repairDone = false; // 퀘스트 완료 조건
 
     public Animator playerAnimator; // Animator를 할당해야 함
 
@@ -37,7 +38,7 @@ public class WindmillInteraction : MonoBehaviour
 
         // 예시: Windmill 수리 퀘스트 연결
         Quest windmillQuest = QuestManager.Instance.GetQuestByID(10);
-        movementQuest = new MovementQuestCommand(windmillQuest, "풍차 수리");
+        movementQuest = new MovementQuestCommand(windmillQuest, "풍차 수리", QuestManager.Instance.questListController);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -132,9 +133,27 @@ public class WindmillInteraction : MonoBehaviour
         //  이동형 퀘스트 완료 체크
         if (movementQuest != null)
         {
-            bool result = movementQuest.ReachTarget();
-            Debug.Log("수리 퀘스트 완료 여부: " + result);
+            //movementQuest.SignalCompleted(); // hasArrived = true
+            FixWindmill();
+            Debug.Log("풍차 수리 완료 신호 전송!");
         }
+    }
+
+    // 풍차 수리 완료 시 호출
+    public void FixWindmill()
+    {
+        Debug.Log("풍차 수리 완료!");
+
+        // 수리 완료 처리
+        repairDone = true; // true 신호
+
+        // 이동형 퀘스트에 전달
+        //movementQuest?.SetArrived(repairDone); 
+    }
+
+    public bool IsFixed()
+    {
+        return isRepaired; // PlayFixWindAnimation에서 true로 바뀜
     }
 
     // MoveInit 함수: 즉시 이동과 회전 수행
