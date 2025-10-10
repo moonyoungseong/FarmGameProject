@@ -2,85 +2,62 @@ using UnityEngine;
 
 public class DeliveryQuestCommand : IQuestCommand
 {
-    private Quest quest;
-    private string itemName;
-    private string receiverNPC;
-    private bool isAccepted = false;
-
+    public Quest Quest { get; private set; }
+    public string ItemName { get; private set; }
+    public string ReceiverNPC { get; private set; }
     private QuestListController questListController;
 
-    public DeliveryQuestCommand(Quest quest, string itemName, string receiverNPC)
+    public DeliveryQuestCommand(Quest quest, string itemName, string receiverNPC, QuestListController controller)
     {
-        this.quest = quest;
-        this.itemName = itemName;
-        this.receiverNPC = receiverNPC;
-
-        // QuestListController 자동 주입 (있다면)
-        questListController = GameObject.FindObjectOfType<QuestListController>();
-        if (questListController == null)
-            Debug.LogWarning("QuestListController를 찾지 못했습니다. UI 갱신이 불가능할 수 있습니다.");
+        Quest = quest;
+        ItemName = itemName;
+        ReceiverNPC = receiverNPC;
+        questListController = controller;
     }
 
-    // 옥수수농부와 대화 시 실행 (퀘스트 수락)
     public void Execute()
     {
-        if (quest.state == QuestState.NotStarted)
+        if (Quest.state == QuestState.NotStarted)
         {
-            quest.state = QuestState.InProgress;
-            isAccepted = true;
+            Quest.state = QuestState.InProgress;
+            questListController?.UnlockQuestSlot(Quest.questName);
 
-            Debug.Log($"[퀘스트 시작] {quest.questName} - {receiverNPC}에게 {itemName} 전달하세요.");
-
-            // 슬롯 자물쇠 해제 (있다면)
-            questListController?.UnlockQuestSlot(quest.questName);
-
-            // 퀘스트 시작 시 옥수수 1개 지급
-            Reward startReward = new Reward { itemname = itemName, quantity = 1 };
-            RewardManager.Instance.GiveReward(startReward);
-        }
-    }
-
-    // 양봉업자와 대화 시 실행 (퀘스트 완료 체크)
-    public void DeliverItem(string deliveredItemName, string npcName)
-    {
-
-        Debug.Log(isAccepted);
-        if (quest.state != QuestState.InProgress)    // !isAccepted || 
-        {
-            Debug.Log("퀘스트가 진행 중이 아닙니다.");
-            return;
-        }
-
-        if (npcName != receiverNPC)
-        {
-            Debug.Log($"잘못된 NPC에게 전달했습니다. ({npcName} → {receiverNPC}에게만 가능)");
-            return;
-        }
-
-        // 인벤토리에서 아이템 가져오기
-        Item item = InventoryManager.Instance.GetItemByName(itemName);
-
-        if (deliveredItemName == itemName && item != null && item.quantityInt >= 1)
-        {
-            // 인벤토리에서 1개 차감 (나중에 구현)
-            //CountManager.Instance.RemoveItemByID(itemID, 1);
-
-            QuestCompleted();
+            Debug.Log($"[전달형 퀘스트 시작] {Quest.questName}, 아이템: {ItemName}, 수령인: {ReceiverNPC}");
         }
         else
         {
-            Debug.Log("전달할 아이템이 없습니다!");
+            Debug.Log($"[전달형 퀘스트 실행] {Quest.questName}, 현재 상태: {Quest.state}");
         }
     }
 
-
-    private void QuestCompleted()
+    public void DeliverItem(string itemName, string npcName)
     {
-        quest.state = QuestState.Completed;
-        quest.canComplete = true;
+        if (Quest.state != QuestState.InProgress) return;
+        if (itemName != ItemName || npcName != ReceiverNPC) return;
 
-        Debug.Log($"[퀘스트 완료] {quest.questName}");
+        var item = InventoryManager.Instance.GetItemByName(ItemName);
+        if (item != null)
+        {
+            CountManager.Instance.RemoveItemByID(item.itemID, 1);
+            Debug.Log($"[{Quest.questName}] {ReceiverNPC}에게 {ItemName} 전달 완료");
+        }
 
-        RewardManager.Instance.GiveRewards(quest.reward);
+        CompleteQuest();
+    }
+
+    public void CompleteQuest()
+    {
+        if (Quest.state == QuestState.InProgress)
+        {
+            Quest.state = QuestState.Completed;
+            RewardManager.Instance.GiveRewards(Quest.reward);
+            Debug.Log($"[퀘스트 완료] {Quest.questName}");
+        }
+    }
+    public void Undo()
+    {
+        Debug.Log($"[퀘스트 되돌리기] {Quest.questName}");
+        Quest.state = QuestState.NotStarted;
+        // 이동형이면 목표 위치 초기화 필요하면 여기에 추가
     }
 }
