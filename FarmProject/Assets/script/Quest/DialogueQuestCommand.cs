@@ -1,58 +1,46 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueQuestCommand : IQuestCommand
 {
-    private Quest quest;
-    private string npcName;
+    public Quest Quest { get; private set; }
+    public string GiverNPC { get; private set; }
+    private QuestListController questListController;
 
-    // UI나 외부에서 quest를 참조할 수 있게 공개
-    public Quest Quest => quest;
-
-    public string NpcName => npcName;
-    public bool IsQuestStarted => quest.state == QuestState.InProgress || quest.state == QuestState.Completed;
-
-    public DialogueQuestCommand(Quest quest, string npcName)
+    public DialogueQuestCommand(Quest quest, string giverNPC, QuestListController controller)
     {
-        this.quest = quest;
-        this.npcName = npcName;
+        Quest = quest;
+        GiverNPC = giverNPC;
+        questListController = controller;
+        questListController?.UnlockQuestSlot(Quest.questName);
     }
 
-    // 퀘스트 시작
     public void Execute()
     {
-        if (quest.state == QuestState.NotStarted)
+        if (Quest.state == QuestState.NotStarted)
         {
-            Debug.Log($"{npcName}와 대화 시작: {quest.questName} 퀘스트");
-            quest.state = QuestState.InProgress;
-
-            // UI 갱신
-            //UpdateQuestUI();
+            Quest.state = QuestState.InProgress;
+            Debug.Log($"[대화형 퀘스트 시작] {Quest.questName}, NPC: {GiverNPC}");
+        }
+        else
+        {
+            Debug.Log($"[대화형 퀘스트 실행] {Quest.questName}, 현재 상태: {Quest.state}");
         }
     }
 
-    //퀘스트 완료
     public void CompleteQuest()
     {
-        if (quest.state == QuestState.Completed)
+        if (Quest.state == QuestState.InProgress)
         {
-            Debug.Log($"{quest.questName} 퀘스트는 이미 완료되었습니다.");
-            return;
+            Quest.state = QuestState.Completed;
+            RewardManager.Instance.GiveRewards(Quest.reward);
+            Debug.Log($"[퀘스트 완료] {Quest.questName}");
         }
-
-        // 상태가 NotStarted, InProgress 상관없이 바로 완료 처리
-        quest.state = QuestState.Completed;
-        Debug.Log($"{npcName}와의 대화 완료: {quest.questName} 퀘스트 완료!");
-
-        // 보상 지급
-        GiveRewards();
     }
 
-    private void GiveRewards()
+    public void Undo()
     {
-        if (RewardManager.Instance != null && quest.reward != null)
-        {
-            RewardManager.Instance.GiveRewards(quest.reward);
-        }
+        Debug.Log($"[퀘스트 되돌리기] {Quest.questName}");
+        Quest.state = QuestState.NotStarted;
+        // 이동형이면 목표 위치 초기화 필요하면 여기에 추가
     }
 }
