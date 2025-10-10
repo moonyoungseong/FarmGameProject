@@ -2,51 +2,55 @@ using UnityEngine;
 
 public class ConstructionQuestCommand : IQuestCommand
 {
-    private Quest quest;                  // 퀘스트 정보
-    private string buildingName;          // 지어야 할 건물 이름
-    private bool isConstructed = false;   // 건설 여부
-
+    public Quest Quest { get; private set; }
+    public string BuildingName { get; private set; }
     private QuestListController questListController;
 
-    public string BuildingName => buildingName; // 외부에서 건물 이름 확인 가능
-
-    public ConstructionQuestCommand(Quest quest, string buildingName)
+    public ConstructionQuestCommand(Quest quest, string buildingName, QuestListController controller)
     {
-        this.quest = quest;
-        this.buildingName = buildingName;
+        Quest = quest;
+        BuildingName = buildingName;
+        questListController = controller;
     }
 
-    // 퀘스트 시작
     public void Execute()
     {
-        if (quest.state == QuestState.NotStarted)
+        if (Quest.state == QuestState.NotStarted)
         {
-            quest.state = QuestState.InProgress;
-            Debug.Log($"[퀘스트 시작] {quest.questName} - {buildingName} 건설 시작");
+            Quest.state = QuestState.InProgress;
+            questListController?.UnlockQuestSlot(Quest.questName);
+            Debug.Log($"[건설형 퀘스트 시작] {Quest.questName}, 건물: {BuildingName}");
         }
-
-        // 슬롯 자물쇠 해제
-        if (questListController != null)
-            questListController.UnlockQuestSlot(quest.questName);
+        else
+        {
+            Debug.Log($"[건설형 퀘스트 실행] {Quest.questName}, 현재 상태: {Quest.state}");
+        }
     }
 
-    public bool CheckConstruction()
+    public bool CanComplete()
     {
-        GameObject building = GameObject.FindWithTag("Dog");
-        if (building != null)
-        {
-            //CompleteQuest(); // 퀘스트 완료 처리
-            return true;     //  건물 존재 → true
-        }
-        return false;        //  건물 없음 → false
+        // BuildingName 태그를 가진 오브젝트가 씬에 있는지 체크
+        var buildings = GameObject.FindGameObjectsWithTag(BuildingName);
+        return buildings.Length > 0;
     }
 
-    // 퀘스트 완료 처리
     public void CompleteQuest()
     {
-        quest.state = QuestState.Completed;
-        Debug.Log($"[퀘스트 완료] {quest.questName} - {buildingName} 건설 완료!");
+        if (!CanComplete())
+        {
+            Debug.LogWarning($"퀘스트 완료 불가: {Quest.questName}, 건물 {BuildingName} 아직 없음");
+            return;
+        }
 
-        RewardManager.Instance.GiveRewards(quest.reward);
+        Quest.state = QuestState.Completed;
+        RewardManager.Instance.GiveRewards(Quest.reward);
+        Debug.Log($"[퀘스트 완료] {Quest.questName}");
+    }
+
+    public void Undo()
+    {
+        Debug.Log($"[퀘스트 되돌리기] {Quest.questName}");
+        Quest.state = QuestState.NotStarted;
+        // 이동형이면 목표 위치 초기화 필요하면 여기에 추가
     }
 }
