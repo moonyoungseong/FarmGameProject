@@ -60,7 +60,7 @@ public class PlayerMove : MonoBehaviour
             }
         };
 
-        collectQuestCommand = new CollectQuestCommand(collectQuest, "토마토", 3);
+        collectQuestCommand = new CollectQuestCommand(collectQuest, "토마토", 3, QuestManager.Instance.questListController);
     }
 
     void Update()
