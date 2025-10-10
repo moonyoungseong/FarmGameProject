@@ -2,53 +2,65 @@ using UnityEngine;
 
 public class MovementQuestCommand : IQuestCommand
 {
-    private Quest quest;
-    private string targetLocationName;
-    private bool hasArrived = false;
-
+    public Quest Quest { get; private set; }
+    public string MovementTarget { get; private set; }
     private QuestListController questListController;
 
-    public MovementQuestCommand(Quest quest, string targetLocationName)
-    {
-        this.quest = quest;
-        this.targetLocationName = targetLocationName;
+    // 중복 완료 방지
+    private bool hasArrived = false;
 
-        // QuestListController 자동 주입 (있다면)
-        questListController = GameObject.FindObjectOfType<QuestListController>();
-        if (questListController == null)
-            Debug.LogWarning("QuestListController를 찾지 못했습니다. UI 갱신이 불가능할 수 있습니다.");
+    public MovementQuestCommand(Quest quest, string target, QuestListController controller)
+    {
+        Quest = quest;
+        MovementTarget = target;
+        questListController = controller;
     }
 
     public void Execute()
     {
-        if (quest.state == QuestState.NotStarted)
+        if (Quest.state == QuestState.NotStarted)
         {
-            quest.state = QuestState.InProgress;
-            Debug.Log($"[퀘스트 시작] {quest.questName} - {targetLocationName}로 이동하세요.");
-        }
+            Quest.state = QuestState.InProgress;
+            questListController?.UnlockQuestSlot(Quest.questName);
 
-        // 슬롯 자물쇠 해제 (있다면)
-        questListController?.UnlockQuestSlot(quest.questName);
+            Debug.Log($"[이동형 퀘스트 시작] {Quest.questName}, 목표 위치: {MovementTarget}");
+        }
+        else
+        {
+            Debug.Log($"[이동형 퀘스트 실행] {Quest.questName}, 현재 상태: {Quest.state}");
+        }
     }
 
-    //  외부에서 호출 가능 (예: FixWind() 끝났을 때)
-    public bool ReachTarget()
+    public bool SetArrived(bool arrived)
     {
-        if (quest.state == QuestState.InProgress && !hasArrived)
-        {
-            hasArrived = true;
-            quest.canComplete = true;  // 완료 가능 표시
-            //CompleteQuest();
+        hasArrived = arrived;
+        Debug.Log($"[{Quest.questName}] 완료 상태 변경: {hasArrived}");
+        return arrived; // arrived 값 그대로 반환
+    }
+
+    public bool IsArrived() //=> hasArrived;
+    {
+        if (hasArrived)  // SetArrived(true)가 호출되면 hasArrived가 true
             return true;
-        }
-        return false;
+        else
+            return false;
     }
 
     public void CompleteQuest()
     {
-        quest.state = QuestState.Completed;
-        Debug.Log($"[퀘스트 완료] {quest.questName} - {targetLocationName} 도착 완료!");
+        if (Quest.state == QuestState.InProgress)
+        {
+            Quest.state = QuestState.Completed;
+            RewardManager.Instance.GiveRewards(Quest.reward);
+            Debug.Log($"[퀘스트 완료] {Quest.questName}");
+        }
+    }
 
-        RewardManager.Instance.GiveRewards(quest.reward);
+    public void Undo()
+    {
+        Debug.Log($"[퀘스트 되돌리기] {Quest.questName}");
+        hasArrived = false;
+        Quest.state = QuestState.NotStarted;
+        // 필요하다면 목표 위치 초기화
     }
 }
