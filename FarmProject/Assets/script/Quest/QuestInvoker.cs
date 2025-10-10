@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestInvoker : MonoBehaviour
 {
-    private IQuestCommand currentQuestCommand;
+    private IQuestCommand currentCommand;
 
-    // 퀘스트 명령을 설정하는 메서드
-    public void SetQuestCommand(IQuestCommand questCommand)
-    {
-        currentQuestCommand = questCommand;
-    }
+    public void SetQuestCommand(IQuestCommand command) => currentCommand = command;
 
-    // 퀘스트 실행 메서드
     public void ExecuteQuest()
     {
-        if (currentQuestCommand != null)
-        {
-            currentQuestCommand.Execute();  // 퀘스트 실행
-        }
+        if (currentCommand != null)
+            currentCommand.Execute();
         else
-        {
-            Debug.LogError("퀘스트 명령이 설정되지 않았습니다!");
-        }
+            Debug.LogWarning("실행할 퀘스트 명령이 없습니다!");
+    }
+
+    public void Undo()
+    {
+        if (currentCommand != null)
+            currentCommand.Undo();
+        else
+            Debug.LogWarning("되돌릴 퀘스트 명령이 없습니다!");
     }
 }
+
