@@ -50,7 +50,7 @@ public class UISwitch : MonoBehaviour
         switch (currentQuest.state)
         {
             case QuestState.NotStarted:
-                questInvoker.ExecuteQuest(); // NotStarted → InProgress
+                questInvoker.ExecuteQuest(); // NotStarted → InProgress 퀘스트 수락
                 startPanel.SetActive(true);
                 UpdateStartPanel();
                 break;
@@ -64,13 +64,8 @@ public class UISwitch : MonoBehaviour
                     canComplete = InventoryManager.Instance.GetItemByName(deliveryCommand.ItemName) != null;
                 else if (command is ConstructionQuestCommand constructionCommand)
                     canComplete = constructionCommand.CanComplete();
-                //else if (currentQuest.questType == QuestType.Movement) // 이동형
-                //    canComplete = windmillInteraction != null && windmillInteraction.IsFixed(); // 바로 true/false 체크
-                //Debug.Log($"canComplete: {canComplete}");
                 else if (command is MovementQuestCommand moveCommand && windmillInteraction.repairDone == true)
-                    canComplete = true; //moveCommand.IsArrived(); //  목표 도달 여부 확인
-                //else
-                //    canComplete = true;
+                    canComplete = true; 
 
                 if (canComplete)
                     comQuestPanel.SetActive(true);
