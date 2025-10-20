@@ -131,6 +131,7 @@ public class DecoManager : MonoBehaviour
             if (canPlaceItem) // 설치 가능 여부 확인
             {
                 PlaceDecoItem();
+                AudioManager.Instance.PlaySFX(4);// 생성시 효과음
             }
             else
             {
@@ -159,12 +160,6 @@ public class DecoManager : MonoBehaviour
         {
             PlaySpawnParticle(spawnedDecoItem.transform.position);
             Debug.Log("아이템 설치 완료!");
-
-            // 설치한 아이템의 개수를 줄임
-            //ReduceItemQuantity(spawnedDecoItem.name);
-
-            // UI 업데이트
-            //HomeList();
 
             // 설치 상태 초기화
             isPlacingItem = false;
