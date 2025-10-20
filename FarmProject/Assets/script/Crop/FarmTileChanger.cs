@@ -103,6 +103,7 @@ public class FarmTileChanger : MonoBehaviour
             {
                 ParticleSystem particle = Instantiate(changeSoilParticleEffect, position, Quaternion.identity);
                 particle.Play();
+                AudioManager.Instance.PlaySFX(14);   // ¹ç °¡²Þ È¿°úÀ½
             }
         }
     }
