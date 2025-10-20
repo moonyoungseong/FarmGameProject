@@ -65,12 +65,18 @@ public class UISwitch : MonoBehaviour
                 else if (command is ConstructionQuestCommand constructionCommand)
                     canComplete = constructionCommand.CanComplete();
                 else if (command is MovementQuestCommand moveCommand && windmillInteraction.repairDone == true)
-                    canComplete = true; 
+                    canComplete = true;
 
                 if (canComplete)
+                {
                     comQuestPanel.SetActive(true);
+                    AudioManager.Instance.PlaySFX(0);   // 완료 가능할때 효과음
+                }
                 else
+                {
                     inProgressPanel.SetActive(true);
+                    AudioManager.Instance.PlaySFX(8);// 아직 완료 못할때 효과음
+                }
                 break;
 
             case QuestState.Completed:
