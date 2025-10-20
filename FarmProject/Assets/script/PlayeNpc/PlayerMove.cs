@@ -17,6 +17,10 @@ public class PlayerMove : MonoBehaviour
 
     public TextMeshProUGUI characterNameText; // 캐릭터 이름
 
+    private Coroutine footstepCoroutine;
+    private bool isMoving;
+    private AudioSource footstepSource;
+
     public GameObject maleCharacter;  // 남자 캐릭터 오브젝트
     public GameObject femaleCharacter; // 여자 캐릭터 오브젝트
 
@@ -61,6 +65,9 @@ public class PlayerMove : MonoBehaviour
         };
 
         collectQuestCommand = new CollectQuestCommand(collectQuest, "토마토", 3, QuestManager.Instance.questListController);
+
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        footstepSource.spatialBlend = 0; // 2D로 재생
     }
 
     void Update()
@@ -87,11 +94,26 @@ public class PlayerMove : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             animator.SetBool("isWalking", !isRunning);
             animator.SetBool("isRunning", isRunning);
+
+            if (!isMoving)
+            {
+                isMoving = true;
+                footstepCoroutine = StartCoroutine(PlayFootsteps(isRunning));
+            }
         }
         else if (isGrounded)
         {
             animator.SetBool("isWalking", false);
             animator.SetBool("isRunning", false);
+
+            if (isMoving)
+            {
+                isMoving = false;
+                if (footstepCoroutine != null)
+                    StopCoroutine(footstepCoroutine);
+
+                AudioManager.Instance.StopAllSFX();
+            }
         }
 
         // 점프 처리
@@ -101,12 +123,20 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isJumping", true);
             isGrounded = false;
         }
+    }
 
-        // 예시로 'T' 키를 눌러서 토마토를 수집하는 것처럼 처리
-        if (Input.GetKeyDown(KeyCode.T))
+    private IEnumerator PlayFootsteps(bool isRunning)
+    {
+        // 걷기/뛰기 효과음 분리
+        int walkSFX = 12; // AudioManager의 SFX 리스트에서 걷기 발소리 인덱스
+        int runSFX = 9;  // AudioManager의 SFX 리스트에서 뛰기 발소리 인덱스
+
+        float interval = isRunning ? 0.35f : 0.6f;
+
+        while (isMoving && isGrounded)
         {
-            collectQuestCommand.CollectItem("토마토");  // 아이템을 수집
-            collectQuestCommand.Execute();              // 퀘스트 진행 체크
+            AudioManager.Instance.PlaySFX(isRunning ? runSFX : walkSFX);
+            yield return new WaitForSeconds(interval);
         }
     }
 
@@ -133,12 +163,19 @@ public class PlayerMove : MonoBehaviour
         {
             isPlanting = true;  // 심기 시작
             animator.SetTrigger("isPlanting");  // 심는 애니메이션 트리거 실행
+            StartCoroutine(DelayedPlantSound());
 
             yield return new WaitForSeconds(animationDuration);  // 애니메이션 지속 시간 대기
 
             isPlanting = false;  // 심기 종료
             animator.ResetTrigger("isPlanting");  // 트리거 초기화
         }
+    }
+
+    private IEnumerator DelayedPlantSound()
+    {
+        yield return new WaitForSeconds(3f); // 3초 대기
+        AudioManager.Instance.PlaySFXRepeated(6, 4, 1f);
     }
 
     // 코루틴으로 수확 동작 처리
@@ -148,6 +185,7 @@ public class PlayerMove : MonoBehaviour
         {
             isPicking = true;
             animator.SetTrigger("isPicking");  // 애니메이션 트리거 실행
+            AudioManager.Instance.PlaySFXRepeated(5, 2, 1.5f);  // 작물 수확하는 효과음
             Debug.Log("Picking started."); // 시작 시 로그
 
             yield return new WaitForSeconds(animationDuration);  // 애니메이션 지속 시간 대기
