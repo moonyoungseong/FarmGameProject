@@ -38,6 +38,9 @@ public class SprinklerTimelineHandler : MonoBehaviour
         }
 
         timeline.Play(); // 타임라인 실행
+        AudioManager.Instance.PlaySFX(11);   // 물 뿌릴때 효과음
+
+        AudioManager.Instance.StopAllSFXAfterTime(9f);     // 8초뒤 효과음 끄기
     }
 
     private void OnTimelineEnd(PlayableDirector pd)
