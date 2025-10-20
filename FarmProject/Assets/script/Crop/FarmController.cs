@@ -73,7 +73,7 @@ public class FarmController : MonoBehaviour
                 plantedCropPositions.Add(mousePosition);
                 lastPlantTime = Time.time;
                 ReduceSeedCount(selectedCropAttributes);
-                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f));
+                StartCoroutine(playerMoveScript.PlantingAnimationCoroutine(10f));   // 작물 심는 코루틴 
             }
         }
     }
