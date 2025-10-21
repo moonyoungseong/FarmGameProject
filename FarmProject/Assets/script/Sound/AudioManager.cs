@@ -112,6 +112,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public AudioClip GetSFXClip(int index)
+    {
+        if (index >= 0 && index < sfxList.Count)
+            return sfxList[index].clip;
+        return null;
+    }
+
     // 사용 가능한 SFX AudioSource 가져오기
     private AudioSource GetAvailableSFXSource()
     {
