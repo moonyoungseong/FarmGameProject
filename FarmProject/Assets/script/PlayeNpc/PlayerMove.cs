@@ -24,8 +24,6 @@ public class PlayerMove : MonoBehaviour
     public GameObject maleCharacter;  // 남자 캐릭터 오브젝트
     public GameObject femaleCharacter; // 여자 캐릭터 오브젝트
 
-    private CollectQuestCommand collectQuestCommand; // 퀘스트 테스트
-
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -64,10 +62,8 @@ public class PlayerMove : MonoBehaviour
             }
         };
 
-        collectQuestCommand = new CollectQuestCommand(collectQuest, "토마토", 3, QuestManager.Instance.questListController);
-
         footstepSource = gameObject.AddComponent<AudioSource>();
-        footstepSource.spatialBlend = 0; // 2D로 재생
+        //footstepSource.spatialBlend = 0; // 2D로 재생
     }
 
     void Update()
@@ -112,7 +108,9 @@ public class PlayerMove : MonoBehaviour
                 if (footstepCoroutine != null)
                     StopCoroutine(footstepCoroutine);
 
-                AudioManager.Instance.StopAllSFX();
+                //AudioManager.Instance.StopAllSFX();
+                if (footstepSource != null && footstepSource.isPlaying)
+                    footstepSource.Stop();
             }
         }
 
@@ -127,18 +125,33 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator PlayFootsteps(bool isRunning)
     {
-        // 걷기/뛰기 효과음 분리
-        int walkSFX = 12; // AudioManager의 SFX 리스트에서 걷기 발소리 인덱스
-        int runSFX = 9;  // AudioManager의 SFX 리스트에서 뛰기 발소리 인덱스
-
-        float interval = isRunning ? 0.35f : 0.6f;
+        int walkSFX = 12;
+        int runSFX = 9;
 
         while (isMoving && isGrounded)
         {
-            AudioManager.Instance.PlaySFX(isRunning ? runSFX : walkSFX);
+            if (!footstepSource.isPlaying)
+            {
+                // 현재 발소리 선택
+                AudioClipData data = AudioManager.Instance.sfxList[isRunning ? runSFX : walkSFX];
+
+                // AudioSource 세팅
+                footstepSource.clip = data.clip;
+                footstepSource.volume = data.volume;
+                footstepSource.loop = false; // 반복은 코루틴에서 처리
+                footstepSource.pitch = data.useRandomPitch
+                    ? Random.Range(data.minPitch, data.maxPitch)
+                    : data.pitch;
+
+                footstepSource.Play();
+            }
+
+            // interval: 발자국 재생 간격
+            float interval = isRunning ? 0f : 0f;
             yield return new WaitForSeconds(interval);
         }
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
