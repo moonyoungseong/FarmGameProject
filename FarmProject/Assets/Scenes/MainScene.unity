@@ -658,7 +658,7 @@ MonoBehaviour:
           m_StringArgument: https://www.korapis.or.kr/jsp/sub4-2_04.jsp
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -821,7 +821,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -979,7 +979,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -3254,7 +3254,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -6137,7 +6137,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -7815,7 +7815,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -8313,7 +8313,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -8815,7 +8815,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -9992,7 +9992,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -10219,7 +10219,7 @@ MonoBehaviour:
           m_StringArgument: https://www.greendaero.go.kr/
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -12803,7 +12803,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -19792,7 +19792,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -20240,7 +20240,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -20509,8 +20509,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 604504660}
-  - component: {fileID: 604504661}
   - component: {fileID: 604504662}
+  - component: {fileID: 604504663}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -20533,38 +20533,6 @@ Transform:
   m_Father: {fileID: 673662066}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &604504661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 604504659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8dfe0230af4cc47a184f532ca82640, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmList:
-  - {fileID: 11400000, guid: 2dd1cf919c07a8e479698a6fa5a99722, type: 2}
-  - {fileID: 11400000, guid: 718c628baf33c714b9cefd237cd40ca0, type: 2}
-  - {fileID: 11400000, guid: 1108adbdec5d55e44a9fd47fcee2f6f3, type: 2}
-  sfxList:
-  - {fileID: 11400000, guid: d6e1cd0fb115ed448ba39d2d701c182e, type: 2}
-  - {fileID: 11400000, guid: 9a1682f21a3c7944cb705f575ff879ae, type: 2}
-  - {fileID: 11400000, guid: 4d13e410f15b00746b2b1c299742877f, type: 2}
-  - {fileID: 11400000, guid: 5b93abbf2ede4cd4ea46799c9e7fa8a0, type: 2}
-  - {fileID: 11400000, guid: 0efd1a9cb96d6ab43af197f3e1de01d1, type: 2}
-  - {fileID: 11400000, guid: 4d84dc4c5fff8554c8d68eae5452c418, type: 2}
-  - {fileID: 11400000, guid: a69b8b6f88f76474695b0067eaca8ce9, type: 2}
-  - {fileID: 11400000, guid: 84beefb1c596ac54db1ee3e0d260e946, type: 2}
-  - {fileID: 11400000, guid: 2c425602e2f3a6d4d824f7c987f56267, type: 2}
-  - {fileID: 11400000, guid: b1c62c2649407c649b9c4a6b877421f6, type: 2}
-  - {fileID: 11400000, guid: aad7dab4e48513c449450941eff5e06d, type: 2}
-  - {fileID: 11400000, guid: 5ff4e0e39518ac54bb7267c1c62c809d, type: 2}
-  - {fileID: 11400000, guid: 17523d2e9ed28f045a8314ffa3aebe42, type: 2}
-  - {fileID: 11400000, guid: 16f619217de5c094bb5e1f59c0bc7efc, type: 2}
-  - {fileID: 11400000, guid: 80e90720ddf248e4e8748db9cc035523, type: 2}
 --- !u!82 &604504662
 AudioSource:
   m_ObjectHideFlags: 0
@@ -20661,6 +20629,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &604504663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604504659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8dfe0230af4cc47a184f532ca82640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmList: []
+  sfxList:
+  - {fileID: 11400000, guid: d6e1cd0fb115ed448ba39d2d701c182e, type: 2}
+  - {fileID: 11400000, guid: 9a1682f21a3c7944cb705f575ff879ae, type: 2}
+  - {fileID: 11400000, guid: 4d13e410f15b00746b2b1c299742877f, type: 2}
+  - {fileID: 11400000, guid: 5b93abbf2ede4cd4ea46799c9e7fa8a0, type: 2}
+  - {fileID: 11400000, guid: 0efd1a9cb96d6ab43af197f3e1de01d1, type: 2}
+  - {fileID: 11400000, guid: 4d84dc4c5fff8554c8d68eae5452c418, type: 2}
+  - {fileID: 11400000, guid: a69b8b6f88f76474695b0067eaca8ce9, type: 2}
+  - {fileID: 11400000, guid: 84beefb1c596ac54db1ee3e0d260e946, type: 2}
+  - {fileID: 11400000, guid: 2c425602e2f3a6d4d824f7c987f56267, type: 2}
+  - {fileID: 11400000, guid: b1c62c2649407c649b9c4a6b877421f6, type: 2}
+  - {fileID: 11400000, guid: aad7dab4e48513c449450941eff5e06d, type: 2}
+  - {fileID: 11400000, guid: 5ff4e0e39518ac54bb7267c1c62c809d, type: 2}
+  - {fileID: 11400000, guid: 17523d2e9ed28f045a8314ffa3aebe42, type: 2}
+  - {fileID: 11400000, guid: 16f619217de5c094bb5e1f59c0bc7efc, type: 2}
+  - {fileID: 11400000, guid: 80e90720ddf248e4e8748db9cc035523, type: 2}
 --- !u!1 &604787743
 GameObject:
   m_ObjectHideFlags: 0
@@ -21722,7 +21719,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -24960,7 +24957,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -30276,7 +30273,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -33167,7 +33164,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -33313,7 +33310,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -34529,7 +34526,7 @@ MonoBehaviour:
           m_StringArgument: https://terms.naver.com/entry.naver?docId=579144&cid=46640&categoryId=46640
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -35628,7 +35625,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -36366,7 +36363,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -39114,7 +39111,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -39834,7 +39831,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -40723,7 +40720,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -43396,7 +43393,7 @@ MonoBehaviour:
           m_StringArgument: https://terms.naver.com/entry.naver?docId=777198&cid=48180&categoryId=48248
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -47057,7 +47054,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -48927,7 +48924,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -49181,7 +49178,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -52281,7 +52278,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -52509,7 +52506,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -55548,7 +55545,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -64641,7 +64638,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -65060,7 +65057,7 @@ MonoBehaviour:
           m_StringArgument: https://terms.naver.com/entry.naver?docId=1993362&cid=48180&categoryId=48247
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -66883,7 +66880,7 @@ MonoBehaviour:
           m_StringArgument: https://www.farmedu.kr/
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -67967,7 +67964,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -68266,7 +68263,7 @@ MonoBehaviour:
           m_StringArgument: https://www.nongsaro.go.kr/portal/portalMain.ps?menuId=PS00001
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
@@ -68577,7 +68574,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 604504661}
+      - m_Target: {fileID: 604504663}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
         m_MethodName: PlaySFX
         m_Mode: 3
