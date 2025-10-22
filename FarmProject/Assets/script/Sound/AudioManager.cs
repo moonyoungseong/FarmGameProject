@@ -6,10 +6,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    public List<AudioClipData> bgmList;
     public List<AudioClipData> sfxList;
 
-    private AudioSource bgmSource;
     private List<AudioSource> sfxSources = new List<AudioSource>();
     private int sfxPoolSize = 5; // 동시에 재생할 수 있는 SFX 수
 
@@ -26,10 +24,6 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // BGM용 AudioSource
-        bgmSource = gameObject.AddComponent<AudioSource>();
-        bgmSource.playOnAwake = false;
-
         // SFX Pool 생성
         for (int i = 0; i < sfxPoolSize; i++)
         {
@@ -37,25 +31,6 @@ public class AudioManager : MonoBehaviour
             src.playOnAwake = false;
             sfxSources.Add(src);
         }
-    }
-
-    // BGM 재생
-    public void PlayBGM(int index)
-    {
-        if (index < 0 || index >= bgmList.Count) return;
-
-        AudioClipData data = bgmList[index];
-        bgmSource.clip = data.clip;
-        bgmSource.loop = data.isLoop;
-        bgmSource.volume = data.volume;
-        bgmSource.pitch = data.pitch;
-        bgmSource.Play();
-    }
-
-    // BGM 정지
-    public void StopBGM()
-    {
-        bgmSource.Stop();
     }
 
     // SFX 재생
