@@ -42,27 +42,6 @@ public class CursorIcons : MonoBehaviour
         Cursor.SetCursor(currentCursor, Vector2.zero, CursorMode.Auto);
     }
 
-    //// 현재 커서 가져오기
-    //public Texture2D GetCursor(string cursorType)
-    //{
-    //    // cursorType에 맞는 커서를 반환
-    //    switch (cursorType)
-    //    {
-    //        case "farmTool1":
-    //            return FarmTool1;
-    //        case "shovel":
-    //            return shovel;
-    //        case "tomato":
-    //            return TomatoIcon1;
-    //        case "rice":
-    //            return RiceIcon2;
-    //        case "corn":
-    //            return CornIcon3;
-    //        default:
-    //            return null; // 기본값은 null 처리
-    //    }
-    //}
-
     // 현재 커서 가져오기
     public Texture2D GetCurrentCursor()
     {
