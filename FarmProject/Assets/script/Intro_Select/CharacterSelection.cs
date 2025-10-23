@@ -13,19 +13,6 @@ public class CharacterSelection : MonoBehaviour
     public Animator animator;         // 캐릭터의 애니메이터
     public TMP_InputField characterNameInputField;  // TMP_InputField
 
-    //private void Awake()
-    //{
-    //    // 싱글톤 설정
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
-
     // 남자 캐릭터 선택
     public void ShowMaleCharacter()
     {
@@ -69,12 +56,5 @@ public class CharacterSelection : MonoBehaviour
         {
             Debug.LogWarning("Character name is empty!");
         }
-    }
-
-    // 씬 전환 함수
-    public void LoadScene(string sceneName)
-    {
-        //SceneManager.LoadScene(sceneName);  // 씬 로드
-        //SceneLoader.LoadSceneWithLoading(sceneName);
     }
 }
