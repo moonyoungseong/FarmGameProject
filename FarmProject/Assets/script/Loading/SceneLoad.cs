@@ -59,7 +59,7 @@ public class SceneLoad : MonoBehaviour
             // 로딩 바가 100%에 도달하면 텍스트 변경
             if (loadingBar.fillAmount >= 1f)
             {
-                anyKeyText.text = "아무키나 누르세요";
+                anyKeyText.text = "스페이스 키 누르세요";
                 loadText.text = "100%";
             }
 
