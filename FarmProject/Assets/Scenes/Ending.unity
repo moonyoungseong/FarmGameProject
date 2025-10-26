@@ -1090,6 +1090,7 @@ RectTransform:
   - {fileID: 1055271410}
   - {fileID: 572466223}
   - {fileID: 153690037}
+  - {fileID: 1150054473}
   - {fileID: 957553925}
   m_Father: {fileID: 0}
   m_RootOrder: 11
@@ -7752,7 +7753,7 @@ RectTransform:
   - {fileID: 377810609}
   - {fileID: 2036606083}
   m_Father: {fileID: 51521315}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8715,6 +8716,103 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132382274}
   m_Mesh: {fileID: -4504152619932783585, guid: 8695aae9b23f8f543b97b12bfce7d33a, type: 3}
+--- !u!1 &1150054472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1150054473}
+  - component: {fileID: 1150054475}
+  - component: {fileID: 1150054474}
+  - component: {fileID: 1150054476}
+  m_Layer: 5
+  m_Name: EndImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1150054473
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150054472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 51521315}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1150054474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150054472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 60657dfa2be2336468cb55a50f5c188d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1150054475
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150054472}
+  m_CullTransparentMesh: 1
+--- !u!95 &1150054476
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150054472}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1162296666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10566,6 +10664,10 @@ PlayableDirector:
     value: {fileID: 377810608}
   - key: {fileID: 4373527988619899331, guid: e71a47f9dece49b4da006dd86c8ebfe0, type: 2}
     value: {fileID: 2036606082}
+  - key: {fileID: -2225619531456699126, guid: e71a47f9dece49b4da006dd86c8ebfe0, type: 2}
+    value: {fileID: 1150054472}
+  - key: {fileID: 5573008630555864332, guid: e71a47f9dece49b4da006dd86c8ebfe0, type: 2}
+    value: {fileID: 1150054476}
   m_ExposedReferences:
     m_References:
     - 98268b41852d88d4a971f70cb809cc86: {fileID: 1309951032}
@@ -15976,6 +16078,8 @@ PlayableDirector:
     value: {fileID: 2141593832}
   - key: {fileID: -8193096690184179933, guid: e71a47f9dece49b4da006dd86c8ebfe0, type: 2}
     value: {fileID: 377810608}
+  - key: {fileID: 0}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - 98268b41852d88d4a971f70cb809cc86: {fileID: 1309951032}
