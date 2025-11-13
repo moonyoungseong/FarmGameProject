@@ -2509,7 +2509,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 83672610}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102919492}
+        m_TargetAssemblyTypeName: NaDataResetter, Assembly-CSharp
+        m_MethodName: ResetAllData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1628508457}
+        m_TargetAssemblyTypeName: PlayTimeTracker, Assembly-CSharp
+        m_MethodName: ResetPlayTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &83672610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64452,7 +64476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endingPanel: {fileID: 1097005617}
-  goldThreshold: 100000
+  goldThreshold: 3000
 --- !u!1 &1869916179 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9170559723715279475, guid: bcc483bb80fefca40905b22f9b5c199f, type: 3}
