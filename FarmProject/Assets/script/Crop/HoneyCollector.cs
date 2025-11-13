@@ -11,7 +11,7 @@ public class HoneyCollector : MonoBehaviour
     public GameObject notificationUI; // 특정 UI (알림 메시지 등)
 
     private int honeyCount = 0; // 현재 충전된 꿀 개수
-    private float timer = 10f; // 타이머 초기값 (10초)
+    private float timer = 60f; // 타이머 초기값 (60초)
 
     private InventoryManager inventory;
 
@@ -58,7 +58,7 @@ public class HoneyCollector : MonoBehaviour
             AddItemToInventory("꿀", 3);
 
             honeyCount = 0; // 충전된 꿀 초기화
-            timer = 10f; // 타이머 초기화 (10초)
+            timer = 60f; // 타이머 초기화 (10초)
             UpdateUI();
             UpdateButtonStates(); // 버튼 상태 업데이트
         }
