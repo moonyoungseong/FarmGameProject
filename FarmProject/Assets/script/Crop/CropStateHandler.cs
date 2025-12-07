@@ -3,62 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
+/// <summary>
+/// CropStateHandler.cs 
+/// 플레이어 입력에 따라 물 주기(Watering) 기능을 실행하는 컴포넌트.
+///
+/// - E + R 입력 시 물 주기 수행
+/// - 스프링클러 풀링 시스템을 통해 스프링클러 이펙트 재생
+/// - 스프링클러 타임라인(PlayableDirector) 연동
+///
+/// 이 스크립트는 작물 오브젝트의 상태와 외부 이펙트 시스템 간의 연결 역할을 담당
+/// </summary>
 public class CropStateHandler : MonoBehaviour
 {
-    private Crop crop;  // crop 변수
-    public PlayableDirector sprinklerTimeline; // 타임라인 추가
-    public SprinklerPool sprinklerPool; // 오브젝트 풀링 시스템 추가
+    private Crop crop;
 
-    // crop 할당 메서드
+    /// 스프링클러 타임라인 실행을 위한 PlayableDirector
+    public PlayableDirector sprinklerTimeline;
+
+    /// 스프링클러 이펙트 오브젝트 풀링 시스템
+    public SprinklerPool sprinklerPool;
+
+    /// <summary>
+    /// 외부에서 Crop 객체를 할당하는 메서드.
+    /// 작물 생성 후 동적으로 연결할 때 사용한다.
+    /// </summary>
     public void AssignCrop(Crop newCrop)
     {
-        crop = newCrop; // 새로운 crop 객체를 할당
-        //Debug.Log("Crop assigned: " + crop.name); // crop 할당 확인
+        crop = newCrop;
     }
 
     private void Start()
     {
-        // null 검사 및 경고 메시지 출력
+        // 풀링 시스템과 타임라인이 정상적으로 연결되어 있는지 확인
         if (sprinklerPool == null)
-        {
             Debug.LogWarning("SprinklerPool is not assigned!");
-        }
-        else
-        {
-            //Debug.Log("SprinklerPool is assigned."); // sprinklerPool이 할당된 경우 ------------------- 잠시 주석 처리 
-        }
 
         if (sprinklerTimeline == null)
-        {
             Debug.LogWarning("SprinklerTimeline is not assigned!");
-        }
-        else
-        {
-            //Debug.Log("SprinklerTimeline is assigned."); // sprinklerTimeline이 할당된 경우 ------------------- 잠시 주석 처리 
-        }
     }
+
 
     private void Update()
     {
+        // crop이 아직 연결되지 않았다면 씬에서 자동으로 하나를 탐색하여 연결
         if (crop == null)
         {
-            Crop foundCrop = FindObjectOfType<Crop>(); // 씬에서 자동 검색
+            Crop foundCrop = FindObjectOfType<Crop>();
             if (foundCrop != null)
-            {
                 AssignCrop(foundCrop);
-                //Debug.Log("Crop dynamically assigned: " + foundCrop.name);
-            }
         }
 
-        //// E + R 키가 동시에 눌렸을 때 물 주기 및 스프링클러 활성화
+        // 플레이어 입력: E + R 동시 입력 시 물 주기 동작
         if (Input.GetKey(KeyCode.R) && Input.GetKeyDown(KeyCode.E) && crop != null)
         {
-            Debug.Log("E + R keys pressed. Watering crop..."); // E + R 키가 눌렸을 때 로그 출력
-            //crop.WaterCrop(); // 기존 물 주기 기능 실행
-            ActivateSprinkler(); // 스프링클러 활성화 및 타임라인 실행
+            ActivateSprinkler();
         }
     }
 
+    // 물 주기 동작을 수행하고 스프링클러 애니메이션 및 이펙트 시스템을 실행
     public void ActivateSprinkler()
     {
         if (crop == null)
@@ -67,13 +69,15 @@ public class CropStateHandler : MonoBehaviour
             return;
         }
 
-        crop.WaterCrop(); // 작물에 물 주기
+        // 작물 성장 시스템에 물 공급
+        crop.WaterCrop();
 
+        // 타임라인 + 스프링클러 활성화 핸들러 탐색
         SprinklerTimelineHandler sprinklerTimelineHandler = FindObjectOfType<SprinklerTimelineHandler>();
+
         if (sprinklerTimelineHandler != null)
         {
-            Debug.Log("Starting sprinkler animation.");
-            sprinklerTimelineHandler.StartSprinklerAnimation(transform.position, 10); // 10개 스프링클러 활성화
+            sprinklerTimelineHandler.StartSprinklerAnimation(transform.position, 10);
         }
         else
         {
@@ -81,9 +85,3 @@ public class CropStateHandler : MonoBehaviour
         }
     }
 }
-
-
-
-
-
-

@@ -1,29 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 해상도 변경 코드가 현재 작동은 안하고 있는중
-/// 나중에 테스트 해보고 변경예정
-/// 해상도 같은 경우 최종적으로 빌드 후 테스트 해볼 예정
+/// ResolutionManager.cs
+/// 해상도 변경을 관리하는 스크립트.
 /// </summary>
-
 public class ResolutionManager : MonoBehaviour
 {
+    /// <summary>
+    /// 해상도를 Full HD로 변경하는 함수.
+    /// FullScreenWindow 모드로 적용된다.
+    /// </summary>
     public void SetFullHD()
     {
         Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-        Debug.Log("해상도를 Full HD(1920x1080)로 변경");
     }
 
+    /// <summary>
+    /// 해상도를 HD로 변경하는 함수.
+    /// 낮은 사양 또는 창 모드 테스트할 때 사용.
+    /// </summary>
     public void SetHD()
     {
-        //Screen.SetResolution(1366, 768, FullScreenMode.FullScreenWindow);
         Screen.SetResolution(1280, 720, FullScreenMode.FullScreenWindow);
-        Debug.Log("해상도를 HD(1280x720)로 변경");
     }
 
+    /// <summary>
+    /// 해상도를 HD+로 변경하는 함수.
+    /// </summary>
     public void sethdplus()
     {
         Screen.SetResolution(1600, 900, FullScreenMode.FullScreenWindow);
-        Debug.Log("해상도를 hd+ (1600x900)로 변경");
     }
 }

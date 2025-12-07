@@ -2,45 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Crop.cs
+/// 플레이어가 심은 작물의 확인 및 물 주기
+/// </summary>
 public class Crop : MonoBehaviour
 {
-    private IState currentState;
+    // 이 Crop 오브젝트와 연결된 CropManager 컴포넌트 참조
     private CropManager cropManager;
 
     private void Start()
     {
-        // CropManager 컴포넌트를 찾거나 추가
+        // 같은 게임 오브젝트에 있는 CropManager 컴포넌트를 찾아서 연결
         cropManager = GetComponent<CropManager>();
-        // 초기 상태는 씨앗 상태로 설정
-        currentState = new SeedState();
     }
 
-    private void Update()
-    {
-        // 여기에 시간에 따른 성장 로직은 이미 구현되어 있다고 가정하고, 상태에 따른 물 주기만 처리
-    }
-
-    // 상태를 변경하는 메서드
-    public void SetState(IState newState)
-    {
-        currentState = newState;
-    }
-
-    // 물을 주는 메서드
+    // 작물에 물을 주는 메서드
     public void WaterCrop()
     {
-        currentState.HandleWatering(this); // 현재 상태에서 물을 주는 행동을 처리 // 이게 State 진화
-
         if (cropManager != null)
         {
-            Debug.Log("Crop에서 물준것임");
-            cropManager.WaterCrop(); // 이게 물 준 효과
+            cropManager.WaterCrop(); // 실제 CropManager 쪽에서 물 주는 처리 수행
         }
-    }
-
-    // 자연재해가 발생하는 메서드
-    public void ApplyDisaster()
-    {
-        currentState.HandleDisaster(this); // 현재 상태에서 자연재해를 처리
     }
 }

@@ -1,15 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// PlayerFollowCamera.cs
+/// 플레이어 캐릭터를 따라다니는 카메라를 제어하는 스크립트
+/// 
+/// - 두 캐릭터(player1, player2) 중 활성화된 캐릭터를 자동으로 추적.
+/// - 카메라 위치와 회전을 부드럽게 보간(Lerp, Slerp)하여 자연스러운 추적 구현.
+/// </summary>
 public class PlayerFollowCamera : MonoBehaviour
 {
-    public Transform player1;       // 첫 번째 캐릭터의 Transform
-    public Transform player2;       // 두 번째 캐릭터의 Transform
-    private Transform activePlayer; // 활성화된 캐릭터의 Transform
-    public Vector3 offset = new Vector3(0, 5, -10); // 카메라와 플레이어 간 거리
-    public float followSpeed = 5f;       // 따라가는 속도
-    public float rotationSpeed = 5f;     // 회전 속도
+    // 남자 캐릭터
+    public Transform player1;
 
-    public Vector3 cameraAngle = new Vector3(30, 0, 0); // 카메라 각도 설정
+    // 여자 캐릭터
+    public Transform player2;
+
+    // 활성화된 캐릭터의 Transform
+    private Transform activePlayer;
+
+    // 카메라와 플레이어 간 거리 오프셋
+    public Vector3 offset = new Vector3(0, 5, -10);
+
+    public float followSpeed = 5f;
+    public float rotationSpeed = 5f;
+
+    // 카메라 고정 각도 설정
+    public Vector3 cameraAngle = new Vector3(30, 0, 0);
 
     void Update()
     {

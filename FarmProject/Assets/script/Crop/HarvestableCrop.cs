@@ -1,43 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// HarvestableCrop.cs
+/// 플레이어가 가까이 접근하면 수확 버튼이 나타나고,
+/// 버튼을 누르면 수확 애니메이션 실행 + 인벤토리에 아이템 추가 + 작물 파괴 처리.
+///
+/// - Player1 또는 Player2 중 활성 플레이어를 자동으로 감지
+/// - interactDistance 범위 내에서만 버튼 활성화
+/// - 인벤토리(MyItemList)에 이미 있으면 수량 증가, 없으면 새 아이템 추가
+/// </summary>
 public class HarvestableCrop : MonoBehaviour
 {
-    public CropAttributes cropAttributes; // 작물 속성 데이터
-    public Button harvestButton;          // 수확 버튼
-    public Transform player1;              // 남 플레이어 Transform
-    public Transform player2;               // 여 플레이어 Transform
-    private Transform player;                 // 플레이어의 Transform
-    public float interactDistance = 2f;   // 작물과 상호작용 가능한 거리
+    public CropAttributes cropAttributes; 
+    public Button harvestButton;          // 수확 버튼 UI
+    public Transform player1;             // 남자 플레이어 Transform
+    public Transform player2;             // 여자 플레이어 Transform
+    private Transform player;             
 
-    // 기존에 있던 playerMoveScript 변수 사용
-    private PlayerMove playerMoveScript;
+    public float interactDistance = 2f;   // 플레이어와 작물 거리 조건
 
+    private PlayerMove playerMoveScript;  // Picking 애니메이션 코루틴 실행용
+
+    // 활성 플레이어를 찾고 PlayerMove 스크립트 획득, 수확 버튼 클릭 이벤트 등록
     private void Start()
     {
+        // Player 오브젝트 자동 할당
         if (player1 == null)
         {
             player1 = GameObject.Find("Player").transform;
         }
-        else if (player2 == null) player2 = GameObject.Find("Player_W").transform;
+        else if (player2 == null)
+        {
+            player2 = GameObject.Find("Player_W").transform;
+        }
 
-        // 씬 로딩 시 활성화된 플레이어에 따라 playerMoveScript 할당
+        // 어떤 플레이어가 활성화되어 있는지 확인 후 스크립트 할당
         if (player1.gameObject.activeInHierarchy)
         {
-            playerMoveScript = player1.GetComponent<PlayerMove>(); // Player1의 PlayerMove 스크립트 할당
-            player = player1.transform;  // 플레이어 트랜스폼 설정
+            playerMoveScript = player1.GetComponent<PlayerMove>();
+            player = player1.transform;
         }
         else if (player2.gameObject.activeInHierarchy)
         {
-            playerMoveScript = player2.GetComponent<PlayerMove>(); // Player2의 PlayerMove 스크립트 할당
-            player = player2.transform;  // 플레이어 트랜스폼 설정
+            playerMoveScript = player2.GetComponent<PlayerMove>();
+            player = player2.transform;
         }
 
-        // 버튼 클릭 이벤트 연결
+        // 버튼 설정
         if (harvestButton != null)
         {
             harvestButton.onClick.AddListener(HarvestCrop);
-            harvestButton.gameObject.SetActive(false); // 처음엔 버튼 비활성화
+            harvestButton.gameObject.SetActive(false); // 처음에는 숨김
         }
         else
         {
@@ -45,27 +61,24 @@ public class HarvestableCrop : MonoBehaviour
         }
     }
 
+    // 매 프레임마다 플레이어와 거리 체크, 일정 거리 이내면 버튼 활성화, 벗어나면 비활성화.
     private void Update()
     {
-        // 플레이어와 작물 간 거리 계산
         if (player != null)
         {
             float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
-            // 상호작용 거리 이내면 버튼 활성화, 아니면 비활성화
+            // 범위 안 → 버튼 On
             if (distanceToPlayer <= interactDistance)
             {
                 if (!harvestButton.gameObject.activeSelf)
-                {
                     harvestButton.gameObject.SetActive(true);
-                }
             }
+            // 범위 밖 → 버튼 Off
             else
             {
                 if (harvestButton.gameObject.activeSelf)
-                {
                     harvestButton.gameObject.SetActive(false);
-                }
             }
         }
         else
@@ -74,6 +87,13 @@ public class HarvestableCrop : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 수확 버튼을 누르면 호출됨:
+    /// - 수확 로그 출력
+    /// - 수확 애니메이션 실행
+    /// - 인벤토리에 작물 추가
+    /// - 6.5초 후 오브젝트 삭제
+    /// </summary>
     public void HarvestCrop()
     {
         if (cropAttributes == null)
@@ -82,33 +102,33 @@ public class HarvestableCrop : MonoBehaviour
             return;
         }
 
-        Debug.Log($"{cropAttributes.name}을(를) 수확했습니다!");
+        // 수확 애니메이션 실행 (6초)
+        StartCoroutine(playerMoveScript.PickingAnimationCoroutine(6f));
 
-        StartCoroutine(playerMoveScript.PickingAnimationCoroutine(6f)); // 애니메이션 실행
-
-        // 수확 처리 로직
+        // 인벤토리 추가 처리
         AddCropToInventory(cropAttributes);
 
-        // 6.5초 후에 오브젝트 제거
+        // 일정 시간 뒤 객체 삭제
         Invoke("DestroyCrop", 6.5f);
     }
 
+    // 인벤토리에 수확된 작물을 추가하는 메서드
     private void AddCropToInventory(CropAttributes cropAttributes)
     {
-        // AllItemList에서 해당 작물을 찾음
+        // AllItemList에서 해당 작물 아이템을 찾음
         Item cropItem = InventoryManager.Instance.AllItemList.Find(item => item.itemID == cropAttributes.id);
 
         if (cropItem != null)
         {
-            // MyItemList에서 해당 작물을 찾음
+            // MyItemList에서 해당 아이템이 이미 있는지 체크
             Item inventoryItem = InventoryManager.Instance.MyItemList.Find(item => item.itemID == cropAttributes.id);
 
             if (inventoryItem != null)
             {
-                // 이미 존재하는 작물일 경우 수량 증가
+                // 기존 항목 존재 → 수량 증가
                 if (int.TryParse(inventoryItem.quantity, out int currentQuantity))
                 {
-                    inventoryItem.quantity = (currentQuantity + 1).ToString(); // cropAttributes.yieldAmount
+                    inventoryItem.quantity = (currentQuantity + 1).ToString();
                 }
                 else
                 {
@@ -117,7 +137,7 @@ public class HarvestableCrop : MonoBehaviour
             }
             else
             {
-                // MyItemList에 없는 경우 AllItemList에서 찾은 cropItem을 MyItemList에 추가
+                // 인벤토리에 없으면 새로 추가
                 Item newItem = new Item(
                     cropItem.itemName,
                     cropItem.itemID,
@@ -134,7 +154,7 @@ public class HarvestableCrop : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"AllItemList에서 작물 ID '{cropAttributes.id}'에 대한 정보를 찾을 수 없습니다.");
+            Debug.LogError($"AllItemList에서 '{cropAttributes.id}' 작물을 찾을 수 없습니다.");
             return;
         }
 
@@ -142,8 +162,10 @@ public class HarvestableCrop : MonoBehaviour
         InventoryManager.Instance.Save();
     }
 
+
+    // 수확 애니메이션 후 작물 오브젝트 삭제
     private void DestroyCrop()
     {
-        Destroy(gameObject);  // 오브젝트 제거
+        Destroy(gameObject);
     }
 }

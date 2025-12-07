@@ -1,56 +1,74 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// CharacterSelection.cs
+/// 
+/// 캐릭터 선택 화면을 관리하는 클래스
+/// 캐릭터(남/여) 활성화, 이름 저장, 애니메이션 트리거 등을 처리한다.
+/// </summary>
 public class CharacterSelection : MonoBehaviour
 {
-    //public static CharacterSelection Instance { get; private set; } // 싱글톤 인스턴스
+    [Header("Character Objects")]
+    public GameObject maleCharacter;
+    public GameObject femaleCharacter;
 
-    public GameObject maleCharacter;  // 남자 캐릭터 오브젝트
-    public GameObject femaleCharacter; // 여자 캐릭터 오브젝트
-    public Animator animator;         // 캐릭터의 애니메이터
-    public TMP_InputField characterNameInputField;  // TMP_InputField
+    [Header("Animator")]
+    public Animator animator;
 
-    // 남자 캐릭터 선택
+    [Header("UI Input")]
+    // 캐릭터 이름 입력용
+    public TMP_InputField characterNameInputField;
+
+    // 남자 캐릭터를 선택하는 함수.
     public void ShowMaleCharacter()
     {
         if (string.IsNullOrEmpty(PlayerPrefs.GetString("CharacterName", "")))
         {
-            SaveCharacterName(); // 이름을 먼저 저장
+            SaveCharacterName();    // 이름 저장
         }
 
-        animator.SetTrigger("SwitchAnimation");  // 애니메이션 트리거 실행
-        maleCharacter.SetActive(true);  // 남자 캐릭터 활성화
-        femaleCharacter.SetActive(false);  // 여자 캐릭터 비활성화
-        PlayerPrefs.SetString("SelectedCharacter", "MaleCharacter");  // 선택한 캐릭터 저장
+        animator.SetTrigger("SwitchAnimation");
+        maleCharacter.SetActive(true);
+        femaleCharacter.SetActive(false);
+
+        PlayerPrefs.SetString("SelectedCharacter", "MaleCharacter");
         PlayerPrefs.Save();
     }
 
-    // 여자 캐릭터 선택
+    // 여자 캐릭터를 선택하는 함수.
     public void ShowFemaleCharacter()
     {
         if (string.IsNullOrEmpty(PlayerPrefs.GetString("CharacterName", "")))
         {
-            SaveCharacterName(); // 이름을 먼저 저장
+            SaveCharacterName();    // 이름 저장
         }
 
-        animator.SetTrigger("SwitchAnimation");  // 애니메이션 트리거 실행
-        maleCharacter.SetActive(false);  // 남자 캐릭터 비활성화
-        femaleCharacter.SetActive(true);  // 여자 캐릭터 활성화
-        PlayerPrefs.SetString("SelectedCharacter", "FemaleCharacter");  // 선택한 캐릭터 저장
+        animator.SetTrigger("SwitchAnimation");
+        maleCharacter.SetActive(false);
+        femaleCharacter.SetActive(true);
+
+        PlayerPrefs.SetString("SelectedCharacter", "FemaleCharacter");
         PlayerPrefs.Save();
     }
 
-    // 캐릭터 이름 저장, 이거 이름 변경 버튼에 그대로 적용하기 테스트
+
+    /// <summary>
+    /// 캐릭터 이름을 PlayerPrefs에 저장한다.
+    /// 빈 문자열이면 저장하지 않고 Warning 출력.
+    /// </summary>
     public void SaveCharacterName()
     {
-        string characterName = characterNameInputField.text;  // 입력된 이름 가져오기
+        string characterName = characterNameInputField.text;
+
         if (!string.IsNullOrEmpty(characterName))
         {
-            PlayerPrefs.SetString("CharacterName", characterName);  // PlayerPrefs에 저장
-            PlayerPrefs.Save();  // 저장 강제 실행
+            PlayerPrefs.SetString("CharacterName", characterName);
+            PlayerPrefs.Save();
         }
         else
         {

@@ -1,53 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// NpcCameraSwitch.cs
+/// 
+/// - 플레이어와 NPC 충돌 시 카메라 전환을 담당하는 매니저.
+/// - 충돌 시 NPC 카메라로 전환하고, 충돌 종료 시 다시 플레이어 카메라로 전환.
+/// - 각 NPC 별로 지정된 카메라 위치와 회전, UI 오브젝트를 적용.
+/// </summary>
 public class NpcCameraSwitch : MonoBehaviour
 {
-    public Camera playerCamera; // 플레이어 카메라
-    public Camera npcCamera;    // NPC 카메라
-    public NpcData[] npcData;   // NPC 데이터 배열
+    // 플레이어 카메라
+    public Camera playerCamera;
 
-    private Transform currentTarget; // 현재 NPC 카메라의 목표
+    // NPC 카메라
+    public Camera npcCamera;
+
+    // NPC별 카메라 전환 정보 배열
+    public NpcData[] npcData;
+
+    // 현재 NPC 카메라가 바라보는 대상
+    private Transform currentTarget;
 
     void Start()
     {
-        // 초기 상태에서 플레이어 카메라 활성화
+        // 초기 상태: 플레이어 카메라 활성화, NPC 카메라 비활성화
         playerCamera.gameObject.SetActive(true);
         npcCamera.gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // NPC와 충돌했을 때 카메라 전환
+        // NPC와 충돌하면 해당 NPC 정보로 카메라 전환
         foreach (var data in npcData)
         {
             if (collision.transform == data.npcTransform)
             {
-                Debug.Log($"Collided with NPC: {data.npcName}");
                 SwitchToNpcCamera(data);
                 return;
             }
         }
-        //Debug.Log("Collision detected, but no matching NPC found.");
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        // NPC와의 충돌이 끝났을 때 플레이어 카메라로 전환
+        // NPC와 충돌이 끝나면 플레이어 카메라로 전환
         foreach (var data in npcData)
         {
             if (collision.transform == data.npcTransform)
             {
-                //Debug.Log($"Stopped colliding with NPC: {data.npcName}");
                 SwitchToPlayerCamera();
                 return;
             }
         }
-        //Debug.Log("Collision exit detected, but no matching NPC found.");
     }
 
+    /// <summary>
+    /// NPC 충돌 시 플레이어 카메라 → NPC 카메라 전환
+    /// </summary>
+    /// <param name="data">전환할 NPC 데이터</param>
     private void SwitchToNpcCamera(NpcData data)
     {
-        // 플레이어 카메라 비활성화, NPC 카메라 활성화
         playerCamera.gameObject.SetActive(false);
         npcCamera.gameObject.SetActive(true);
         currentTarget = data.npcTransform;
@@ -57,14 +71,16 @@ public class NpcCameraSwitch : MonoBehaviour
             data.uiObject.SetActive(true);
         }
 
-        // NPC 카메라의 위치와 방향을 NPC 데이터에 따라 설정
+        // NPC 카메라 위치 및 회전 적용
         npcCamera.transform.position = data.cameraPosition;
         npcCamera.transform.rotation = Quaternion.Euler(data.cameraRotation);
     }
 
+    /// <summary>
+    /// 충돌 종료 시 NPC 카메라 → 플레이어 카메라 전환
+    /// </summary>
     private void SwitchToPlayerCamera()
     {
-        // 플레이어 카메라 활성화, NPC 카메라 비활성화
         playerCamera.gameObject.SetActive(true);
         npcCamera.gameObject.SetActive(false);
         foreach (var data in npcData)
@@ -73,18 +89,23 @@ public class NpcCameraSwitch : MonoBehaviour
             {
                 data.uiObject.SetActive(false); // UI 비활성화
             }
-            
         }
         currentTarget = null;
     }
 }
 
+// NPC별 카메라 전환 및 UI 정보를 담는 데이터 클래스
 [System.Serializable]
 public class NpcData
 {
-    public string npcName;        // NPC 이름
-    public Transform npcTransform; // NPC의 Transform
-    public Vector3 cameraPosition; // 카메라의 위치
-    public Vector3 cameraRotation; // 카메라의 회전값 (EulerAngles)
-    public GameObject uiObject;   // NPC에 관련된 UI 오브젝트
+    public string npcName;
+    public Transform npcTransform;
+
+    // 카메라 위치
+    public Vector3 cameraPosition;
+
+    // 카메라 회전
+    public Vector3 cameraRotation;
+
+    public GameObject uiObject;
 }

@@ -3,23 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// QuestSlot.cs
+/// 퀘스트 목록 UI에서 각 퀘스트 슬롯을 나타내는 클래스
+/// 
+/// - 마우스를 올리면 퀘스트 상세창에 상세 정보를 보여줌
+/// - 자물쇠 아이콘을 켜고/끄는 기능 포함
+/// </summary>
 public class QuestSlot : MonoBehaviour, IPointerEnterHandler
 {
-    public Quest questData;  // 이 슬롯이 가진 퀘스트 데이터
-    public GameObject lockImage;  // Inspector에서 자물쇠 오브젝트 연결
+    public Quest questData;
 
+    // 자물쇠 오브젝트
+    public GameObject lockImage;
+
+    /// <summary>
+    /// 마우스를 슬롯 위에 올렸을 때 호출되는 이벤트
+    /// 퀘스트 상세 패널에 정보를 표시
+    /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
         QuestDetailPanel.Instance.ShowDetails(questData);
     }
 
-    public void Unlock()    // 자물쇠 푸는 함수
+
+    // 자물쇠 이미지를 끄는 함수
+    public void Unlock()
     {
         if (lockImage != null)
             lockImage.SetActive(false);
     }
-
-    // 나중에 퀘스트 수락시 잠금 해재할때 쓸것 
-    // 자물쇠 해제
-    // FindObjectOfType<QuestListController>().UnlockQuestSlot(quest.questName);
 }
